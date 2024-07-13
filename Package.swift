@@ -5,16 +5,15 @@ import PackageDescription
 
 let package = Package(
     name: "BlockNotes",
+    platforms: [.iOS(.v17),],
     products: [
-        .library(
-            name: "BlockNotes",
-            targets: ["BlockNotes"]),
+        .library(name: "BlockNotes", targets: ["BlockNotes"]),
+    ],
+    dependencies: [
+      .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.11.1"),
     ],
     targets: [
-        .target(
-            name: "BlockNotes"),
-        .testTarget(
-            name: "BlockNotesTests",
-            dependencies: ["BlockNotes"]),
+        .target(name: "BlockNotes"),
+        .testTarget(name: "BlockNotesTests", dependencies: ["BlockNotes"]),
     ]
 )
