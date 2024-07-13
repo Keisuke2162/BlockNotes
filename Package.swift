@@ -7,19 +7,30 @@ let package = Package(
     name: "BlockNotes",
     platforms: [.iOS(.v17),],
     products: [
-        .library(name: "BlockNotes", targets: ["BlockNotes"]),
-        .library(name: "HomeFeature", targets: ["HomeFeature"]),
+        .library(name: "RootFeature", targets: ["RootFeature"]),
     ],
     dependencies: [
       .package(url: "https://github.com/pointfreeco/swift-composable-architecture", exact: "1.11.2"),
     ],
     targets: [
-        .target(name: "BlockNotes"),
-        .target(name: "Entities"),
-        .target(name: "HomeFeature", dependencies: [
-          "Entities",
-          .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-        ]),
-        .testTarget(name: "BlockNotesTests", dependencies: ["BlockNotes"]),
+      .target(name: "BlockItemFeature", dependencies: [
+        "Entities",
+        .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+      ]),
+      .target(name: "CustomView", dependencies: [
+        "BlockItemFeature",
+        "Entities",
+      ]),
+      .target(name: "Entities"),
+      .target(name: "HomeFeature", dependencies: [
+        "BlockItemFeature",
+        "CustomView",
+        "Entities",
+        .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+      ]),
+      .target(name: "RootFeature", dependencies: [
+        "HomeFeature",
+        "Entities",
+      ])
     ]
 )

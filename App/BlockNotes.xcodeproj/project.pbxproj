@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		670DB0DE2C42D1CD00E9792B /* HomeFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 670DB0DD2C42D1CD00E9792B /* HomeFeature */; };
+		670DB0E22C42F65400E9792B /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 670DB0E12C42F65400E9792B /* RootFeature */; };
 		67E4F4B32C4299C30012530F /* BlockNotesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E4F4B22C4299C30012530F /* BlockNotesApp.swift */; };
-		67E4F4B52C4299C30012530F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E4F4B42C4299C30012530F /* ContentView.swift */; };
 		67E4F4B92C4299C30012530F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67E4F4B82C4299C30012530F /* Assets.xcassets */; };
 		67E4F4BC2C4299C30012530F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67E4F4BB2C4299C30012530F /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -18,7 +17,6 @@
 		673294F02C42B5D0007874EF /* BlockNotes */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = BlockNotes; path = ..; sourceTree = "<group>"; };
 		67E4F4AF2C4299C30012530F /* BlockNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlockNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67E4F4B22C4299C30012530F /* BlockNotesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockNotesApp.swift; sourceTree = "<group>"; };
-		67E4F4B42C4299C30012530F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		67E4F4B82C4299C30012530F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		67E4F4BB2C4299C30012530F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -28,7 +26,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				670DB0DE2C42D1CD00E9792B /* HomeFeature in Frameworks */,
+				670DB0E22C42F65400E9792B /* RootFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,7 +62,6 @@
 			isa = PBXGroup;
 			children = (
 				67E4F4B22C4299C30012530F /* BlockNotesApp.swift */,
-				67E4F4B42C4299C30012530F /* ContentView.swift */,
 				67E4F4B82C4299C30012530F /* Assets.xcassets */,
 				67E4F4BA2C4299C30012530F /* Preview Content */,
 			);
@@ -96,7 +93,7 @@
 			);
 			name = BlockNotes;
 			packageProductDependencies = (
-				670DB0DD2C42D1CD00E9792B /* HomeFeature */,
+				670DB0E12C42F65400E9792B /* RootFeature */,
 			);
 			productName = BlockNotes;
 			productReference = 67E4F4AF2C4299C30012530F /* BlockNotes.app */;
@@ -152,7 +149,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				67E4F4B52C4299C30012530F /* ContentView.swift in Sources */,
 				67E4F4B32C4299C30012530F /* BlockNotesApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -361,9 +357,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		670DB0DD2C42D1CD00E9792B /* HomeFeature */ = {
+		670DB0E12C42F65400E9792B /* RootFeature */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = HomeFeature;
+			productName = RootFeature;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

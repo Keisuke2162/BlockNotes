@@ -37,14 +37,14 @@ public struct BlockItem {
   }
 }
 
-struct BlockItemView: View {
-  let store: StoreOf<BlockItem>
+public struct BlockItemView: View {
+  public let store: StoreOf<BlockItem>
   
   public init(store: StoreOf<BlockItem>) {
     self.store = store
   }
 
-  var body: some View {
+  public var body: some View {
     Image(systemName: "house")
   }
 }

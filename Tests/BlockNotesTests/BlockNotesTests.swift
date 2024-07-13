@@ -1,5 +1,4 @@
 import XCTest
-@testable import BlockNotes
 
 final class BlockNotesTests: XCTestCase {
     func testExample() throws {
