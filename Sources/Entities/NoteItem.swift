@@ -8,10 +8,10 @@
 import Foundation
 import SwiftUI
 
-public struct NoteItem {
-  let title: String
-  let content: String
-  let symbol: String
+public struct NoteItem: Equatable {
+  public let title: String
+  public let content: String
+  public let symbol: String
 
   public init(title: String, content: String, symbol: String) {
     self.title = title

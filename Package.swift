@@ -11,7 +11,7 @@ let package = Package(
         .library(name: "HomeFeature", targets: ["HomeFeature"]),
     ],
     dependencies: [
-      .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.11.1"),
+      .package(url: "https://github.com/pointfreeco/swift-composable-architecture", exact: "1.11.2"),
     ],
     targets: [
         .target(name: "BlockNotes"),
