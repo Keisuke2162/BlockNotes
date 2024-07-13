@@ -14,6 +14,8 @@ let package = Package(
     ],
     targets: [
         .target(name: "BlockNotes"),
+        .target(name: "Entities"),
+        .target(name: "HomeFeature", dependencies: ["Entities"]),
         .testTarget(name: "BlockNotesTests", dependencies: ["BlockNotes"]),
     ]
 )
