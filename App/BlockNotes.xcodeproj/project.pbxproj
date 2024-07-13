@@ -31,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		673294F02C42B5D0007874EF /* BlockNotes */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = BlockNotes; path = ..; sourceTree = "<group>"; };
 		67E4F4AF2C4299C30012530F /* BlockNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlockNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67E4F4B22C4299C30012530F /* BlockNotesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockNotesApp.swift; sourceTree = "<group>"; };
 		67E4F4B42C4299C30012530F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -69,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				67E4F4B12C4299C30012530F /* BlockNotes */,
+				673294F02C42B5D0007874EF /* BlockNotes */,
 				67E4F4B02C4299C30012530F /* Products */,
 			);
 			sourceTree = "<group>";
