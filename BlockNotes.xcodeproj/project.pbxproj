@@ -11,9 +11,6 @@
 		67E4F4B52C4299C30012530F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E4F4B42C4299C30012530F /* ContentView.swift */; };
 		67E4F4B92C4299C30012530F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67E4F4B82C4299C30012530F /* Assets.xcassets */; };
 		67E4F4BC2C4299C30012530F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67E4F4BB2C4299C30012530F /* Preview Assets.xcassets */; };
-		67E4F4C62C4299C30012530F /* BlockNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E4F4C52C4299C30012530F /* BlockNotesTests.swift */; };
-		67E4F4D02C4299C40012530F /* BlockNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E4F4CF2C4299C40012530F /* BlockNotesUITests.swift */; };
-		67E4F4D22C4299C40012530F /* BlockNotesUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E4F4D12C4299C40012530F /* BlockNotesUITestsLaunchTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,10 +37,7 @@
 		67E4F4B82C4299C30012530F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		67E4F4BB2C4299C30012530F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		67E4F4C12C4299C30012530F /* BlockNotesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlockNotesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		67E4F4C52C4299C30012530F /* BlockNotesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockNotesTests.swift; sourceTree = "<group>"; };
 		67E4F4CB2C4299C40012530F /* BlockNotesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlockNotesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		67E4F4CF2C4299C40012530F /* BlockNotesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockNotesUITests.swift; sourceTree = "<group>"; };
-		67E4F4D12C4299C40012530F /* BlockNotesUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockNotesUITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,8 +69,6 @@
 			isa = PBXGroup;
 			children = (
 				67E4F4B12C4299C30012530F /* BlockNotes */,
-				67E4F4C42C4299C30012530F /* BlockNotesTests */,
-				67E4F4CE2C4299C40012530F /* BlockNotesUITests */,
 				67E4F4B02C4299C30012530F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -108,23 +100,6 @@
 				67E4F4BB2C4299C30012530F /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		67E4F4C42C4299C30012530F /* BlockNotesTests */ = {
-			isa = PBXGroup;
-			children = (
-				67E4F4C52C4299C30012530F /* BlockNotesTests.swift */,
-			);
-			path = BlockNotesTests;
-			sourceTree = "<group>";
-		};
-		67E4F4CE2C4299C40012530F /* BlockNotesUITests */ = {
-			isa = PBXGroup;
-			children = (
-				67E4F4CF2C4299C40012530F /* BlockNotesUITests.swift */,
-				67E4F4D12C4299C40012530F /* BlockNotesUITestsLaunchTests.swift */,
-			);
-			path = BlockNotesUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,7 +241,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				67E4F4C62C4299C30012530F /* BlockNotesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,8 +248,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				67E4F4D22C4299C40012530F /* BlockNotesUITestsLaunchTests.swift in Sources */,
-				67E4F4D02C4299C40012530F /* BlockNotesUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
