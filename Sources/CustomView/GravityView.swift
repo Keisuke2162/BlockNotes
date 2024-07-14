@@ -9,6 +9,7 @@ import SwiftUI
 import UIKit
 
 public struct GravityView: UIViewRepresentable {
+  // TODO: 要検討：Bindingじゃなくて良いかも
   @Binding var animationViews: [UIView]
   
   public init(animationViews: Binding<[UIView]>) {
