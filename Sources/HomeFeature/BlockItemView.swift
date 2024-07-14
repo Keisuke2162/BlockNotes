@@ -11,16 +11,18 @@ import SwiftUI
 
 public struct BlockItemView: View {
   let item: NoteItem
+  let buttonTapAction: (NoteItem) -> Void
 
-  public init(item: NoteItem) {
+  public init(item: NoteItem, buttonTapAction: @escaping (NoteItem) -> Void) {
     self.item = item
+    self.buttonTapAction = buttonTapAction
   }
 
   public var body: some View {
-    Image(systemName: "house")
+    Button(action: {
+      buttonTapAction(item)
+    }, label: {
+      Image(systemName: "house")
+    })
   }
-}
-
-#Preview {
-  BlockItemView(item: .init(title: "Title1", content: "Content1", symbol: "house"))
 }

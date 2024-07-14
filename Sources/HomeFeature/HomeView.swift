@@ -27,7 +27,9 @@ public struct HomeView: View {
     }
     .onAppear {
       for item in noteItems {
-        let blockItemView = BlockItemView(item: item)
+        let blockItemView = BlockItemView(item: item) { noteItem in
+          print("タップアクション（画面遷移）\(noteItem.title)")
+        }
         if let blockView = UIHostingController(rootView: blockItemView).view {
           blockView.frame = CGRect(x: 10, y: 10, width: 48, height: 48)
           blockViews.append(blockView)
