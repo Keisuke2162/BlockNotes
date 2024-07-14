@@ -17,7 +17,7 @@ public struct BlockItemView: View {
   }
 
   public var body: some View {
-    Text(item.title)
+    Image(systemName: "house")
   }
 }
 

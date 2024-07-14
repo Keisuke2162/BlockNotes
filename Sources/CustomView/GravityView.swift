@@ -11,9 +11,11 @@ import UIKit
 public struct GravityView: UIViewRepresentable {
   // TODO: 要検討：Bindingじゃなくて良いかも
   @Binding var animationViews: [UIView]
-  
-  public init(animationViews: Binding<[UIView]>) {
+  let viewSize: CGSize
+
+  public init(animationViews: Binding<[UIView]>, viewSize: CGSize) {
     self._animationViews = animationViews
+    self.viewSize = viewSize
   }
 
   public func makeUIView(context: Context) -> UIView {
@@ -22,10 +24,12 @@ public struct GravityView: UIViewRepresentable {
     let gravity = UIGravityBehavior(items: animationViews)
     
     let collision = UICollisionBehavior(items: animationViews)
-    collision.translatesReferenceBoundsIntoBoundary = false
+    collision.translatesReferenceBoundsIntoBoundary = true
     
     // バリアの設定
-//    let barrierRect = CGRect(x: 0, y: 0 - view.bounds.height, width: view.bounds.width, height: view.bounds.height - tabBarHeight + view.bounds.height)
+    // TODO: 色々弾性の設定できそう
+    /// https://qiita.com/Hiragarian/items/15a0e4a1e1396059e21b
+//    let barrierRect = CGRect(x: 0, y: 0 - viewSize.height, width: viewSize.width, height: viewSize.height)
 //    collision.addBoundary(withIdentifier: "barrier" as NSCopying, for: UIBezierPath(rect: barrierRect))
     
     animator.addBehavior(collision)
@@ -71,10 +75,10 @@ public struct GravityView: UIViewRepresentable {
         
         let gravity = UIGravityBehavior(items: animationViews)
         let collision = UICollisionBehavior(items: animationViews)
-        collision.translatesReferenceBoundsIntoBoundary = false
-        
-        //        let barrierRect = CGRect(x: 0, y: 0 - view.bounds.height, width: view.bounds.width, height: view.bounds.height - parent.tabBarHeight + view.bounds.height)
-        //        collision.addBoundary(withIdentifier: "barrier" as NSCopying, for: UIBezierPath(rect: barrierRect))
+        collision.translatesReferenceBoundsIntoBoundary = true
+  
+//        let barrierRect = CGRect(x: 0, y: 0 - parent.viewSize.height, width: parent.viewSize.width, height: parent.viewSize.height)
+//        collision.addBoundary(withIdentifier: "barrier" as NSCopying, for: UIBezierPath(rect: barrierRect))
         
         animator.addBehavior(collision)
         animator.addBehavior(gravity)
