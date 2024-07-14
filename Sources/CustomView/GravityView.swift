@@ -9,18 +9,18 @@ import SwiftUI
 import UIKit
 
 public struct GravityView: UIViewRepresentable {
-  @Binding var buttons: [UIView]
+  @Binding var animationViews: [UIView]
   
-  public init(buttons: Binding<[UIView]>) {
-    self._buttons = buttons
+  public init(animationViews: Binding<[UIView]>) {
+    self._animationViews = animationViews
   }
 
   public func makeUIView(context: Context) -> UIView {
     let view = UIView()
     let animator = UIDynamicAnimator(referenceView: view)
-    let gravity = UIGravityBehavior(items: buttons)
+    let gravity = UIGravityBehavior(items: animationViews)
     
-    let collision = UICollisionBehavior(items: buttons)
+    let collision = UICollisionBehavior(items: animationViews)
     collision.translatesReferenceBoundsIntoBoundary = false
     
     // バリアの設定
@@ -31,8 +31,8 @@ public struct GravityView: UIViewRepresentable {
     animator.addBehavior(gravity)
     
     // ボタンを追加
-    for button in buttons {
-      view.addSubview(button)
+    for animationView in animationViews {
+      view.addSubview(animationView)
     }
     context.coordinator.animator = animator
     
@@ -41,7 +41,7 @@ public struct GravityView: UIViewRepresentable {
     
   public func updateUIView(_ uiView: UIView, context: Context) {
     // ボタンが追加または削除された場合の更新処理
-    context.coordinator.updateButtons(buttons, in: uiView)
+    context.coordinator.updateAnimator(animationViews, in: uiView)
   }
     
   public func makeCoordinator() -> Coordinator {
@@ -56,20 +56,20 @@ public struct GravityView: UIViewRepresentable {
       self.parent = parent
     }
     
-    func updateButtons(_ buttons: [UIView], in view: UIView) {
+    func updateAnimator(_ animationViews: [UIView], in view: UIView) {
       // 既存のボタンを削除
       view.subviews.forEach { $0.removeFromSuperview() }
       // 新しいボタンを追加
-      for button in buttons {
-        view.addSubview(button)
+      for animationView in animationViews {
+        view.addSubview(animationView)
       }
       
       // アニメーターの動作を更新
       if let animator = animator {
         animator.removeAllBehaviors()
         
-        let gravity = UIGravityBehavior(items: buttons)
-        let collision = UICollisionBehavior(items: buttons)
+        let gravity = UIGravityBehavior(items: animationViews)
+        let collision = UICollisionBehavior(items: animationViews)
         collision.translatesReferenceBoundsIntoBoundary = false
         
         //        let barrierRect = CGRect(x: 0, y: 0 - view.bounds.height, width: view.bounds.width, height: view.bounds.height - parent.tabBarHeight + view.bounds.height)
