@@ -17,6 +17,7 @@ public struct RootView: View {
   public init() {}
 
   public var body: some View {
-    HomeView(items: items)
+    HomeView(noteItems: items)
+    // HomeView(items: items)
   }
 }

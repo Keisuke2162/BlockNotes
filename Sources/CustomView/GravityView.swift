@@ -5,109 +5,79 @@
 //  Created by Kei on 2024/07/14.
 //
 
-import BlockItemFeature
-import Entities
 import SwiftUI
 import UIKit
 
 public struct GravityView: UIViewRepresentable {
-  @Binding var noteItemViews: [UIHostingController<BlockItemView>]
-
-  public init(noteItemViews: Binding<[UIHostingController<BlockItemView>]>) {
-    self._noteItemViews = noteItemViews
+  @Binding var buttons: [UIView]
+  
+  public init(buttons: Binding<[UIView]>) {
+    self._buttons = buttons
   }
 
   public func makeUIView(context: Context) -> UIView {
-    let containerView = UIView()
-    var buttonViews: [UIView] = []
-
-    for item in noteItemViews {
-      containerView.addSubview(item.view)
-      buttonViews.append(item.view)
-    }
-    let animator = UIDynamicAnimator(referenceView: containerView)
-    let gravity = UIGravityBehavior(items: buttonViews)
+    let view = UIView()
+    let animator = UIDynamicAnimator(referenceView: view)
+    let gravity = UIGravityBehavior(items: buttons)
+    
+    let collision = UICollisionBehavior(items: buttons)
+    collision.translatesReferenceBoundsIntoBoundary = false
+    
+    // バリアの設定
+//    let barrierRect = CGRect(x: 0, y: 0 - view.bounds.height, width: view.bounds.width, height: view.bounds.height - tabBarHeight + view.bounds.height)
+//    collision.addBoundary(withIdentifier: "barrier" as NSCopying, for: UIBezierPath(rect: barrierRect))
+    
+    animator.addBehavior(collision)
     animator.addBehavior(gravity)
     
-    return containerView
+    // ボタンを追加
+    for button in buttons {
+      view.addSubview(button)
+    }
+    context.coordinator.animator = animator
+    
+    return view
   }
-  
+    
   public func updateUIView(_ uiView: UIView, context: Context) {
-//    let buttons = uiView.subviews
-//    print("テスト　\(buttons)")
-//    let animator = UIDynamicAnimator(referenceView: uiView)
-//    let gravity = UIGravityBehavior(items: buttons)
-//    animator.addBehavior(gravity)
-    context.coordinator.updateGravity(noteItemViews, in: uiView)
+    // ボタンが追加または削除された場合の更新処理
+    context.coordinator.updateButtons(buttons, in: uiView)
   }
-
+    
   public func makeCoordinator() -> Coordinator {
-    Coordinator(parent: self)
+    Coordinator(self)
   }
-  
+    
   public class Coordinator: NSObject {
     var parent: GravityView
     var animator: UIDynamicAnimator?
-
-    init(parent: GravityView) {
+    
+    init(_ parent: GravityView) {
       self.parent = parent
     }
-
-    func updateGravity(_ items: [UIHostingController<BlockItemView>], in view: UIView) {
+    
+    func updateButtons(_ buttons: [UIView], in view: UIView) {
+      // 既存のボタンを削除
       view.subviews.forEach { $0.removeFromSuperview() }
-      
-      for item in items {
-        view.addSubview(item.view)
+      // 新しいボタンを追加
+      for button in buttons {
+        view.addSubview(button)
       }
-
-      if let animator {
+      
+      // アニメーターの動作を更新
+      if let animator = animator {
         animator.removeAllBehaviors()
-
-        let animator = UIDynamicAnimator(referenceView: view)
-        let gravity = UIGravityBehavior(items: items.map { $0.view })
-        animator.addBehavior(gravity)
         
+        let gravity = UIGravityBehavior(items: buttons)
+        let collision = UICollisionBehavior(items: buttons)
+        collision.translatesReferenceBoundsIntoBoundary = false
+        
+        //        let barrierRect = CGRect(x: 0, y: 0 - view.bounds.height, width: view.bounds.width, height: view.bounds.height - parent.tabBarHeight + view.bounds.height)
+        //        collision.addBoundary(withIdentifier: "barrier" as NSCopying, for: UIBezierPath(rect: barrierRect))
+        
+        animator.addBehavior(collision)
+        animator.addBehavior(gravity)
       }
     }
   }
 }
-
-//public struct GravityView: UIViewRepresentable {
-//  let items: [NoteItem]
-//
-//  public init(items: [NoteItem]) {
-//    self.items = items
-//  }
-//  
-//  public func makeUIView(context: Context) -> UIView {
-//    let containerView = UIView()
-//    var buttonViews: [UIView] = []
-//    
-//    for item in items {
-//      let buttonItemView = BlockItemView(store: .init(initialState: BlockItem.State(item: item), reducer: {
-//        BlockItem()
-//      }))
-//      let buttonView = UIHostingController(rootView: buttonItemView)
-//      buttonView.view.frame = CGRect(x: 48, y: 0, width: 48, height: 48)
-//      containerView.addSubview(buttonView.view)
-//      buttonViews.append(buttonView.view)
-//    }
-//
-//    print("テスト \(buttonViews)")
-//    let animator = UIDynamicAnimator(referenceView: containerView)
-//    let gravity = UIGravityBehavior(items: buttonViews)
-////    gravity.gravityDirection = .init(dx: 2.0, dy: 2.0)
-////    gravity.magnitude = 1.0
-//    animator.addBehavior(gravity)
-//    
-//
-//    return containerView
-//  }
-//
-//  public func updateUIView(_ uiView: UIView, context: Context) {
-//    print("テスト2")
-//    let animator = UIDynamicAnimator(referenceView: uiView)
-//    let gravity = UIGravityBehavior()
-//    animator.addBehavior(gravity)
-//  }
-//}

@@ -13,16 +13,11 @@ let package = Package(
       // .package(url: "https://github.com/pointfreeco/swift-composable-architecture", exact: "1.11.2"),
     ],
     targets: [
-      .target(name: "BlockItemFeature", dependencies: [
-        "Entities",
-      ]),
       .target(name: "CustomView", dependencies: [
-        "BlockItemFeature",
         "Entities",
       ]),
       .target(name: "Entities"),
       .target(name: "HomeFeature", dependencies: [
-        "BlockItemFeature",
         "CustomView",
         "Entities",
       ]),

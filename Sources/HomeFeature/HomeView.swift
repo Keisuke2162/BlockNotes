@@ -12,32 +12,34 @@ import Foundation
 import SwiftUI
 
 public struct HomeView: View {
-  @State public var items: [NoteItem]
-  @State public var buttons: [UIHostingController<BlockItemView>] = []
-  
-  public init(items: [NoteItem]) {
-    self.items = items
+  @State private var buttons: [UIView] = []
+  private var noteItems: [NoteItem] = []
+
+  public init(noteItems: [NoteItem]) {
+    self.noteItems = noteItems
   }
 
   public var body: some View {
-    GravityView(noteItemViews: $buttons)
-    .background(Color.red)
+    GeometryReader { geometry in
+      GravityView(buttons: $buttons)
+        .edgesIgnoringSafeArea(.all)
+    }
+    .background(Color.blue)
     .onAppear {
-      self.buttons = items.map {
-        let view: UIHostingController<BlockItemView> = .init(rootView: .init(item: $0))
-        view.view.frame = CGRect(x: 48, y: 48, width: 48, height: 48)
-        return view
+//      // テスト用のボタンを作成
+//      for i in 0..<5 {
+//        let button = UIButton(frame: CGRect(x: CGFloat.random(in: 0...300), y: -50, width: 100, height: 44))
+//        button.setTitle("Button \(i+1)", for: .normal)
+//        button.backgroundColor = .blue
+//        buttons.append(button)
+//      }
+      for item in noteItems {
+        let blockItemView = BlockItemView(item: item)
+        if let buttonView = UIHostingController(rootView: blockItemView).view {
+          buttonView.frame = CGRect(x: 48, y: 48, width: 48, height: 48)
+          buttons.append(buttonView)
+        }
       }
     }
   }
-}
-
-#Preview {
-  let items: [NoteItem] = [
-    .init(title: "Title1", content: "Content1", symbol: "house"),
-    .init(title: "Title2", content: "Content2", symbol: "house"),
-    .init(title: "Title3", content: "Content3", symbol: "house"),
-  ]
-
-  HomeView(items: items)
 }
