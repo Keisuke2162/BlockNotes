@@ -12,7 +12,7 @@ import Foundation
 import SwiftUI
 
 public struct HomeView: View {
-  @State private var buttons: [UIView] = []
+  @State private var blockViews: [UIView] = []
   private var noteItems: [NoteItem] = []
 
   public init(noteItems: [NoteItem]) {
@@ -21,23 +21,16 @@ public struct HomeView: View {
 
   public var body: some View {
     GeometryReader { geometry in
-      GravityView(buttons: $buttons)
-        .edgesIgnoringSafeArea(.all)
+      GravityView(animationViews: $blockViews, viewSize: geometry.size)
+        .background(Color.blue)
+        .padding(.bottom, geometry.safeAreaInsets.bottom)
     }
-    .background(Color.blue)
     .onAppear {
-//      // テスト用のボタンを作成
-//      for i in 0..<5 {
-//        let button = UIButton(frame: CGRect(x: CGFloat.random(in: 0...300), y: -50, width: 100, height: 44))
-//        button.setTitle("Button \(i+1)", for: .normal)
-//        button.backgroundColor = .blue
-//        buttons.append(button)
-//      }
       for item in noteItems {
         let blockItemView = BlockItemView(item: item)
-        if let buttonView = UIHostingController(rootView: blockItemView).view {
-          buttonView.frame = CGRect(x: 48, y: 48, width: 48, height: 48)
-          buttons.append(buttonView)
+        if let blockView = UIHostingController(rootView: blockItemView).view {
+          blockView.frame = CGRect(x: 10, y: 10, width: 48, height: 48)
+          blockViews.append(blockView)
         }
       }
     }

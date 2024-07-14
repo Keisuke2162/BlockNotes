@@ -9,30 +9,35 @@ import SwiftUI
 import UIKit
 
 public struct GravityView: UIViewRepresentable {
-  @Binding var buttons: [UIView]
-  
-  public init(buttons: Binding<[UIView]>) {
-    self._buttons = buttons
+  // TODO: 要検討：Bindingじゃなくて良いかも
+  @Binding var animationViews: [UIView]
+  let viewSize: CGSize
+
+  public init(animationViews: Binding<[UIView]>, viewSize: CGSize) {
+    self._animationViews = animationViews
+    self.viewSize = viewSize
   }
 
   public func makeUIView(context: Context) -> UIView {
     let view = UIView()
     let animator = UIDynamicAnimator(referenceView: view)
-    let gravity = UIGravityBehavior(items: buttons)
+    let gravity = UIGravityBehavior(items: animationViews)
     
-    let collision = UICollisionBehavior(items: buttons)
-    collision.translatesReferenceBoundsIntoBoundary = false
+    let collision = UICollisionBehavior(items: animationViews)
+    collision.translatesReferenceBoundsIntoBoundary = true
     
     // バリアの設定
-//    let barrierRect = CGRect(x: 0, y: 0 - view.bounds.height, width: view.bounds.width, height: view.bounds.height - tabBarHeight + view.bounds.height)
+    // TODO: 色々弾性の設定できそう
+    /// https://qiita.com/Hiragarian/items/15a0e4a1e1396059e21b
+//    let barrierRect = CGRect(x: 0, y: 0 - viewSize.height, width: viewSize.width, height: viewSize.height)
 //    collision.addBoundary(withIdentifier: "barrier" as NSCopying, for: UIBezierPath(rect: barrierRect))
     
     animator.addBehavior(collision)
     animator.addBehavior(gravity)
     
     // ボタンを追加
-    for button in buttons {
-      view.addSubview(button)
+    for animationView in animationViews {
+      view.addSubview(animationView)
     }
     context.coordinator.animator = animator
     
@@ -41,7 +46,7 @@ public struct GravityView: UIViewRepresentable {
     
   public func updateUIView(_ uiView: UIView, context: Context) {
     // ボタンが追加または削除された場合の更新処理
-    context.coordinator.updateButtons(buttons, in: uiView)
+    context.coordinator.updateAnimator(animationViews, in: uiView)
   }
     
   public func makeCoordinator() -> Coordinator {
@@ -56,24 +61,24 @@ public struct GravityView: UIViewRepresentable {
       self.parent = parent
     }
     
-    func updateButtons(_ buttons: [UIView], in view: UIView) {
+    func updateAnimator(_ animationViews: [UIView], in view: UIView) {
       // 既存のボタンを削除
       view.subviews.forEach { $0.removeFromSuperview() }
       // 新しいボタンを追加
-      for button in buttons {
-        view.addSubview(button)
+      for animationView in animationViews {
+        view.addSubview(animationView)
       }
       
       // アニメーターの動作を更新
       if let animator = animator {
         animator.removeAllBehaviors()
         
-        let gravity = UIGravityBehavior(items: buttons)
-        let collision = UICollisionBehavior(items: buttons)
-        collision.translatesReferenceBoundsIntoBoundary = false
-        
-        //        let barrierRect = CGRect(x: 0, y: 0 - view.bounds.height, width: view.bounds.width, height: view.bounds.height - parent.tabBarHeight + view.bounds.height)
-        //        collision.addBoundary(withIdentifier: "barrier" as NSCopying, for: UIBezierPath(rect: barrierRect))
+        let gravity = UIGravityBehavior(items: animationViews)
+        let collision = UICollisionBehavior(items: animationViews)
+        collision.translatesReferenceBoundsIntoBoundary = true
+  
+//        let barrierRect = CGRect(x: 0, y: 0 - parent.viewSize.height, width: parent.viewSize.width, height: parent.viewSize.height)
+//        collision.addBoundary(withIdentifier: "barrier" as NSCopying, for: UIBezierPath(rect: barrierRect))
         
         animator.addBehavior(collision)
         animator.addBehavior(gravity)
