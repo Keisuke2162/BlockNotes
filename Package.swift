@@ -10,12 +10,11 @@ let package = Package(
         .library(name: "RootFeature", targets: ["RootFeature"]),
     ],
     dependencies: [
-      .package(url: "https://github.com/pointfreeco/swift-composable-architecture", exact: "1.11.2"),
+      // .package(url: "https://github.com/pointfreeco/swift-composable-architecture", exact: "1.11.2"),
     ],
     targets: [
       .target(name: "BlockItemFeature", dependencies: [
         "Entities",
-        .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
       ]),
       .target(name: "CustomView", dependencies: [
         "BlockItemFeature",
@@ -26,7 +25,6 @@ let package = Package(
         "BlockItemFeature",
         "CustomView",
         "Entities",
-        .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
       ]),
       .target(name: "RootFeature", dependencies: [
         "HomeFeature",

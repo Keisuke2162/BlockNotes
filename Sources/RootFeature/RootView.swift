@@ -17,8 +17,6 @@ public struct RootView: View {
   public init() {}
 
   public var body: some View {
-    HomeView(store: .init(initialState: Home.State(items: items), reducer: {
-      Home()
-    }))
+    HomeView(items: items)
   }
 }

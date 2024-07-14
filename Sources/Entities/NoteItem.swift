@@ -8,7 +8,8 @@
 import Foundation
 import SwiftUI
 
-public struct NoteItem: Equatable {
+public struct NoteItem: Equatable, Identifiable {
+  public let id = UUID()
   public let title: String
   public let content: String
   public let symbol: String
