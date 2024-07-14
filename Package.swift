@@ -1,4 +1,4 @@
-// swift-tools-version: 5.10
+// swift-tools-version: 5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -7,13 +7,23 @@ let package = Package(
     name: "BlockNotes",
     platforms: [.iOS(.v17),],
     products: [
-        .library(name: "BlockNotes", targets: ["BlockNotes"]),
+        .library(name: "RootFeature", targets: ["RootFeature"]),
     ],
     dependencies: [
-      .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.11.1"),
+      // .package(url: "https://github.com/pointfreeco/swift-composable-architecture", exact: "1.11.2"),
     ],
     targets: [
-        .target(name: "BlockNotes"),
-        .testTarget(name: "BlockNotesTests", dependencies: ["BlockNotes"]),
+      .target(name: "CustomView", dependencies: [
+        "Entities",
+      ]),
+      .target(name: "Entities"),
+      .target(name: "HomeFeature", dependencies: [
+        "CustomView",
+        "Entities",
+      ]),
+      .target(name: "RootFeature", dependencies: [
+        "HomeFeature",
+        "Entities",
+      ])
     ]
 )
