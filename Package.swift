@@ -8,6 +8,7 @@ let package = Package(
     platforms: [.iOS(.v17),],
     products: [
         .library(name: "RootFeature", targets: ["RootFeature"]),
+        .library(name: "NoteFeature", targets: ["NoteFeature"]),
     ],
     dependencies: [
       // .package(url: "https://github.com/pointfreeco/swift-composable-architecture", exact: "1.11.2"),
@@ -19,6 +20,9 @@ let package = Package(
       .target(name: "Entities"),
       .target(name: "HomeFeature", dependencies: [
         "CustomView",
+        "Entities",
+      ]),
+      .target(name: "NoteFeature", dependencies: [
         "Entities",
       ]),
       .target(name: "RootFeature", dependencies: [
