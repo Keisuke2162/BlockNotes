@@ -9,11 +9,16 @@ import Entities
 import SwiftUI
 
 public struct NoteView: View {
-  @Binding var noteItem: NoteItem
+  @Binding public var noteItem: NoteItem
   @FocusState private var focusedField: Field?
   
-  enum Field: Hashable {
+  public enum Field: Hashable {
     case title, content
+  }
+
+  public init(noteItem: Binding<NoteItem>) {
+    self._noteItem = noteItem
+    self.focusedField = .title
   }
 
   public var body: some View {
@@ -56,19 +61,17 @@ public struct NoteView: View {
             .padding(24)
         }
       }
-      
-      
     }
   }
 }
 
-#Preview {
-  struct PreviewView: View {
-    @State private var item: NoteItem = .init(title: "Title1", content: "Content1", themeColor: .yellow, systemIconName: "house")
-    
-    var body: some View {
-      NoteView(noteItem: $item)
-    }
-  }
-  return PreviewView()
-}
+//#Preview {
+//  struct PreviewView: View {
+//    @State private var item: NoteItem = .init(title: "Title1", content: "Content1", themeColor: .yellow, systemIconName: "house")
+//    
+//    var body: some View {
+//      NoteView(noteItem: $item)
+//    }
+//  }
+//  return PreviewView()
+//}

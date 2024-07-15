@@ -15,18 +15,32 @@ public class NoteItem: Identifiable {
   public var content: String
   public var themeColor: Color
   public var systemIconName: String
+  public var type: NoteType
 
-  public init(title: String, content: String, themeColor: Color, systemIconName: String) {
+  public init(title: String, content: String, themeColor: Color, systemIconName: String, type: NoteType) {
     self.title = title
     self.content = content
     self.themeColor = themeColor
     self.systemIconName = systemIconName
+    self.type = type
+  }
+
+  public enum NoteType {
+    case note, add, setting
   }
 }
 
 @Observable
 public class NoteItemStore {
   public var notes: [NoteItem] = []
+
+  public init() {
+    // TODO: 仮
+    self.notes = [
+      .init(title: "Title1", content: "Content1", themeColor: .yellow, systemIconName: "house", type: .note),
+      .init(title: "Title2", content: "Content2", themeColor: .gray, systemIconName: "house", type: .note),
+    ]
+  }
 
   public func addItem(_ item: NoteItem) {
     notes.append(item)

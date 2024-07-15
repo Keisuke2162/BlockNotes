@@ -21,6 +21,7 @@ let package = Package(
       .target(name: "HomeFeature", dependencies: [
         "CustomView",
         "Entities",
+        "NoteFeature",
       ]),
       .target(name: "NoteFeature", dependencies: [
         "Entities",
