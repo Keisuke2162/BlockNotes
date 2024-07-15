@@ -16,21 +16,33 @@ public struct NoteView: View {
     case title, content
   }
 
-  public init(noteItem: NoteItem) {
-    self.noteItem = noteItem
-  }
-  
   public var body: some View {
     VStack {
-      // タイトル入力
-      TextField("Title", text: $noteItem.title)
-        .font(.title)
-        .padding()
-        .focused($focusedField, equals: .title)
-        .onSubmit {
-          focusedField = .content
+      HStack {
+        // タイトル入力
+        TextField("Title", text: $noteItem.title)
+          .font(.title)
+          .padding()
+          .focused($focusedField, equals: .title)
+          .onSubmit {
+            focusedField = .content
+          }
+          .padding(.leading, 4)
+        
+        //
+        Button {
+          // TODO: アイコン設定ページに飛ばす
+        } label: {
+          Image(systemName: noteItem.systemIconName)
+            .foregroundStyle(Color.black)
         }
-        .padding(.leading, 4)
+        .frame(width: 48, height: 48)
+        .background(noteItem.themeColor)
+        .padding(.trailing, 32)
+
+      }
+      .padding(.top, 32)
+      
 
       // 本文入力
       ZStack(alignment: .topLeading) {
@@ -44,11 +56,19 @@ public struct NoteView: View {
             .padding(24)
         }
       }
+      
+      
     }
   }
 }
 
 #Preview {
-  let item: NoteItem = .init(title: "Title1", content: "Content1", themeColor: .yellow, systemIconName: "house")
-  NoteView(noteItem: item)
+  struct PreviewView: View {
+    @State private var item: NoteItem = .init(title: "Title1", content: "Content1", themeColor: .yellow, systemIconName: "house")
+    
+    var body: some View {
+      NoteView(noteItem: $item)
+    }
+  }
+  return PreviewView()
 }
