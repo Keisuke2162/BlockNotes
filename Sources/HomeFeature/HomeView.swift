@@ -15,7 +15,7 @@ import SwiftUI
 public struct HomeView: View {
   @State private var noteStore = NoteItemStore()
   @State private var isAddingNote = false
-  @State private var noteItem: NoteItem?
+  @State private var editNoteItem: NoteItem?
   @State private var blockViews: [UIView] = []
   
   public init() {
@@ -30,7 +30,7 @@ public struct HomeView: View {
     .onAppear {
       for item in noteStore.notes {
         let blockItemView = BlockItemView(item: item) { noteItem in
-          self.noteItem = noteItem
+          self.editNoteItem = noteItem
         }
         if let blockView = UIHostingController(rootView: blockItemView).view {
           blockView.frame = CGRect(x: 10, y: 10, width: 48, height: 48)
@@ -38,8 +38,8 @@ public struct HomeView: View {
         }
       }
     }
-    .sheet(item: $noteItem) { item in
-      NoteView(noteItem: Binding(
+    .fullScreenCover(item: $editNoteItem) { item in
+      let noteItem: Binding<NoteItem> = Binding(
         get: {
           item
         }, set: { newValue in
@@ -47,7 +47,14 @@ public struct HomeView: View {
             noteStore.notes[index] = newValue
           }
         }
-      ))
+      )
+      
+      NoteView(noteItem: noteItem) {
+        editNoteItem = nil
+      } onCancel: {
+        editNoteItem = nil
+      }
+
     }
   }
 }
