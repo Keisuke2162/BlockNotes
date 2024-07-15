@@ -8,17 +8,31 @@
 import Foundation
 import SwiftUI
 
-public struct NoteItem: Equatable, Identifiable {
+@Observable
+public class NoteItem: Identifiable {
   public let id = UUID()
-  public let title: String
-  public let content: String
-  public let themeColor: Color
-  public let systemIconName: String
+  public var title: String
+  public var content: String
+  public var themeColor: Color
+  public var systemIconName: String
 
   public init(title: String, content: String, themeColor: Color, systemIconName: String) {
     self.title = title
     self.content = content
     self.themeColor = themeColor
     self.systemIconName = systemIconName
+  }
+}
+
+@Observable
+public class NoteItemStore {
+  public var notes: [NoteItem] = []
+
+  public func addItem(_ item: NoteItem) {
+    notes.append(item)
+  }
+
+  public func deleteItem(at offsets: IndexSet) {
+    notes.remove(atOffsets: offsets)
   }
 }
