@@ -48,7 +48,7 @@ public class NoteItemStore {
     notes.append(item)
   }
 
-  public func deleteItem(at offsets: IndexSet) {
-    notes.remove(atOffsets: offsets)
+  public func deleteItem(_ item: NoteItem) {
+    notes.removeAll(where: { $0.id == item.id })
   }
 }

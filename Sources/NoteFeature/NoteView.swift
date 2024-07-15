@@ -13,15 +13,21 @@ public struct NoteView: View {
   @FocusState private var focusedField: Field?
   let onSave: (NoteItem) -> Void
   let onCancel: () -> Void
+  let onDelete: (NoteItem) -> Void
+  
   
   public enum Field: Hashable {
     case title, content
   }
   
-  public init(noteItem: Binding<NoteItem>, onSave: @escaping (NoteItem) -> Void, onCancel: @escaping () -> Void) {
+  public init(noteItem: Binding<NoteItem>, 
+              onSave: @escaping (NoteItem) -> Void,
+              onCancel: @escaping () -> Void,
+              onDelete: @escaping (NoteItem) -> Void) {
     self._noteItem = noteItem
     self.onSave = onSave
     self.onCancel = onCancel
+    self.onDelete = onDelete
   }
 
   public var body: some View {
@@ -63,6 +69,21 @@ public struct NoteView: View {
               .foregroundStyle(Color.gray.opacity(0.8))
               .padding(24)
           }
+        }
+        
+        if noteItem.type == .note {
+          HStack {
+            Spacer()
+            Button {
+              onDelete(noteItem)
+            } label: {
+              Image(systemName: "trash")
+            }
+            .frame(width: 40, height: 40)
+            .foregroundStyle(Color.red)
+          }
+          .padding(.horizontal, 32)
+          .padding(.bottom, 16)
         }
       }
       .toolbar {

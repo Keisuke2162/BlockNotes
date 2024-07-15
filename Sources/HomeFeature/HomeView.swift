@@ -45,6 +45,10 @@ public struct HomeView: View {
         editNoteItem = nil
       } onCancel: {
         editNoteItem = nil
+      } onDelete: { _ in
+        removeBlockView(item: item)
+        noteStore.deleteItem(item)
+        editNoteItem = nil
       }
     }
     .fullScreenCover(isPresented: $isAddingNote) {
@@ -61,8 +65,9 @@ public struct HomeView: View {
         addBlockViews(item: item)
       } onCancel: {
         isAddingNote = false
+      } onDelete: { item in
+        isAddingNote = false
       }
-
     }
   }
 }
@@ -107,6 +112,14 @@ extension HomeView {
     if let blockView = UIHostingController(rootView: blockItemView).view {
       blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 10, width: 48, height: 48)
       blockViews.append(blockView)
+    }
+  }
+  
+  // 削除したItemのBlockViewを削除
+  public func removeBlockView(item: NoteItem) {
+    if let index = noteStore.notes.firstIndex(where: { $0.id == item.id }) {
+      print("テスト \(index)")
+      blockViews.remove(at: index)
     }
   }
 }
