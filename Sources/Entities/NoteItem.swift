@@ -37,6 +37,8 @@ public class NoteItemStore {
   public init() {
     // TODO: 仮
     self.notes = [
+      .init(title: "", content: "", themeColor: .indigo, systemIconName: "plus", type: .add),
+      .init(title: "", content: "", themeColor: .cyan, systemIconName: "gearshape", type: .setting),
       .init(title: "Title1", content: "Content1", themeColor: .yellow, systemIconName: "house", type: .note),
       .init(title: "Title2", content: "Content2", themeColor: .gray, systemIconName: "house", type: .note),
     ]

@@ -28,15 +28,7 @@ public struct HomeView: View {
         .padding(.bottom, geometry.safeAreaInsets.bottom)
     }
     .onAppear {
-      for item in noteStore.notes {
-        let blockItemView = BlockItemView(item: item) { noteItem in
-          self.editNoteItem = noteItem
-        }
-        if let blockView = UIHostingController(rootView: blockItemView).view {
-          blockView.frame = CGRect(x: 10, y: 10, width: 48, height: 48)
-          blockViews.append(blockView)
-        }
-      }
+      updateBlockViews()
     }
     .fullScreenCover(item: $editNoteItem) { item in
       let noteItem: Binding<NoteItem> = Binding(
@@ -49,12 +41,72 @@ public struct HomeView: View {
         }
       )
       
-      NoteView(noteItem: noteItem) {
+      NoteView(noteItem: noteItem) { _ in
         editNoteItem = nil
       } onCancel: {
         editNoteItem = nil
       }
+    }
+    .fullScreenCover(isPresented: $isAddingNote) {
+      let initialItem: NoteItem = .init(
+        title: "",
+        content: "",
+        themeColor: .green,
+        systemIconName: "house",
+        type: .note
+      )
+      NoteView(noteItem: .constant(initialItem)) { item in
+        noteStore.addItem(item)
+        isAddingNote = false
+        addBlockViews(item: item)
+      } onCancel: {
+        isAddingNote = false
+      }
 
+    }
+  }
+}
+
+extension HomeView {
+  // BlockViewを初期作成
+  public func updateBlockViews() {
+    for item in noteStore.notes {
+      let blockItemView = BlockItemView(item: item) { noteItem in
+        switch noteItem.type {
+        case .add:
+          self.isAddingNote = true
+          break
+        case .note:
+          self.editNoteItem = noteItem
+        case .setting:
+          // TODO: 設定画面へ
+          break
+        }
+      }
+      if let blockView = UIHostingController(rootView: blockItemView).view {
+        blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 10, width: 48, height: 48)
+        blockViews.append(blockView)
+      }
+    }
+  }
+  
+  // 追加したItemのBlockViewを追加
+  public func addBlockViews(item: NoteItem) {
+    let blockItemView = BlockItemView(item: item) { noteItem in
+      switch noteItem.type {
+      case .add:
+        self.isAddingNote = true
+        break
+      case .note:
+        self.editNoteItem = noteItem
+      case .setting:
+        // TODO: 設定画面へ
+        break
+      }
+    }
+    if let blockView = UIHostingController(rootView: blockItemView).view {
+      blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 10, width: 48, height: 48)
+      blockViews.append(blockView)
     }
   }
 }

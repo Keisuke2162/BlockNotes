@@ -11,14 +11,14 @@ import SwiftUI
 public struct NoteView: View {
   @Binding public var noteItem: NoteItem
   @FocusState private var focusedField: Field?
-  let onSave: () -> Void
+  let onSave: (NoteItem) -> Void
   let onCancel: () -> Void
   
   public enum Field: Hashable {
     case title, content
   }
   
-  public init(noteItem: Binding<NoteItem>, onSave: @escaping () -> Void, onCancel: @escaping () -> Void) {
+  public init(noteItem: Binding<NoteItem>, onSave: @escaping (NoteItem) -> Void, onCancel: @escaping () -> Void) {
     self._noteItem = noteItem
     self.onSave = onSave
     self.onCancel = onCancel
@@ -75,10 +75,11 @@ public struct NoteView: View {
         }
         ToolbarItem(placement: .topBarTrailing) {
           Button {
-            onSave()
+            onSave(noteItem)
           } label: {
             Text("Save")
           }
+          .disabled(noteItem.title.isEmpty && noteItem.content.isEmpty)
         }
       }
     }
