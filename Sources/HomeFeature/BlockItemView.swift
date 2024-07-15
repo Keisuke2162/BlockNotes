@@ -22,7 +22,10 @@ public struct BlockItemView: View {
     Button(action: {
       buttonTapAction(item)
     }, label: {
-      Image(systemName: "house")
+      Image(systemName: item.systemIconName)
+        .foregroundColor(Color.black)
     })
+    .frame(width: 48, height: 48)
+    .background(item.themeColor)
   }
 }
