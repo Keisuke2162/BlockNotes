@@ -11,6 +11,7 @@ import SwiftUI
 public struct NoteView: View {
   @Binding public var noteItem: NoteItem
   @FocusState private var focusedField: Field?
+  @State private var editNoteIcon: NoteItem?
   let onSave: (NoteItem) -> Void
   let onCancel: () -> Void
   let onDelete: (NoteItem) -> Void
@@ -103,6 +104,9 @@ public struct NoteView: View {
           .disabled(noteItem.title.isEmpty && noteItem.content.isEmpty)
         }
       }
+    }
+    .sheet(item: $editNoteIcon) { item in
+      
     }
   }
 }
