@@ -5,15 +5,16 @@
 //  Created by Kei on 2024/07/14.
 //
 
-import BlockItemFeature
 import CustomView
 import Entities
 import Foundation
 import NoteFeature
 import SwiftUI
+import SwiftData
 
 public struct HomeView: View {
-  @State private var noteStore = NoteItemStore()
+  @Environment(\.modelContext) private var modelContext
+  @Query private var notes: [NoteItem]
   @State private var isAddingNote = false
   @State private var editNoteItem: NoteItem?
   @State private var blockViews: [UIView] = []
@@ -28,26 +29,16 @@ public struct HomeView: View {
         .padding(.bottom, geometry.safeAreaInsets.bottom)
     }
     .onAppear {
-      updateBlockViews()
+      initBlockViews()
     }
     .fullScreenCover(item: $editNoteItem) { item in
-      let noteItem: Binding<NoteItem> = Binding(
-        get: {
-          item
-        }, set: { newValue in
-          if let index = noteStore.notes.firstIndex(where: { $0.id == item.id }) {
-            noteStore.notes[index] = newValue
-          }
-        }
-      )
-      
-      NoteView(noteItem: noteItem) { _ in
+      NoteView(noteItem: item) { _ in
         editNoteItem = nil
       } onCancel: {
         editNoteItem = nil
       } onDelete: { _ in
         removeBlockView(item: item)
-        noteStore.deleteItem(item)
+        deleteNote(item)
         editNoteItem = nil
       }
     }
@@ -55,12 +46,12 @@ public struct HomeView: View {
       let initialItem: NoteItem = .init(
         title: "",
         content: "",
-        themeColor: .green,
+        noteColor: .black,
         systemIconName: "house",
         type: .note
       )
-      NoteView(noteItem: .constant(initialItem)) { item in
-        noteStore.addItem(item)
+      NoteView(noteItem: initialItem) { item in
+        addNote(item)
         isAddingNote = false
         addBlockViews(item: item)
       } onCancel: {
@@ -72,19 +63,48 @@ public struct HomeView: View {
   }
 }
 
+// MARK: NoteItemの管理
+extension HomeView {
+  func addNote(_ item: NoteItem) {
+    modelContext.insert(item)
+  }
+
+  func deleteNote(_ item: NoteItem) {
+    modelContext.delete(item)
+  }
+}
+
+
+// MARK: Bloviewの管理
 extension HomeView {
   // BlockViewを初期作成
-  public func updateBlockViews() {
-    for item in noteStore.notes {
+  public func initBlockViews() {
+    // Item追加Block
+    let addItem: NoteItem = .init(title: "", content: "", noteColor: .blue, systemIconName: "plus", type: .add)
+    let addItemView = BlockItemView(item: addItem) { _ in
+      self.isAddingNote = true
+    }
+    if let blockView = UIHostingController(rootView: addItemView).view {
+      blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 10, width: 48, height: 48)
+      blockViews.append(blockView)
+    }
+    
+    // Setting遷移Block
+    let settingItem: NoteItem = .init(title: "", content: "", noteColor: .yellow, systemIconName: "gearshape", type: .setting)
+    let settingItemView = BlockItemView(item: settingItem) { _ in
+      // TODO: 設定画面へ
+    }
+    if let blockView = UIHostingController(rootView: settingItemView).view {
+      blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 10, width: 48, height: 48)
+      blockViews.append(blockView)
+    }
+
+    for item in notes {
       let blockItemView = BlockItemView(item: item) { noteItem in
         switch noteItem.type {
-        case .add:
-          self.isAddingNote = true
-          break
         case .note:
           self.editNoteItem = noteItem
-        case .setting:
-          // TODO: 設定画面へ
+        default:
           break
         }
       }
@@ -117,9 +137,9 @@ extension HomeView {
   
   // 削除したItemのBlockViewを削除
   public func removeBlockView(item: NoteItem) {
-    if let index = noteStore.notes.firstIndex(where: { $0.id == item.id }) {
-      print("テスト \(index)")
-      blockViews.remove(at: index)
+    if let index = notes.firstIndex(where: { $0.id == item.id }) {
+      // FIXME: 追加ボタン、設定ボタン分の+2
+      blockViews.remove(at: index + 2)
     }
   }
 }
