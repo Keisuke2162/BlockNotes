@@ -26,6 +26,6 @@ public struct BlockItemView: View {
         .foregroundColor(Color.black)
     })
     .frame(width: 48, height: 48)
-    .background(item.noteColor.color)
+    .background(item.color)
   }
 }

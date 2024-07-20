@@ -10,17 +10,34 @@ import SwiftUI
 
 public struct EditIconView: View {
   @Environment(\.dismiss) var dismiss
-  @Binding public var noteItem: NoteItem
-  
-  public init(noteItem: Binding<NoteItem>) {
-    self._noteItem = noteItem
+  @Bindable public var noteItem: NoteItem
+
+  public init(noteItem: NoteItem) {
+    self.noteItem = noteItem
   }
 
   public var body: some View {
-    Button {
-      dismiss()
-    } label: {
-      Text("dismiss")
+    NavigationStack {
+      VStack {
+        Text(noteItem.title)
+      }
+      .toolbar {
+        ToolbarItem(placement: .topBarLeading) {
+          Button {
+            dismiss()
+          } label: {
+            Text("Cancel")
+          }
+        }
+        ToolbarItem(placement: .topBarTrailing) {
+          Button {
+            dismiss()
+          } label: {
+            Text("Save")
+          }
+          .disabled(noteItem.title.isEmpty && noteItem.content.isEmpty)
+        }
+      }
     }
   }
 }
