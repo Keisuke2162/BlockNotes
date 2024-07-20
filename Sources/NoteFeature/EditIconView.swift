@@ -9,6 +9,7 @@ import Entities
 import SwiftUI
 
 public struct EditIconView: View {
+  @Environment(\.dismiss) var dismiss
   @Binding public var noteItem: NoteItem
   
   public init(noteItem: Binding<NoteItem>) {
@@ -16,6 +17,10 @@ public struct EditIconView: View {
   }
 
   public var body: some View {
-    Text("test")
+    Button {
+      dismiss()
+    } label: {
+      Text("dismiss")
+    }
   }
 }

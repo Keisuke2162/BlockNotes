@@ -11,7 +11,7 @@ import SwiftUI
 public struct NoteView: View {
   @Binding public var noteItem: NoteItem
   @FocusState private var focusedField: Field?
-  @State private var editNoteIcon: NoteItem?
+  @State private var isShowIconEditView = false
   let onSave: (NoteItem) -> Void
   let onCancel: () -> Void
   let onDelete: (NoteItem) -> Void
@@ -48,6 +48,7 @@ public struct NoteView: View {
           // アイコン
           Button {
             // TODO: アイコン設定ページに飛ばす
+            isShowIconEditView = true
           } label: {
             Image(systemName: noteItem.systemIconName)
               .foregroundStyle(Color.black)
@@ -105,8 +106,8 @@ public struct NoteView: View {
         }
       }
     }
-    .sheet(item: $editNoteIcon) { item in
-      
+    .sheet(isPresented: $isShowIconEditView) {
+      EditIconView(noteItem: $noteItem)
     }
   }
 }
