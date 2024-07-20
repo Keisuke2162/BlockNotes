@@ -5,7 +5,9 @@
 //  Created by Kei on 2024/07/13.
 //
 
+import Entities
 import RootFeature
+import SwiftData
 import SwiftUI
 
 @main
@@ -14,5 +16,6 @@ struct BlockNotesApp: App {
         WindowGroup {
           RootView()
         }
+        .modelContainer(for: NoteItem.self)
     }
 }

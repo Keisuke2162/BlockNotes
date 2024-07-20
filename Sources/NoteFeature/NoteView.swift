@@ -9,7 +9,7 @@ import Entities
 import SwiftUI
 
 public struct NoteView: View {
-  @Binding public var noteItem: NoteItem
+  @Bindable public var noteItem: NoteItem
   @FocusState private var focusedField: Field?
   @State private var isShowIconEditView = false
   let onSave: (NoteItem) -> Void
@@ -21,11 +21,11 @@ public struct NoteView: View {
     case title, content
   }
   
-  public init(noteItem: Binding<NoteItem>, 
+  public init(noteItem: NoteItem,
               onSave: @escaping (NoteItem) -> Void,
               onCancel: @escaping () -> Void,
               onDelete: @escaping (NoteItem) -> Void) {
-    self._noteItem = noteItem
+    self.noteItem = noteItem
     self.onSave = onSave
     self.onCancel = onCancel
     self.onDelete = onDelete
@@ -54,7 +54,7 @@ public struct NoteView: View {
               .foregroundStyle(Color.black)
           }
           .frame(width: 48, height: 48)
-          .background(noteItem.themeColor)
+          .background(noteItem.noteColor.color)
           .padding(.trailing, 32)
 
         }
@@ -107,7 +107,7 @@ public struct NoteView: View {
       }
     }
     .sheet(isPresented: $isShowIconEditView) {
-      EditIconView(noteItem: $noteItem)
+      // EditIconView(noteItem: $noteItem)
     }
   }
 }

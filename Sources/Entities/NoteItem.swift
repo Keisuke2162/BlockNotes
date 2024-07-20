@@ -7,26 +7,49 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
-@Observable
+// @Observable
+
+@Model
 public class NoteItem: Identifiable {
   public let id = UUID()
   public var title: String
   public var content: String
-  public var themeColor: Color
+  public var noteColor: NoteColor
   public var systemIconName: String
   public var type: NoteType
 
-  public init(title: String, content: String, themeColor: Color, systemIconName: String, type: NoteType) {
+  public init(title: String, content: String, noteColor: NoteColor, systemIconName: String, type: NoteType) {
     self.title = title
     self.content = content
-    self.themeColor = themeColor
+    self.noteColor = noteColor
     self.systemIconName = systemIconName
     self.type = type
   }
 
-  public enum NoteType {
+  public enum NoteType: Codable {
     case note, add, setting
+  }
+
+  public enum NoteColor: Codable {
+    case black
+    case blue
+    case red
+    case yellow
+  
+    public var color: Color {
+      switch self {
+      case .black:
+          .black
+      case .blue:
+          .blue
+      case .red:
+          .red
+      case .yellow:
+          .yellow
+      }
+    }
   }
 }
 
@@ -37,10 +60,10 @@ public class NoteItemStore {
   public init() {
     // TODO: 仮
     self.notes = [
-      .init(title: "", content: "", themeColor: .indigo, systemIconName: "plus", type: .add),
-      .init(title: "", content: "", themeColor: .cyan, systemIconName: "gearshape", type: .setting),
-      .init(title: "Title1", content: "Content1", themeColor: .yellow, systemIconName: "house", type: .note),
-      .init(title: "Title2", content: "Content2", themeColor: .gray, systemIconName: "house", type: .note),
+      .init(title: "", content: "", noteColor: .blue, systemIconName: "plus", type: .add),
+      .init(title: "", content: "", noteColor: .yellow, systemIconName: "gearshape", type: .setting),
+      .init(title: "Title1", content: "Content1", noteColor: .yellow, systemIconName: "house", type: .note),
+      .init(title: "Title2", content: "Content2", noteColor: .red, systemIconName: "house", type: .note),
     ]
   }
 
