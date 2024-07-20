@@ -9,8 +9,6 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-// @Observable
-
 @Model
 public class NoteItem: Identifiable {
   public let id = UUID()

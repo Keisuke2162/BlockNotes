@@ -5,7 +5,6 @@
 //  Created by Kei on 2024/07/14.
 //
 
-//import BlockItemFeature
 import CustomView
 import Entities
 import Foundation
@@ -16,7 +15,6 @@ import SwiftData
 public struct HomeView: View {
   @Environment(\.modelContext) private var modelContext
   @Query private var notes: [NoteItem]
-  // @State private var noteStore = NoteItemStore()
   @State private var isAddingNote = false
   @State private var editNoteItem: NoteItem?
   @State private var blockViews: [UIView] = []
@@ -40,7 +38,6 @@ public struct HomeView: View {
         editNoteItem = nil
       } onDelete: { _ in
         removeBlockView(item: item)
-        // noteStore.deleteItem(item)
         deleteNote(item)
         editNoteItem = nil
       }
