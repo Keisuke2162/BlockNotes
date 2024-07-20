@@ -34,16 +34,6 @@ public struct HomeView: View {
       initBlockViews()
     }
     .fullScreenCover(item: $editNoteItem) { item in
-//      let noteItem: Binding<NoteItem> = Binding(
-//        get: {
-//          item
-//        }, set: { newValue in
-////          if let index = noteStore.notes.firstIndex(where: { $0.id == item.id }) {
-////            noteStore.notes[index] = newValue
-////          }
-//        }
-//      )
-      
       NoteView(noteItem: item) { _ in
         editNoteItem = nil
       } onCancel: {
@@ -64,7 +54,6 @@ public struct HomeView: View {
         type: .note
       )
       NoteView(noteItem: initialItem) { item in
-        // noteStore.addItem(item)
         addNote(item)
         isAddingNote = false
         addBlockViews(item: item)
@@ -152,7 +141,6 @@ extension HomeView {
   // 削除したItemのBlockViewを削除
   public func removeBlockView(item: NoteItem) {
     if let index = notes.firstIndex(where: { $0.id == item.id }) {
-      print("テスト \(index)")
       // FIXME: 追加ボタン、設定ボタン分の+2
       blockViews.remove(at: index + 2)
     }
