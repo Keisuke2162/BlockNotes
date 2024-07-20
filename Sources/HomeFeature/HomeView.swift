@@ -84,10 +84,7 @@ extension HomeView {
   }
 
   func deleteNote(_ item: NoteItem) {
-    if let index = notes.firstIndex(where: { $0.id == item.id }) {
-      print("テスト2 \(index)")
-      modelContext.delete(notes[index])
-    }
+    modelContext.delete(item)
   }
 }
 
