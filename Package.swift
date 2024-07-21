@@ -19,6 +19,7 @@ let package = Package(
         "Entities",
       ]),
       .target(name: "Entities"),
+      .target(name: "Extensions"),
       .target(name: "HomeFeature", dependencies: [
         "CustomView",
         "Entities",
@@ -26,6 +27,7 @@ let package = Package(
       ]),
       .target(name: "NoteFeature", dependencies: [
         "Entities",
+        "Extensions",
       ]),
       .target(name: "RootFeature", dependencies: [
         "HomeFeature",
