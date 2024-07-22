@@ -25,7 +25,6 @@ public struct HomeView: View {
   public var body: some View {
     GeometryReader { geometry in
       GravityView(animationViews: $blockViews, viewSize: geometry.size)
-        .background(Color.blue)
         .padding(.bottom, geometry.safeAreaInsets.bottom)
     }
     .onAppear {

@@ -31,5 +31,10 @@ public struct BlockItemView: View {
     .frame(width: 48, height: 48)
     .background(item.color)
     .clipShape(.rect(cornerRadius: 8))
+    .overlay {
+      RoundedRectangle(cornerRadius: 8)
+        .stroke(lineWidth: 2)
+        .fill(.white)
+    }
   }
 }

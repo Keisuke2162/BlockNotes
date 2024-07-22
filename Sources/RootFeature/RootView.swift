@@ -13,6 +13,7 @@ public struct RootView: View {
 
   public init() {}
 
+  // TODO: ダークモード対応
   public var body: some View {
     HomeView()
   }
