@@ -20,4 +20,17 @@ extension UIColor {
         
         return String(format: "%06X", rgb)
     }
+
+  public func textColor() -> UIColor {
+    var red: CGFloat = 0
+    var green: CGFloat = 0
+    var blue: CGFloat = 0
+    var alpha: CGFloat = 0
+
+    self.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+
+    let luminance = 0.2126 * red + 0.7152 * green + 0.0722 * blue
+
+    return luminance > 0.5 ? .black : .white
+  }
 }

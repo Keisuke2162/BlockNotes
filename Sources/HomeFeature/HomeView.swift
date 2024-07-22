@@ -79,6 +79,7 @@ extension HomeView {
     }
     if let blockView = UIHostingController(rootView: addItemView).view {
       blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 10, width: 48, height: 48)
+      blockView.backgroundColor = .clear
       blockViews.append(blockView)
     }
     
@@ -89,6 +90,7 @@ extension HomeView {
     }
     if let blockView = UIHostingController(rootView: settingItemView).view {
       blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 10, width: 48, height: 48)
+      blockView.backgroundColor = .clear
       blockViews.append(blockView)
     }
 
@@ -98,6 +100,7 @@ extension HomeView {
       }
       if let blockView = UIHostingController(rootView: blockItemView).view {
         blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 10, width: 48, height: 48)
+        blockView.backgroundColor = .clear
         blockViews.append(blockView)
       }
     }
@@ -110,6 +113,7 @@ extension HomeView {
     }
     if let blockView = UIHostingController(rootView: blockItemView).view {
       blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 10, width: 48, height: 48)
+      blockView.backgroundColor = .clear
       blockViews.append(blockView)
     }
   }

@@ -54,12 +54,15 @@ public struct NoteView: View {
             isShowIconEditView = true
           } label: {
             Image(systemName: noteItem.systemIconName)
-              .foregroundStyle(Color.black)
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .foregroundStyle(Color(uiColor: noteItem.uiColor.textColor()))
+              .padding(12)
           }
           .frame(width: 48, height: 48)
           .background(noteItem.color)
-          .padding(.trailing, 32)
-
+          .clipShape(.rect(cornerRadius: 8))
+          .padding(.horizontal, 32)
         }
         .padding(.top, 32)
 

@@ -40,10 +40,11 @@ public struct EditIconView: View {
             .resizable()
             .aspectRatio(contentMode: .fit)
             .padding(24)
-            .foregroundStyle(Color.black)
+            .foregroundStyle(Color(uiColor: UIColor(red: redComponent, green: greenComponent, blue: blueComponent, alpha: 1).textColor()))
         }
         .frame(width: 80, height: 80)
         .background(backGroundColor)
+        .clipShape(.rect(cornerRadius: 8))
         .padding(.trailing, 32)
         
         // Red

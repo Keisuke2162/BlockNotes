@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import SwiftData
+import UIKit
 
 @Model
 public class NoteItem: Identifiable {
@@ -19,8 +20,12 @@ public class NoteItem: Identifiable {
   public var blueComponent: Double
   public var systemIconName: String
 
+  public var uiColor: UIColor {
+    UIColor(red: CGFloat(redComponent), green: CGFloat(greenComponent), blue: CGFloat(blueComponent), alpha: 1)
+  }
+
   public var color: Color {
-    Color(uiColor: UIColor(red: CGFloat(redComponent), green: CGFloat(greenComponent), blue: CGFloat(blueComponent), alpha: 1))
+    Color(uiColor: uiColor)
   }
 
   public init(title: String, content: String, redComponent: Double, greenComponent: Double, blueComponent: Double, systemIconName: String) {
