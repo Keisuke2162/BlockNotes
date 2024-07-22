@@ -16,6 +16,8 @@ public struct EditIconView: View {
   @State private var redComponent: Double = 0
   @State private var greenComponent: Double = 0
   @State private var blueComponent: Double = 0
+  @State private var systemImageString: String = ""
+
   private var backGroundColor: Color {
     Color(uiColor: UIColor(red: redComponent, green: greenComponent, blue: blueComponent, alpha: 1))
   }
@@ -34,7 +36,10 @@ public struct EditIconView: View {
         // アイコン
         Button {
         } label: {
-          Image(systemName: noteItem.systemIconName)
+          Image(systemName: systemImageString)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .padding(24)
             .foregroundStyle(Color.black)
         }
         .frame(width: 80, height: 80)
@@ -71,7 +76,7 @@ public struct EditIconView: View {
           Text("#\(hexColorText)")
         }
 
-        Spacer()
+        SymbolSelectView(selectedSymbol: $systemImageString)
       }
       .padding(.horizontal, 32)
       .toolbar {
@@ -87,11 +92,11 @@ public struct EditIconView: View {
             noteItem.redComponent = redComponent
             noteItem.greenComponent = greenComponent
             noteItem.blueComponent = blueComponent
+            noteItem.systemIconName = systemImageString
             dismiss()
           } label: {
             Text("Save")
           }
-          .disabled(noteItem.title.isEmpty && noteItem.content.isEmpty)
         }
       }
     }
@@ -99,6 +104,7 @@ public struct EditIconView: View {
       redComponent = noteItem.redComponent
       greenComponent = noteItem.greenComponent
       blueComponent = noteItem.blueComponent
+      systemImageString =  noteItem.systemIconName
     }
   }
 }
