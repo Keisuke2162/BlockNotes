@@ -24,6 +24,7 @@ let package = Package(
         "CustomView",
         "Entities",
         "NoteFeature",
+        "SettingsFeature",
       ]),
       .target(name: "NoteFeature", dependencies: [
         "Entities",
@@ -32,6 +33,7 @@ let package = Package(
       .target(name: "RootFeature", dependencies: [
         "HomeFeature",
         "Entities",
-      ])
+      ]),
+      .target(name: "SettingsFeature"),
     ]
 )
