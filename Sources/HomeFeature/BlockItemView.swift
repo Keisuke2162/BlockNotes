@@ -23,9 +23,13 @@ public struct BlockItemView: View {
       buttonTapAction(item)
     }, label: {
       Image(systemName: item.systemIconName)
-        .foregroundColor(Color.black)
+        .resizable()
+        .aspectRatio(contentMode: .fill)
+        .foregroundColor(Color(uiColor: item.uiColor.textColor()))
+        .padding(16)
     })
     .frame(width: 48, height: 48)
-    .background(item.noteColor.color)
+    .background(item.color)
+    .clipShape(.rect(cornerRadius: 8))
   }
 }

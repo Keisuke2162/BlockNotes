@@ -12,6 +12,7 @@ public struct NoteView: View {
   @Bindable public var noteItem: NoteItem
   @FocusState private var focusedField: Field?
   @State private var isShowIconEditView = false
+  let isEditNote: Bool
   let onSave: (NoteItem) -> Void
   let onCancel: () -> Void
   let onDelete: (NoteItem) -> Void
@@ -22,10 +23,12 @@ public struct NoteView: View {
   }
   
   public init(noteItem: NoteItem,
+              isEditNote: Bool,
               onSave: @escaping (NoteItem) -> Void,
               onCancel: @escaping () -> Void,
               onDelete: @escaping (NoteItem) -> Void) {
     self.noteItem = noteItem
+    self.isEditNote = isEditNote
     self.onSave = onSave
     self.onCancel = onCancel
     self.onDelete = onDelete
@@ -51,12 +54,15 @@ public struct NoteView: View {
             isShowIconEditView = true
           } label: {
             Image(systemName: noteItem.systemIconName)
-              .foregroundStyle(Color.black)
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .foregroundStyle(Color(uiColor: noteItem.uiColor.textColor()))
+              .padding(12)
           }
           .frame(width: 48, height: 48)
-          .background(noteItem.noteColor.color)
-          .padding(.trailing, 32)
-
+          .background(noteItem.color)
+          .clipShape(.rect(cornerRadius: 8))
+          .padding(.horizontal, 32)
         }
         .padding(.top, 32)
 
@@ -72,8 +78,8 @@ public struct NoteView: View {
               .padding(24)
           }
         }
-        
-        if noteItem.type == .note {
+
+        if isEditNote {
           HStack {
             Spacer()
             Button {
@@ -107,7 +113,7 @@ public struct NoteView: View {
       }
     }
     .sheet(isPresented: $isShowIconEditView) {
-      // EditIconView(noteItem: $noteItem)
+      EditIconView(noteItem: noteItem)
     }
   }
 }
