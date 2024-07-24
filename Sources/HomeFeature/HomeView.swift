@@ -9,11 +9,17 @@ import CustomView
 import Entities
 import Foundation
 import NoteFeature
+import SettingsFeature
 import SwiftUI
 import SwiftData
 
 public struct HomeView: View {
   @Environment(\.modelContext) private var modelContext
+  @EnvironmentObject var settings: AppSettingsService
+
+  @State private var navigationPath = NavigationPath()
+  @State private var isFirstAppear = true
+
   @Query private var notes: [NoteItem]
   @State private var isAddingNote = false
   @State private var editNoteItem: NoteItem?
@@ -23,36 +29,45 @@ public struct HomeView: View {
   }
 
   public var body: some View {
-    GeometryReader { geometry in
-      GravityView(animationViews: $blockViews, viewSize: geometry.size)
-        .padding(.bottom, geometry.safeAreaInsets.bottom)
-    }
-    .onAppear {
-      initBlockViews()
-    }
-    .fullScreenCover(item: $editNoteItem) { item in
-      NoteView(noteItem: item, isEditNote: true) { _ in
-        editNoteItem = nil
-      } onCancel: {
-        editNoteItem = nil
-      } onDelete: { _ in
-        removeBlockView(item: item)
-        deleteNote(item)
-        editNoteItem = nil
+    NavigationStack(path: $navigationPath) {
+      GeometryReader { geometry in
+        GravityView(animationViews: $blockViews, viewSize: geometry.size)
+          .padding(.bottom, geometry.safeAreaInsets.bottom)
+      }
+      .onAppear {
+        if isFirstAppear {
+          initBlockViews()
+          isFirstAppear = false
+        }
+      }
+      .fullScreenCover(item: $editNoteItem) { item in
+        NoteView(noteItem: item, isEditNote: true) { _ in
+          editNoteItem = nil
+        } onCancel: {
+          editNoteItem = nil
+        } onDelete: { _ in
+          removeBlockView(item: item)
+          deleteNote(item)
+          editNoteItem = nil
+        }
+      }
+      .fullScreenCover(isPresented: $isAddingNote) {
+        let initialItem: NoteItem = .init(title: "", content: "", redComponent: 100, greenComponent: 100, blueComponent: 0, systemIconName: "house")
+        NoteView(noteItem: initialItem, isEditNote: false) { item in
+          addNote(item)
+          addBlockViews(item: item)
+          isAddingNote = false
+        } onCancel: {
+          isAddingNote = false
+        } onDelete: { item in
+          isAddingNote = false
+        }
+      }
+      .navigationDestination(for: SettingView.self) { view in
+        view
       }
     }
-    .fullScreenCover(isPresented: $isAddingNote) {
-      let initialItem: NoteItem = .init(title: "", content: "", redComponent: 100, greenComponent: 100, blueComponent: 0, systemIconName: "house")
-      NoteView(noteItem: initialItem, isEditNote: false) { item in
-        addNote(item)
-        addBlockViews(item: item)
-        isAddingNote = false
-      } onCancel: {
-        isAddingNote = false
-      } onDelete: { item in
-        isAddingNote = false
-      }
-    }
+    .preferredColorScheme(settings.isDarkMode ? .dark : .light)
   }
 }
 
@@ -77,7 +92,7 @@ extension HomeView {
       self.isAddingNote = true
     }
     if let blockView = UIHostingController(rootView: addItemView).view {
-      blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 10, width: 48, height: 48)
+      blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 100, width: 48, height: 48)
       blockView.backgroundColor = .clear
       blockViews.append(blockView)
     }
@@ -85,10 +100,10 @@ extension HomeView {
     // Setting遷移Block
     let settingItem: NoteItem = .init(title: "", content: "", redComponent: 100, greenComponent: 100, blueComponent: 100, systemIconName: "gearshape")
     let settingItemView = BlockItemView(item: settingItem) { _ in
-      // TODO: 設定画面へ
+      navigationPath.append(SettingView())
     }
     if let blockView = UIHostingController(rootView: settingItemView).view {
-      blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 10, width: 48, height: 48)
+      blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 100, width: 48, height: 48)
       blockView.backgroundColor = .clear
       blockViews.append(blockView)
     }

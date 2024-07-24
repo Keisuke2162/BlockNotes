@@ -10,6 +10,7 @@ let package = Package(
         .library(name: "RootFeature", targets: ["RootFeature"]),
         .library(name: "NoteFeature", targets: ["NoteFeature"]),
         .library(name: "Entities", targets: ["Entities"]),
+        .library(name: "SettingsFeature", targets: ["SettingsFeature"]),
     ],
     dependencies: [
       // .package(url: "https://github.com/pointfreeco/swift-composable-architecture", exact: "1.11.2"),

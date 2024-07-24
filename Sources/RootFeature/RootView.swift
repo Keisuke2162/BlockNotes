@@ -7,9 +7,11 @@
 
 import Entities
 import HomeFeature
+import SettingsFeature
 import SwiftUI
 
 public struct RootView: View {
+  @EnvironmentObject var settings: AppSettingsService
 
   public init() {}
 

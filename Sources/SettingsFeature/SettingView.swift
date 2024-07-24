@@ -7,13 +7,82 @@
 
 import SwiftUI
 
-public struct SettingView: View {
+public struct SettingView: View, Hashable {
+  @EnvironmentObject var settings: AppSettingsService
+  
+  let id = UUID()
+  
+  public func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
+  }
 
-  public init() {}
+  public static func == (lhs: SettingView, rhs: SettingView) -> Bool {
+    lhs.id == rhs.id
+  }
+
+  public init() {
+  }
 
   public var body: some View {
     Form {
-      Text("test")
+      Section("設定") {
+        // DarkMode
+        Toggle("ダークモード", isOn: $settings.isDarkMode)
+        // BlockSize
+        HStack {
+          Button {
+            
+          } label: {
+            Text("Blockのカスタム")
+          }
+          .foregroundStyle(settings.isDarkMode ? .white : .black)
+          Spacer()
+          Image(systemName: "chevron.right")
+        }
+        
+        // AddBlock
+        HStack {
+          Button {
+            
+          } label: {
+            Text("+Blockをカスタム")
+          }
+          .foregroundStyle(settings.isDarkMode ? .white : .black)
+          Spacer()
+          Image(systemName: "chevron.right")
+        }
+
+        // SettingBlock
+        HStack {
+          Button {
+            
+          } label: {
+            Text("SettingBlockをカスタム")
+          }
+          .foregroundStyle(settings.isDarkMode ? .white : .black)
+          Spacer()
+          Image(systemName: "chevron.right")
+        }
+
+        // FontSetting
+        HStack {
+          Button {
+            
+          } label: {
+            Text("フォント設定")
+          }
+          .foregroundStyle(settings.isDarkMode ? .white : .black)
+          Spacer()
+          Image(systemName: "chevron.right")
+        }
+        
+        // ダークモード
+        
+      }
+      // TODO: チュートリアル
+      // TODO: 利用規約
+      // TODO: バージョン
     }
+    .preferredColorScheme(settings.isDarkMode ? .dark : .light)
   }
 }

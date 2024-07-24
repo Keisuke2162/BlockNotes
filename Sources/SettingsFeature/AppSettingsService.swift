@@ -7,10 +7,19 @@
 
 import SwiftUI
 
-class AppSettingsService: ObservableObject {
+public class AppSettingsService: ObservableObject {
   // HomeView
-  @Published var isDarkMode: Bool
-  @Published var blockFrame: CGFloat
+  @Published public var isDarkMode: Bool {
+    didSet {
+      userDefaults.set(isDarkMode, forKey: "isDarkMode")
+    }
+  }
+
+  @Published public var blockFrame: CGFloat {
+    didSet {
+      userDefaults.set(blockFrame, forKey: "blockFrame")
+    }
+  }
   // NoteView
 //  @Published var fontSize: CGFloat
 //  // AddIcon
@@ -24,14 +33,35 @@ class AppSettingsService: ObservableObject {
 
   private var userDefaults: UserDefaults
 
-  init(userDefaults: UserDefaults = .standard) {
+  public init(userDefaults: UserDefaults = .standard) {
     self.userDefaults = userDefaults
     self.isDarkMode = userDefaults.bool(forKey: "isDarkMode")
     self.blockFrame = userDefaults.object(forKey: "blockFrame") as? CGFloat ?? 48
   }
-
-  func saveSettings() {
-    userDefaults.set(isDarkMode, forKey: "isDarkMode")
-    userDefaults.set(blockFrame, forKey: "blockFrame")
-  }
 }
+
+// Color保存したい時に使う
+/*
+ extension UserDefaults {
+     func setColor(_ color: Color, forKey key: String) {
+         let uiColor = UIColor(color)
+         self.set(uiColor.encode(), forKey: key)
+     }
+     
+     func color(forKey key: String) -> Color? {
+         guard let data = self.data(forKey: key),
+               let uiColor = UIColor.decode(data) else { return nil }
+         return Color(uiColor)
+     }
+ }
+
+ extension UIColor {
+     func encode() -> Data? {
+         try? NSKeyedArchiver.archivedData(withRootObject: self, requiringSecureCoding: false)
+     }
+     
+     static func decode(_ data: Data) -> UIColor? {
+         try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? UIColor
+     }
+ }
+ */
