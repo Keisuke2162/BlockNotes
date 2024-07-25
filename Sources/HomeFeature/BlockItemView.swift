@@ -7,9 +7,12 @@
 
 import Entities
 import Foundation
+import SettingsFeature
 import SwiftUI
 
 public struct BlockItemView: View {
+  @EnvironmentObject var settings: AppSettingsService
+
   let item: NoteItem
   let buttonTapAction: (NoteItem) -> Void
 
@@ -34,7 +37,9 @@ public struct BlockItemView: View {
     .overlay {
       RoundedRectangle(cornerRadius: 8)
         .stroke(lineWidth: 2)
-        .fill(.white)
+        .fill(
+          settings.isShowBlockBorder ? (settings.isDarkMode ? .white : .black) : .clear
+        )
     }
   }
 }

@@ -20,6 +20,13 @@ public class AppSettingsService: ObservableObject {
       userDefaults.set(blockFrame, forKey: "blockFrame")
     }
   }
+
+  @Published public var isShowBlockBorder: Bool {
+    didSet {
+      userDefaults.set(isShowBlockBorder, forKey: "isShowBlockBorder")
+    }
+  }
+
   // NoteView
 //  @Published var fontSize: CGFloat
 //  // AddIcon
@@ -37,6 +44,7 @@ public class AppSettingsService: ObservableObject {
     self.userDefaults = userDefaults
     self.isDarkMode = userDefaults.bool(forKey: "isDarkMode")
     self.blockFrame = userDefaults.object(forKey: "blockFrame") as? CGFloat ?? 48
+    self.isShowBlockBorder = userDefaults.bool(forKey: "isShowBlockBorder")
   }
 }
 

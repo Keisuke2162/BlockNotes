@@ -29,15 +29,13 @@ public struct SettingView: View, Hashable {
         // DarkMode
         Toggle("ダークモード", isOn: $settings.isDarkMode)
         // BlockSize
-        HStack {
-          Button {
-            
-          } label: {
+        NavigationLink {
+          BlockSettingView()
+        } label: {
+          HStack {
             Text("Blockのカスタム")
+              .foregroundStyle(settings.isDarkMode ? .white : .black)
           }
-          .foregroundStyle(settings.isDarkMode ? .white : .black)
-          Spacer()
-          Image(systemName: "chevron.right")
         }
         
         // AddBlock
