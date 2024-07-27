@@ -22,6 +22,7 @@ public struct BlockItemView: View {
   }
 
   public var body: some View {
+    let blockFrame = settings.getBlockFrame()
     Button(action: {
       buttonTapAction(item)
     }, label: {
@@ -29,9 +30,9 @@ public struct BlockItemView: View {
         .resizable()
         .aspectRatio(contentMode: .fill)
         .foregroundColor(Color(uiColor: item.uiColor.textColor()))
-        .padding(16)
+        .padding(12)
     })
-    .frame(width: 48, height: 48)
+    .frame(width: blockFrame, height: blockFrame)
     .background(item.color)
     .clipShape(.rect(cornerRadius: 8))
     .overlay {

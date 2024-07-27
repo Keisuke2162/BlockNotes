@@ -15,9 +15,9 @@ public class AppSettingsService: ObservableObject {
     }
   }
 
-  @Published public var blockFrame: CGFloat {
+  @Published public var blockSizeType: BlockSizeType {
     didSet {
-      userDefaults.set(blockFrame, forKey: "blockFrame")
+      userDefaults.set(blockSizeType.rawValue, forKey: "blockSizeType")
     }
   }
 
@@ -43,8 +43,26 @@ public class AppSettingsService: ObservableObject {
   public init(userDefaults: UserDefaults = .standard) {
     self.userDefaults = userDefaults
     self.isDarkMode = userDefaults.bool(forKey: "isDarkMode")
-    self.blockFrame = userDefaults.object(forKey: "blockFrame") as? CGFloat ?? 48
+    print("テスト \(userDefaults.string(forKey: "blockSizeType") ?? "failed")")
+    self.blockSizeType = BlockSizeType(rawValue: userDefaults.string(forKey: "blockSizeType") ?? "medium") ?? .medium
     self.isShowBlockBorder = userDefaults.bool(forKey: "isShowBlockBorder")
+  }
+
+  public enum BlockSizeType: String {
+    case small
+    case medium
+    case large
+  }
+
+  public func getBlockFrame() -> CGFloat {
+    switch blockSizeType {
+    case .small:
+      40
+    case .medium:
+      56
+    case .large:
+      72
+    }
   }
 }
 

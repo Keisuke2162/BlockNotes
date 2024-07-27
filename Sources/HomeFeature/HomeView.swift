@@ -86,13 +86,14 @@ extension HomeView {
 extension HomeView {
   // BlockViewを初期作成
   public func initBlockViews() {
+    let blockFrame = settings.getBlockFrame()
     // Item追加Block
     let addItem: NoteItem = .init(title: "", content: "", redComponent: 0, greenComponent: 0, blueComponent: 200, systemIconName: "plus")
     let addItemView = BlockItemView(item: addItem) { _ in
       self.isAddingNote = true
     }
     if let blockView = UIHostingController(rootView: addItemView).view {
-      blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 100, width: 48, height: 48)
+      blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 100, width: blockFrame, height: blockFrame)
       blockView.backgroundColor = .clear
       blockViews.append(blockView)
     }
@@ -103,7 +104,7 @@ extension HomeView {
       navigationPath.append(SettingView())
     }
     if let blockView = UIHostingController(rootView: settingItemView).view {
-      blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 100, width: 48, height: 48)
+      blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 100, width: blockFrame, height: blockFrame)
       blockView.backgroundColor = .clear
       blockViews.append(blockView)
     }
@@ -113,7 +114,7 @@ extension HomeView {
         self.editNoteItem = noteItem
       }
       if let blockView = UIHostingController(rootView: blockItemView).view {
-        blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 10, width: 48, height: 48)
+        blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 10, width: blockFrame, height: blockFrame)
         blockView.backgroundColor = .clear
         blockViews.append(blockView)
       }
@@ -122,11 +123,12 @@ extension HomeView {
   
   // 追加したItemのBlockViewを追加
   public func addBlockViews(item: NoteItem) {
+    let blockFrame = settings.getBlockFrame()
     let blockItemView = BlockItemView(item: item) { noteItem in
       self.editNoteItem = noteItem
     }
     if let blockView = UIHostingController(rootView: blockItemView).view {
-      blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 10, width: 48, height: 48)
+      blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 10, width: blockFrame, height: blockFrame)
       blockView.backgroundColor = .clear
       blockViews.append(blockView)
     }
