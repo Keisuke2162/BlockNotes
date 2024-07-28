@@ -35,6 +35,8 @@ let package = Package(
         "HomeFeature",
         "Entities",
       ]),
-      .target(name: "SettingsFeature"),
+      .target(name: "SettingsFeature", dependencies: [
+        "Extensions",
+      ]),
     ]
 )

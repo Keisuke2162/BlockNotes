@@ -27,25 +27,55 @@ public class AppSettingsService: ObservableObject {
     }
   }
 
-  // NoteView
-//  @Published var fontSize: CGFloat
-//  // AddIcon
-//  @Published var addIconRedComponent: CGFloat
-//  @Published var addIconGreenComponent: CGFloat
-//  @Published var addIconBlueComponent: CGFloat
-//  // SettingIcon
-//  @Published var settingIconRedComponent: CGFloat
-//  @Published var settingIconGreenComponent: CGFloat
-//  @Published var settingIconBlueComponent: CGFloat
+  // PlusBlockColor
+  @Published public var plusBlockRedComponent: Double {
+    didSet {
+      userDefaults.set(plusBlockRedComponent, forKey: "plusBlockRedComponent")
+    }
+  }
+  @Published public var plusBlockGreenComponent: Double {
+    didSet {
+      userDefaults.set(plusBlockGreenComponent, forKey: "plusBlockGreenComponent")
+    }
+  }
+  @Published public var plusBlockBlueComponent: Double {
+    didSet {
+      userDefaults.set(plusBlockBlueComponent, forKey: "plusBlockBlueComponent")
+    }
+  }
+  
+  // SettingBlockColor
+  @Published public var settingBlockRedComponent: Double {
+    didSet {
+      userDefaults.set(settingBlockRedComponent, forKey: "settingBlockRedComponent")
+    }
+  }
+  @Published public var settingBlockGreenComponent: Double {
+    didSet {
+      userDefaults.set(settingBlockGreenComponent, forKey: "settingBlockGreenComponent")
+    }
+  }
+  @Published public var settingBlockBlueComponent: Double {
+    didSet {
+      userDefaults.set(settingBlockBlueComponent, forKey: "settingBlockBlueComponent")
+    }
+  }
 
   private var userDefaults: UserDefaults
 
   public init(userDefaults: UserDefaults = .standard) {
     self.userDefaults = userDefaults
     self.isDarkMode = userDefaults.bool(forKey: "isDarkMode")
-    print("テスト \(userDefaults.string(forKey: "blockSizeType") ?? "failed")")
     self.blockSizeType = BlockSizeType(rawValue: userDefaults.string(forKey: "blockSizeType") ?? "medium") ?? .medium
     self.isShowBlockBorder = userDefaults.bool(forKey: "isShowBlockBorder")
+    // PlusBlockColor
+    self.plusBlockRedComponent = userDefaults.object(forKey: "plusBlockRedComponent") as? Double ?? 0
+    self.plusBlockGreenComponent = userDefaults.object(forKey: "plusBlockGreenComponent") as? Double ?? 0
+    self.plusBlockBlueComponent = userDefaults.object(forKey: "plusBlockBlueComponent") as? Double ?? 0
+    // SettingBlockColor
+    self.settingBlockRedComponent = userDefaults.object(forKey: "settingBlockRedComponent") as? Double ?? 0
+    self.settingBlockGreenComponent = userDefaults.object(forKey: "settingBlockGreenComponent") as? Double ?? 0
+    self.settingBlockBlueComponent = userDefaults.object(forKey: "settingBlockBlueComponent") as? Double ?? 0
   }
 
   public enum BlockSizeType: String {
@@ -65,29 +95,3 @@ public class AppSettingsService: ObservableObject {
     }
   }
 }
-
-// Color保存したい時に使う
-/*
- extension UserDefaults {
-     func setColor(_ color: Color, forKey key: String) {
-         let uiColor = UIColor(color)
-         self.set(uiColor.encode(), forKey: key)
-     }
-     
-     func color(forKey key: String) -> Color? {
-         guard let data = self.data(forKey: key),
-               let uiColor = UIColor.decode(data) else { return nil }
-         return Color(uiColor)
-     }
- }
-
- extension UIColor {
-     func encode() -> Data? {
-         try? NSKeyedArchiver.archivedData(withRootObject: self, requiringSecureCoding: false)
-     }
-     
-     static func decode(_ data: Data) -> UIColor? {
-         try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? UIColor
-     }
- }
- */
