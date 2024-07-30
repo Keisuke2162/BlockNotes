@@ -39,7 +39,7 @@ public struct EditIconView: View {
           Image(systemName: systemImageString)
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .padding(24)
+            .padding(20)
             .foregroundStyle(Color(uiColor: UIColor(red: redComponent, green: greenComponent, blue: blueComponent, alpha: 1).textColor()))
         }
         .frame(width: 80, height: 80)
