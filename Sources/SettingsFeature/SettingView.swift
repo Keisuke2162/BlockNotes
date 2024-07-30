@@ -37,31 +37,24 @@ public struct SettingView: View, Hashable {
               .foregroundStyle(settings.isDarkMode ? .white : .black)
           }
         }
-        
         // AddBlock
-        HStack {
-          Button {
-            
-          } label: {
+        NavigationLink {
+          PlusBlockSettingView()
+        } label: {
+          HStack {
             Text("+Blockをカスタム")
+              .foregroundStyle(settings.isDarkMode ? .white : .black)
           }
-          .foregroundStyle(settings.isDarkMode ? .white : .black)
-          Spacer()
-          Image(systemName: "chevron.right")
         }
-
         // SettingBlock
-        HStack {
-          Button {
-            
-          } label: {
+        NavigationLink {
+          SettingBlockSettingView()
+        } label: {
+          HStack {
             Text("SettingBlockをカスタム")
+              .foregroundStyle(settings.isDarkMode ? .white : .black)
           }
-          .foregroundStyle(settings.isDarkMode ? .white : .black)
-          Spacer()
-          Image(systemName: "chevron.right")
         }
-
         // FontSetting
         HStack {
           Button {

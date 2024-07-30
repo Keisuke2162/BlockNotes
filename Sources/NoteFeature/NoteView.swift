@@ -117,14 +117,3 @@ public struct NoteView: View {
     }
   }
 }
-
-//#Preview {
-//  struct PreviewView: View {
-//    @State private var item: NoteItem = .init(title: "Title1", content: "Content1", themeColor: .yellow, systemIconName: "house")
-//    
-//    var body: some View {
-//      NoteView(noteItem: $item)
-//    }
-//  }
-//  return PreviewView()
-//}

@@ -15,7 +15,6 @@ public struct BlockSettingView: View {
 
   public var body: some View {
     VStack(alignment: .center, spacing: 32) {
-      // TODO: アイコンサイズは小・中・大の選択式にする
       HStack(alignment: .center, spacing: 16) {
         // small
         blockTypeView(type: .small)
@@ -36,6 +35,7 @@ public struct BlockSettingView: View {
   
   @ViewBuilder
   private func blockTypeView(type: AppSettingsService.BlockSizeType) -> some View {
+    // TODO: この辺AppSettingsService内のメソッドと被ってるのでどうにかする
     var blockWidth: CGFloat {
       switch type {
       case .small:
@@ -58,6 +58,17 @@ public struct BlockSettingView: View {
       }
     }
   
+    var blockPadding: CGFloat {
+      switch type {
+      case .small:
+        12
+      case .medium:
+        16
+      case .large:
+        20
+      }
+    }
+  
     Button {
       settings.blockSizeType = type
     } label: {
@@ -75,7 +86,7 @@ public struct BlockSettingView: View {
             .resizable()
             .aspectRatio(contentMode: .fill)
             .foregroundStyle(.black)
-            .padding(12)
+            .padding(blockPadding)
         }
         .frame(width: blockWidth, height: blockWidth)
         .background(Color.gray)

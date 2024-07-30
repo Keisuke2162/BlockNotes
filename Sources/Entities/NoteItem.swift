@@ -19,6 +19,7 @@ public class NoteItem: Identifiable {
   public var greenComponent: Double
   public var blueComponent: Double
   public var systemIconName: String
+  public var blockTypeValue: String
 
   public var uiColor: UIColor {
     UIColor(red: CGFloat(redComponent), green: CGFloat(greenComponent), blue: CGFloat(blueComponent), alpha: 1)
@@ -28,35 +29,29 @@ public class NoteItem: Identifiable {
     Color(uiColor: uiColor)
   }
 
-  public init(title: String, content: String, redComponent: Double, greenComponent: Double, blueComponent: Double, systemIconName: String) {
+  public var blockType: BlockType {
+    get {
+      BlockType(rawValue: blockTypeValue) ?? .other
+    }
+    set {
+      blockTypeValue = newValue.rawValue
+    }
+  }
+
+  public init(title: String, content: String, redComponent: Double, greenComponent: Double, blueComponent: Double, systemIconName: String, blockType: BlockType) {
     self.title = title
     self.content = content
     self.redComponent = redComponent
     self.greenComponent = greenComponent
     self.blueComponent = blueComponent
     self.systemIconName = systemIconName
+    self.blockTypeValue = blockType.rawValue
   }
 }
-//
-//@Observable
-//public class NoteItemStore {
-//  public var notes: [NoteItem] = []
-//
-//  public init() {
-//    // TODO: 仮
-//    self.notes = [
-//      .init(title: "", content: "", noteColor: .blue, systemIconName: "plus", type: .add),
-//      .init(title: "", content: "", noteColor: .yellow, systemIconName: "gearshape", type: .setting),
-//      .init(title: "Title1", content: "Content1", noteColor: .yellow, systemIconName: "house", type: .note),
-//      .init(title: "Title2", content: "Content2", noteColor: .red, systemIconName: "house", type: .note),
-//    ]
-//  }
-//
-//  public func addItem(_ item: NoteItem) {
-//    notes.append(item)
-//  }
-//
-//  public func deleteItem(_ item: NoteItem) {
-//    notes.removeAll(where: { $0.id == item.id })
-//  }
-//}
+
+public enum BlockType: String, CaseIterable {
+  case note
+  case add
+  case setting
+  case other
+}

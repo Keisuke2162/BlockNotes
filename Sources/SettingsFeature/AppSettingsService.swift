@@ -94,4 +94,15 @@ public class AppSettingsService: ObservableObject {
       72
     }
   }
+
+  public func getBlockImagePadding() -> CGFloat {
+    switch blockSizeType {
+    case .small:
+      12
+    case .medium:
+      16
+    case .large:
+      20
+    }
+  }
 }

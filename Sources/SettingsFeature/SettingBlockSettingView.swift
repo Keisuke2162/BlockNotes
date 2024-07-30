@@ -1,14 +1,14 @@
 //
-//  PlusButtonSettingView.swift
+//  File.swift
 //  
 //
-//  Created by Kei on 2024/07/28.
+//  Created by Kei on 2024/07/29.
 //
 
 import Extensions
 import SwiftUI
 
-public struct PlusButtonSettingView: View {
+public struct SettingBlockSettingView: View {
   @EnvironmentObject var settings: AppSettingsService
   @State private var redComponent: Double = 0
   @State private var greenComponent: Double = 0
@@ -26,11 +26,10 @@ public struct PlusButtonSettingView: View {
   
   public var body: some View {
     VStack(alignment: .center, spacing: 32) {
-      Spacer()
       // アイコン
       Button {
       } label: {
-        Image(systemName: "plus")
+        Image(systemName: "gearshape")
           .resizable()
           .aspectRatio(contentMode: .fit)
           .padding(24)
@@ -73,14 +72,14 @@ public struct PlusButtonSettingView: View {
     }
     .padding(.horizontal, 32)
     .onAppear {
-        self.redComponent = settings.plusBlockRedComponent
-        self.greenComponent = settings.plusBlockGreenComponent
-        self.blueComponent = settings.plusBlockBlueComponent
+        self.redComponent = settings.settingBlockRedComponent
+        self.greenComponent = settings.settingBlockGreenComponent
+        self.blueComponent = settings.settingBlockBlueComponent
     }
     .onDisappear {
-      settings.plusBlockRedComponent = redComponent
-      settings.plusBlockGreenComponent = greenComponent
-      settings.plusBlockBlueComponent = blueComponent
+      settings.settingBlockRedComponent = redComponent
+      settings.settingBlockGreenComponent = greenComponent
+      settings.settingBlockBlueComponent = blueComponent
     }
   }
 }

@@ -52,7 +52,14 @@ public struct HomeView: View {
         }
       }
       .fullScreenCover(isPresented: $isAddingNote) {
-        let initialItem: NoteItem = .init(title: "", content: "", redComponent: 100, greenComponent: 100, blueComponent: 0, systemIconName: "house")
+        let initialColorComponent: CGFloat = settings.isDarkMode ? 255 : 0
+        let initialItem: NoteItem = .init(title: "",
+                                          content: "",
+                                          redComponent: initialColorComponent,
+                                          greenComponent: initialColorComponent,
+                                          blueComponent: initialColorComponent,
+                                          systemIconName: "house",
+                                          blockType: .note)
         NoteView(noteItem: initialItem, isEditNote: false) { item in
           addNote(item)
           addBlockViews(item: item)
@@ -67,6 +74,10 @@ public struct HomeView: View {
         view
       }
     }
+    .onChange(of: [settings.plusBlockRedComponent, settings.plusBlockGreenComponent, settings.plusBlockBlueComponent,
+                   settings.settingBlockRedComponent, settings.settingBlockGreenComponent, settings.settingBlockBlueComponent], { _, _ in
+      // initBlockViews()
+    })
     .preferredColorScheme(settings.isDarkMode ? .dark : .light)
   }
 }
@@ -88,7 +99,13 @@ extension HomeView {
   public func initBlockViews() {
     let blockFrame = settings.getBlockFrame()
     // Item追加Block
-    let addItem: NoteItem = .init(title: "", content: "", redComponent: 0, greenComponent: 0, blueComponent: 200, systemIconName: "plus")
+    let addItem: NoteItem = .init(title: "",
+                                  content: "",
+                                  redComponent: 0,
+                                  greenComponent: 0,
+                                  blueComponent: 0,
+                                  systemIconName: "plus",
+                                  blockType: .add)
     let addItemView = BlockItemView(item: addItem) { _ in
       self.isAddingNote = true
     }
@@ -97,9 +114,15 @@ extension HomeView {
       blockView.backgroundColor = .clear
       blockViews.append(blockView)
     }
-    
+
     // Setting遷移Block
-    let settingItem: NoteItem = .init(title: "", content: "", redComponent: 100, greenComponent: 100, blueComponent: 100, systemIconName: "gearshape")
+    let settingItem: NoteItem = .init(title: "", 
+                                      content: "",
+                                      redComponent: 0,
+                                      greenComponent: 0,
+                                      blueComponent: 0,
+                                      systemIconName: "gearshape",
+                                      blockType: .setting)
     let settingItemView = BlockItemView(item: settingItem) { _ in
       navigationPath.append(SettingView())
     }
@@ -140,5 +163,10 @@ extension HomeView {
       // FIXME: 追加ボタン、設定ボタン分の+2
       blockViews.remove(at: index + 2)
     }
+  }
+
+  // Blockを全て削除
+  public func removeAllBlock() {
+    blockViews.removeAll()
   }
 }
