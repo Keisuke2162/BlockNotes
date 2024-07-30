@@ -36,6 +36,13 @@ struct SymbolSelectView: View {
                 .foregroundColor(settings.isDarkMode ? .white : .black)
             }
             .frame(width: itemSize, height: itemSize)
+            .overlay {
+              RoundedRectangle(cornerRadius: 8)
+                .stroke(lineWidth: 2)
+                .fill(
+                  symbol == selectedSymbol ? (settings.isDarkMode ? .white : .black) : .clear
+                )
+            }
           }
         }
       }
