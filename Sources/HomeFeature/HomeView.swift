@@ -16,6 +16,7 @@ import SwiftData
 public struct HomeView: View {
   @Environment(\.modelContext) private var modelContext
   @EnvironmentObject var settings: AppSettingsService
+  private var blockSize: AppSettingsService.BlockSizeType = .medium
 
   @State private var navigationPath = NavigationPath()
   @State private var isFirstAppear = true
@@ -74,9 +75,9 @@ public struct HomeView: View {
         view
       }
     }
-    .onChange(of: [settings.plusBlockRedComponent, settings.plusBlockGreenComponent, settings.plusBlockBlueComponent,
-                   settings.settingBlockRedComponent, settings.settingBlockGreenComponent, settings.settingBlockBlueComponent], { _, _ in
-      // initBlockViews()
+    .onChange(of: settings.blockSizeType, { _, _ in
+      removeAllBlock()
+      initBlockViews()
     })
     .preferredColorScheme(settings.isDarkMode ? .dark : .light)
   }

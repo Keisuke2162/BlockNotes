@@ -9,6 +9,7 @@ import SwiftUI
 
 public struct BlockSettingView: View {
   @EnvironmentObject var settings: AppSettingsService
+  @State private var blockSizeType: AppSettingsService.BlockSizeType = .medium
 
   public init() {
   }
@@ -29,6 +30,12 @@ public struct BlockSettingView: View {
       // 枠線
       Toggle("枠線の表示", isOn: $settings.isShowBlockBorder)
         .padding(.horizontal, 32)
+    }
+    .onAppear {
+      self.blockSizeType = settings.blockSizeType
+    }
+    .onDisappear {
+      settings.blockSizeType = blockSizeType
     }
   }
   
@@ -70,7 +77,7 @@ public struct BlockSettingView: View {
     }
   
     Button {
-      settings.blockSizeType = type
+      self.blockSizeType = type
     } label: {
       VStack {
         Image(systemName: "checkmark")
@@ -78,7 +85,7 @@ public struct BlockSettingView: View {
           .frame(width: 24, height: 24)
           .aspectRatio(contentMode: .fill)
           .foregroundStyle(
-            settings.blockSizeType == type ? (settings.isDarkMode ? .white : .black) : .clear
+            self.blockSizeType == type ? (settings.isDarkMode ? .white : .black) : .clear
           )
           .padding(16)
         Group {

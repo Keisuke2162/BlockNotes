@@ -72,9 +72,9 @@ public struct SettingBlockSettingView: View {
     }
     .padding(.horizontal, 32)
     .onAppear {
-        self.redComponent = settings.settingBlockRedComponent
-        self.greenComponent = settings.settingBlockGreenComponent
-        self.blueComponent = settings.settingBlockBlueComponent
+      self.redComponent = settings.settingBlockRedComponent
+      self.greenComponent = settings.settingBlockGreenComponent
+      self.blueComponent = settings.settingBlockBlueComponent
     }
     .onDisappear {
       settings.settingBlockRedComponent = redComponent
