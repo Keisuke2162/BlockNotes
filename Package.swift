@@ -30,10 +30,12 @@ let package = Package(
       .target(name: "NoteFeature", dependencies: [
         "Entities",
         "Extensions",
+        "SettingsFeature",
       ]),
       .target(name: "RootFeature", dependencies: [
         "HomeFeature",
         "Entities",
+        "SettingsFeature",
       ]),
       .target(name: "SettingsFeature", dependencies: [
         "Extensions",

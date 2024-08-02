@@ -113,33 +113,33 @@ public class AppSettingsService: ObservableObject {
       20
     }
   }
+}
 
-  public enum AppFontType: String, CaseIterable {
-    case arial
-    case courier
-    case georgia
-    case helvetica
-    case timesNewRoman
-    case verdana
-    case system
+public enum AppFontType: String, CaseIterable {
+  case arial
+  case courier
+  case georgia
+  case helvetica
+  case timesNewRoman
+  case verdana
+  case system
 
-    var fontName: String {
-      switch self {
-      case .arial:
-        "Arial"
-      case .courier:
-        "Courier"
-      case .georgia:
-        "Georgia"
-      case .helvetica:
-        "Helvetica"
-      case .timesNewRoman:
-        "Times New Roman"
-      case .verdana:
-        "Verdana"
-      case .system:
-        "System"
-      }
+  var fontName: String {
+    switch self {
+    case .arial:
+      "Arial"
+    case .courier:
+      "Courier"
+    case .georgia:
+      "Georgia"
+    case .helvetica:
+      "Helvetica"
+    case .timesNewRoman:
+      "Times New Roman"
+    case .verdana:
+      "Verdana"
+    case .system:
+      "System"
     }
   }
 }

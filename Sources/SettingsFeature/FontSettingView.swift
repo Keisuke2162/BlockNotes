@@ -9,7 +9,7 @@ import SwiftUI
 
 public struct FontSettingView: View {
   @EnvironmentObject var settings: AppSettingsService
-  @State private var selectedFontType: AppSettingsService.AppFontType = .system
+  @State private var selectedFontType: AppFontType = .system
 
   public init() {
   }
@@ -20,7 +20,7 @@ public struct FontSettingView: View {
         .font(.custom(selectedFontType.fontName, size: 24))
         .padding()
       List {
-        ForEach(AppSettingsService.AppFontType.allCases, id: \.self) { font in
+        ForEach(AppFontType.allCases, id: \.self) { font in
           HStack {
             Text(font.fontName)
             Spacer()
