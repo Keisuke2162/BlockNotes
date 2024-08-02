@@ -6,9 +6,11 @@
 //
 
 import Entities
+import SettingsFeature
 import SwiftUI
 
 public struct NoteView: View {
+  @EnvironmentObject var settings: AppSettingsService
   @Bindable public var noteItem: NoteItem
   @FocusState private var focusedField: Field?
   @State private var isShowIconEditView = false
@@ -40,7 +42,7 @@ public struct NoteView: View {
         HStack {
           // タイトル入力
           TextField("Title", text: $noteItem.title)
-            .font(.title)
+            .font(.custom(settings.fontType.rawValue, size: 24).bold())
             .padding()
             .focused($focusedField, equals: .title)
             .onSubmit {
@@ -70,10 +72,11 @@ public struct NoteView: View {
         ZStack(alignment: .topLeading) {
           TextEditor(text:$noteItem.content)
             .padding()
+            .font(.custom(settings.fontType.rawValue, size: 16))
             .focused($focusedField, equals: .content)
           if noteItem.content.isEmpty {
             Text("Content")
-              .font(.title3)
+              .font(.custom(settings.fontType.rawValue, size: 16))
               .foregroundStyle(Color.gray.opacity(0.8))
               .padding(24)
           }
