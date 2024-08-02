@@ -56,19 +56,14 @@ public struct SettingView: View, Hashable {
           }
         }
         // FontSetting
-        HStack {
-          Button {
-            
-          } label: {
+        NavigationLink {
+          FontSettingView()
+        } label: {
+          HStack {
             Text("フォント設定")
+              .foregroundStyle(settings.isDarkMode ? .white : .black)
           }
-          .foregroundStyle(settings.isDarkMode ? .white : .black)
-          Spacer()
-          Image(systemName: "chevron.right")
         }
-        
-        // ダークモード
-        
       }
       // TODO: チュートリアル
       // TODO: 利用規約
