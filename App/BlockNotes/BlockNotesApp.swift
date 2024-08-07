@@ -6,6 +6,7 @@
 //
 
 import Entities
+import GoogleMobileAds
 import RootFeature
 import SettingsFeature
 import SwiftData
@@ -14,6 +15,7 @@ import SwiftUI
 @main
 struct BlockNotesApp: App {
   @StateObject private var settings = AppSettingsService()
+  @UIApplicationDelegateAdaptor (AppDelegate.self) var appDelegate
 
     var body: some Scene {
         WindowGroup {
@@ -22,4 +24,11 @@ struct BlockNotesApp: App {
         }
         .modelContainer(for: NoteItem.self)
     }
+}
+
+final class AppDelegate: UIResponder, UIApplicationDelegate {
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    GADMobileAds.sharedInstance().start(completionHandler: nil)
+    return true
+  }
 }
