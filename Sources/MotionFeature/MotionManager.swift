@@ -17,10 +17,10 @@ public class MotionManager: ObservableObject {
   private let threshold: CGFloat = 0.1  // 更新する閾値（例: 0.05ラジアン
 
   public init() {
-    startDeviceMotionUpdates()
+    // startDeviceMotionUpdates()
   }
 
-  func startDeviceMotionUpdates() {
+  public func startDeviceMotionUpdates() {
     if motionManager.isDeviceMotionAvailable {
       motionManager.deviceMotionUpdateInterval = 0.01
       motionManager.startDeviceMotionUpdates(to: .main) { (motion, error) in
@@ -36,6 +36,10 @@ public class MotionManager: ObservableObject {
 //        }
       }
     }
+  }
+
+  public func finishDeviceMotionUpdates() {
+    motionManager.stopDeviceMotionUpdates()
   }
 
   deinit {
