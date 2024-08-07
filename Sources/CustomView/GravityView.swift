@@ -11,10 +11,12 @@ import UIKit
 public struct GravityView: UIViewRepresentable {
   // TODO: 要検討：Bindingじゃなくて良いかも
   @Binding var animationViews: [UIView]
+  @Binding var angle: CGFloat
   let viewSize: CGSize
 
-  public init(animationViews: Binding<[UIView]>, viewSize: CGSize) {
+  public init(animationViews: Binding<[UIView]>, angle: Binding<CGFloat>, viewSize: CGSize) {
     self._animationViews = animationViews
+    self._angle = angle
     self.viewSize = viewSize
   }
 
@@ -43,10 +45,17 @@ public struct GravityView: UIViewRepresentable {
     
     return view
   }
-    
+
   public func updateUIView(_ uiView: UIView, context: Context) {
     // ボタンが追加または削除された場合の更新処理
-    context.coordinator.updateAnimator(animationViews, in: uiView)
+    if context.coordinator.currentAnimationViews != animationViews {
+      context.coordinator.updateAnimator(animationViews, angle, in: uiView)
+    }
+
+    // 端末の角度に変更があった場合の処理
+    if context.coordinator.currentAngle != angle {
+      context.coordinator.updateGravityAngle(animationViews, angle, in: uiView)
+    }
   }
     
   public func makeCoordinator() -> Coordinator {
@@ -56,33 +65,49 @@ public struct GravityView: UIViewRepresentable {
   public class Coordinator: NSObject {
     var parent: GravityView
     var animator: UIDynamicAnimator?
+
+    var currentAnimationViews: [UIView]
+    var currentAngle: CGFloat
+
+    var currentGravityBehavior: UIGravityBehavior
     
     init(_ parent: GravityView) {
       self.parent = parent
+      self.currentAnimationViews = parent.animationViews
+      self.currentAngle = parent.angle
+      self.currentGravityBehavior = UIGravityBehavior(items: parent.animationViews)
     }
     
-    func updateAnimator(_ animationViews: [UIView], in view: UIView) {
-      // 既存のボタンを削除
+    // Blockのアップデート
+    func updateAnimator(_ animationViews: [UIView], _ angle: CGFloat, in view: UIView) {
+      // 既存のBlockを削除
       view.subviews.forEach { $0.removeFromSuperview() }
-      // 新しいボタンを追加
+      // Blockを追加
       for animationView in animationViews {
         view.addSubview(animationView)
       }
       
-      // アニメーターの動作を更新
+      // Blockにアニメーターの動作を設定
       if let animator = animator {
         animator.removeAllBehaviors()
         
-        let gravity = UIGravityBehavior(items: animationViews)
+        currentGravityBehavior = UIGravityBehavior(items: animationViews)
+        currentGravityBehavior.angle = CGFloat(angle + CGFloat.pi / 2)
+
         let collision = UICollisionBehavior(items: animationViews)
         collision.translatesReferenceBoundsIntoBoundary = true
-  
-//        let barrierRect = CGRect(x: 0, y: 0 - parent.viewSize.height, width: parent.viewSize.width, height: parent.viewSize.height)
-//        collision.addBoundary(withIdentifier: "barrier" as NSCopying, for: UIBezierPath(rect: barrierRect))
         
         animator.addBehavior(collision)
-        animator.addBehavior(gravity)
+        animator.addBehavior(currentGravityBehavior)
       }
+
+      currentAnimationViews = animationViews
+    }
+
+    // 重力設定の変更
+    func updateGravityAngle(_ animationViews: [UIView], _ angle: CGFloat, in view: UIView) {
+      currentGravityBehavior.angle = CGFloat(angle + CGFloat.pi / 2)
+      currentAngle = angle
     }
   }
 }

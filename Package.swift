@@ -24,9 +24,11 @@ let package = Package(
       .target(name: "HomeFeature", dependencies: [
         "CustomView",
         "Entities",
+        "MotionFeature",
         "NoteFeature",
         "SettingsFeature",
       ]),
+      .target(name: "MotionFeature"),
       .target(name: "NoteFeature", dependencies: [
         "Entities",
         "Extensions",

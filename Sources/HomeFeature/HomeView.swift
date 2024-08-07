@@ -8,6 +8,7 @@
 import CustomView
 import Entities
 import Foundation
+import MotionFeature
 import NoteFeature
 import SettingsFeature
 import SwiftUI
@@ -25,6 +26,8 @@ public struct HomeView: View {
   @State private var isAddingNote = false
   @State private var editNoteItem: NoteItem?
   @State private var blockViews: [UIView] = []
+
+  @StateObject private var motionManager = MotionManager()
   
   public init() {
   }
@@ -32,7 +35,7 @@ public struct HomeView: View {
   public var body: some View {
     NavigationStack(path: $navigationPath) {
       GeometryReader { geometry in
-        GravityView(animationViews: $blockViews, viewSize: geometry.size)
+        GravityView(animationViews: $blockViews, angle: $motionManager.yaw, viewSize: geometry.size)
           .padding(.bottom, geometry.safeAreaInsets.bottom)
       }
       .onAppear {
