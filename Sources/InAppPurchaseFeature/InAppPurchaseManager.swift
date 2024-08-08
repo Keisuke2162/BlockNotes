@@ -22,6 +22,7 @@ public class InAppPurchaseManager: ObservableObject {
     do {
       let products = try await Product.products(for: ["premium_mode"])
       self.product = products.first
+      print("テスト \(products.first)")
     } catch {
       print("Failed to fetch products: \(error)")
     }

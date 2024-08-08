@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		670DB0E22C42F65400E9792B /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 670DB0E12C42F65400E9792B /* RootFeature */; };
 		677892CE2C62C2D80030D35C /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 677892CD2C62C2D80030D35C /* GoogleMobileAds */; };
+		677892D12C65606D0030D35C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 677892D02C65606D0030D35C /* StoreKit.framework */; };
 		67E4F4B32C4299C30012530F /* BlockNotesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E4F4B22C4299C30012530F /* BlockNotesApp.swift */; };
 		67E4F4B92C4299C30012530F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67E4F4B82C4299C30012530F /* Assets.xcassets */; };
 		67E4F4BC2C4299C30012530F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67E4F4BB2C4299C30012530F /* Preview Assets.xcassets */; };
@@ -16,6 +17,8 @@
 
 /* Begin PBXFileReference section */
 		673294F02C42B5D0007874EF /* BlockNotes */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = BlockNotes; path = ..; sourceTree = "<group>"; };
+		677892CF2C655FD80030D35C /* BlockNotePremiumConfiguration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = BlockNotePremiumConfiguration.storekit; sourceTree = "<group>"; };
+		677892D02C65606D0030D35C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		67B786DF2C5D66F20026D7ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		67E4F4AF2C4299C30012530F /* BlockNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlockNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67E4F4B22C4299C30012530F /* BlockNotesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockNotesApp.swift; sourceTree = "<group>"; };
@@ -28,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				677892D12C65606D0030D35C /* StoreKit.framework in Frameworks */,
 				677892CE2C62C2D80030D35C /* GoogleMobileAds in Frameworks */,
 				670DB0E22C42F65400E9792B /* RootFeature in Frameworks */,
 			);
@@ -39,6 +43,7 @@
 		670DB0DC2C42D1CD00E9792B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				677892D02C65606D0030D35C /* StoreKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -46,6 +51,7 @@
 		67E4F4A62C4299C30012530F = {
 			isa = PBXGroup;
 			children = (
+				677892CF2C655FD80030D35C /* BlockNotePremiumConfiguration.storekit */,
 				67E4F4B12C4299C30012530F /* BlockNotes */,
 				673294F02C42B5D0007874EF /* BlockNotes */,
 				67E4F4B02C4299C30012530F /* Products */,
