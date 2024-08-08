@@ -5,9 +5,11 @@
 //  Created by Kei on 2024/07/23.
 //
 
+import InAppPurchaseFeature
 import SwiftUI
 
 public struct SettingView: View, Hashable {
+  @StateObject private var purchaseManager = InAppPurchaseManager()
   @EnvironmentObject var settings: AppSettingsService
   
   let id = UUID()
@@ -65,6 +67,17 @@ public struct SettingView: View, Hashable {
           }
         }
       }
+      
+      // 課金
+      Button {
+        Task {
+          await purchaseManager.fetchProducts()
+          await purchaseManager.buyProduct()
+        }
+      } label: {
+        Text("プレミアムモード")
+      }
+
       // TODO: チュートリアル
       // TODO: 利用規約
       // TODO: バージョン

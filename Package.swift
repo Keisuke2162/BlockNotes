@@ -26,10 +26,12 @@ let package = Package(
         "AdFeature",
         "CustomView",
         "Entities",
+        "InAppPurchaseFeature",
         "MotionFeature",
         "NoteFeature",
         "SettingsFeature",
       ]),
+      .target(name: "InAppPurchaseFeature"),
       .target(name: "MotionFeature"),
       .target(name: "NoteFeature", dependencies: [
         "Entities",
@@ -43,6 +45,7 @@ let package = Package(
       ]),
       .target(name: "SettingsFeature", dependencies: [
         "Extensions",
+        "InAppPurchaseFeature",
       ]),
     ]
 )

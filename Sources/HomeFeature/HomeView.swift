@@ -9,6 +9,7 @@ import AdFeature
 import CustomView
 import Entities
 import Foundation
+import InAppPurchaseFeature
 import MotionFeature
 import NoteFeature
 import SettingsFeature
@@ -16,6 +17,8 @@ import SwiftUI
 import SwiftData
 
 public struct HomeView: View {
+  @StateObject private var purchaseManager = InAppPurchaseManager()
+
   @Environment(\.modelContext) private var modelContext
   @EnvironmentObject var settings: AppSettingsService
   private var blockSize: AppSettingsService.BlockSizeType = .medium
@@ -50,9 +53,11 @@ public struct HomeView: View {
       GeometryReader { geometry in
         VStack {
           GravityView(animationViews: $blockViews, angle: $motionManager.yaw, viewSize: geometry.size)
-          // バナー広告
-          BannerAdView()
-            .frame(width: geometry.size.width, height: 50, alignment: .center)
+          if !purchaseManager.isAdRemoved {
+            // バナー広告
+            BannerAdView()
+              .frame(width: geometry.size.width, height: 50, alignment: .center)
+          }
         }
       }
       .onAppear {
