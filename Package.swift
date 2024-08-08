@@ -10,6 +10,7 @@ let package = Package(
         .library(name: "RootFeature", targets: ["RootFeature"]),
         .library(name: "NoteFeature", targets: ["NoteFeature"]),
         .library(name: "Entities", targets: ["Entities"]),
+        .library(name: "InAppPurchaseFeature", targets: ["InAppPurchaseFeature"]),
         .library(name: "SettingsFeature", targets: ["SettingsFeature"]),
     ],
     dependencies: [

@@ -9,8 +9,10 @@ import InAppPurchaseFeature
 import SwiftUI
 
 public struct SettingView: View, Hashable {
-  @StateObject private var purchaseManager = InAppPurchaseManager()
+  @EnvironmentObject var purchaseManager: InAppPurchaseManager
   @EnvironmentObject var settings: AppSettingsService
+  
+  @State var isLoading: Bool = false
   
   let id = UUID()
   
@@ -26,62 +28,78 @@ public struct SettingView: View, Hashable {
   }
 
   public var body: some View {
-    Form {
-      Section("設定") {
-        // DarkMode
-        Toggle("ダークモード", isOn: $settings.isDarkMode)
-        // BlockSize
-        NavigationLink {
-          BlockSettingView()
-        } label: {
-          HStack {
-            Text("Blockのカスタム")
-              .foregroundStyle(settings.isDarkMode ? .white : .black)
+    ZStack {
+      Form {
+        Section("設定") {
+          // DarkMode
+          Toggle("ダークモード", isOn: $settings.isDarkMode)
+          // BlockSize
+          NavigationLink {
+            BlockSettingView()
+          } label: {
+            HStack {
+              Text("Blockのカスタム")
+                .foregroundStyle(settings.isDarkMode ? .white : .black)
+            }
+          }
+          // AddBlock
+          NavigationLink {
+            PlusBlockSettingView()
+          } label: {
+            HStack {
+              Text("+Blockをカスタム")
+                .foregroundStyle(settings.isDarkMode ? .white : .black)
+            }
+          }
+          // SettingBlock
+          NavigationLink {
+            SettingBlockSettingView()
+          } label: {
+            HStack {
+              Text("SettingBlockをカスタム")
+                .foregroundStyle(settings.isDarkMode ? .white : .black)
+            }
+          }
+          // FontSetting
+          NavigationLink {
+            FontSettingView()
+          } label: {
+            HStack {
+              Text("フォント設定")
+                .foregroundStyle(settings.isDarkMode ? .white : .black)
+            }
           }
         }
-        // AddBlock
-        NavigationLink {
-          PlusBlockSettingView()
-        } label: {
-          HStack {
-            Text("+Blockをカスタム")
-              .foregroundStyle(settings.isDarkMode ? .white : .black)
+        
+        // 課金
+        Button {
+          Task {
+            isLoading = true
+            await purchaseManager.fetchProducts()
+            await purchaseManager.buyProduct()
+            isLoading = false
           }
-        }
-        // SettingBlock
-        NavigationLink {
-          SettingBlockSettingView()
         } label: {
-          HStack {
-            Text("SettingBlockをカスタム")
-              .foregroundStyle(settings.isDarkMode ? .white : .black)
-          }
+          Text("プレミアムモード")
         }
-        // FontSetting
-        NavigationLink {
-          FontSettingView()
-        } label: {
-          HStack {
-            Text("フォント設定")
-              .foregroundStyle(settings.isDarkMode ? .white : .black)
-          }
-        }
-      }
-      
-      // 課金
-      Button {
-        Task {
-          await purchaseManager.fetchProducts()
-          await purchaseManager.buyProduct()
-        }
-      } label: {
-        Text("プレミアムモード")
-      }
+        .disabled(purchaseManager.isPurchasedProduct)
 
-      // TODO: チュートリアル
-      // TODO: 利用規約
-      // TODO: バージョン
+        Button {
+          Task {
+            isLoading = true
+            await purchaseManager.restorePurchases()
+            isLoading = false
+          }
+        } label: {
+          Text("プレミアムモードの購入を復元する")
+        }
+        .disabled(purchaseManager.isPurchasedProduct)
+
+        // TODO: チュートリアル
+        // TODO: 利用規約
+        // TODO: バージョン
+      }
+      .preferredColorScheme(settings.isDarkMode ? .dark : .light)
     }
-    .preferredColorScheme(settings.isDarkMode ? .dark : .light)
   }
 }

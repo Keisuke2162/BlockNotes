@@ -17,7 +17,7 @@ import SwiftUI
 import SwiftData
 
 public struct HomeView: View {
-  @StateObject private var purchaseManager = InAppPurchaseManager()
+  @EnvironmentObject var purchaseManager: InAppPurchaseManager
 
   @Environment(\.modelContext) private var modelContext
   @EnvironmentObject var settings: AppSettingsService
@@ -53,7 +53,7 @@ public struct HomeView: View {
       GeometryReader { geometry in
         VStack {
           GravityView(animationViews: $blockViews, angle: $motionManager.yaw, viewSize: geometry.size)
-          if !purchaseManager.isAdRemoved {
+          if !purchaseManager.isPurchasedProduct {
             // バナー広告
             BannerAdView()
               .frame(width: geometry.size.width, height: 50, alignment: .center)

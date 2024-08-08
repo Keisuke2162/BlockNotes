@@ -10,7 +10,7 @@ import StoreKit
 
 @MainActor
 public class InAppPurchaseManager: ObservableObject {
-  @Published public var isAdRemoved: Bool = UserDefaults.standard.bool(forKey: "isAdRemoved")
+  @Published public var isPurchasedProduct: Bool = UserDefaults.standard.bool(forKey: "isPurchasedProduct")
 
   private var product: Product?
 
@@ -22,7 +22,6 @@ public class InAppPurchaseManager: ObservableObject {
     do {
       let products = try await Product.products(for: ["premium_mode"])
       self.product = products.first
-      print("テスト \(products.first)")
     } catch {
       print("Failed to fetch products: \(error)")
     }
@@ -40,8 +39,8 @@ public class InAppPurchaseManager: ObservableObject {
           print("Transaction verification failed: \(verificationError)")
           
         case .verified(let transaction):
-          UserDefaults.standard.set(true, forKey: "isAdRemoved")
-          isAdRemoved = true
+          UserDefaults.standard.set(true, forKey: "isPurchasedProduct")
+          isPurchasedProduct = true
           await transaction.finish()
         }
       case .userCancelled:
@@ -62,8 +61,8 @@ public class InAppPurchaseManager: ObservableObject {
       for await result in Transaction.currentEntitlements {
         switch result {
         case .verified(let transaction):
-          UserDefaults.standard.set(true, forKey: "isAdRemoved")
-          isAdRemoved = true
+          UserDefaults.standard.set(true, forKey: "isPurchasedProduct")
+          isPurchasedProduct = true
           await transaction.finish()
         case .unverified:
           // Handle unverified transactions if needed
