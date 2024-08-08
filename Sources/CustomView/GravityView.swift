@@ -106,7 +106,8 @@ public struct GravityView: UIViewRepresentable {
 
     // 重力設定の変更
     func updateGravityAngle(_ animationViews: [UIView], _ angle: CGFloat, in view: UIView) {
-      currentGravityBehavior.angle = CGFloat(angle + CGFloat.pi / 2)
+      currentGravityBehavior.angle = angle
+      // CGFloat(angle + CGFloat.pi / 2)
       currentAngle = angle
     }
   }

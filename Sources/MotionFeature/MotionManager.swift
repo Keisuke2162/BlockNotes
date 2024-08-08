@@ -11,7 +11,7 @@ import CoreMotion
 public class MotionManager: ObservableObject {
   private var motionManager = CMMotionManager()
 
-  @Published public var yaw: CGFloat = 0
+  @Published public var angle: CGFloat = 0
 
   private var lastYaw: CGFloat = 0
   private let threshold: CGFloat = 0.1  // 更新する閾値（例: 0.05ラジアン
@@ -26,7 +26,9 @@ public class MotionManager: ObservableObject {
       motionManager.startDeviceMotionUpdates(to: .main) { (motion, error) in
         guard let motion else { return }
         
-        self.yaw = CGFloat(motion.attitude.yaw)
+        let gravity = motion.gravity
+        let angle = atan2(gravity.x, gravity.y) - .pi / 2
+        self.angle = CGFloat(angle)
 //        // 新しいyaw値
 //        let newYaw = CGFloat(motion.attitude.yaw)
 //        // 前回のyaw値との差分が閾値を超えていれば更新

@@ -31,6 +31,7 @@ public class InAppPurchaseManager: ObservableObject {
   public func buyProduct() async {
     guard let product else { return }
     do {
+      // TODO: Transaction.updatesのリッスン
       let result = try await product.purchase()
       switch result {
       case .success(let verificationResult):
