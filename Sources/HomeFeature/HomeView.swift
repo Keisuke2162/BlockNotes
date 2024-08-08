@@ -5,6 +5,7 @@
 //  Created by Kei on 2024/07/14.
 //
 
+import AdFeature
 import CustomView
 import Entities
 import Foundation
@@ -47,8 +48,12 @@ public struct HomeView: View {
   public var body: some View {
     NavigationStack(path: $navigationPath) {
       GeometryReader { geometry in
-        GravityView(animationViews: $blockViews, angle: $motionManager.yaw, viewSize: geometry.size)
-          .padding(.bottom, geometry.safeAreaInsets.bottom)
+        VStack {
+          GravityView(animationViews: $blockViews, angle: $motionManager.yaw, viewSize: geometry.size)
+          // バナー広告
+          BannerAdView(adUnitID: "ca-app-pub-3940256099942544/2934735716")
+            .frame(width: geometry.size.width, height: 50, alignment: .center)
+        }
       }
       .onAppear {
         if isFirstAppear {
