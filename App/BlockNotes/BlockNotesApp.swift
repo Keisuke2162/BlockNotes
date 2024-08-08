@@ -7,6 +7,7 @@
 
 import Entities
 import GoogleMobileAds
+import InAppPurchaseFeature
 import RootFeature
 import SettingsFeature
 import SwiftData
@@ -15,12 +16,14 @@ import SwiftUI
 @main
 struct BlockNotesApp: App {
   @StateObject private var settings = AppSettingsService()
+  @StateObject private var purchaseManager = InAppPurchaseManager()
   @UIApplicationDelegateAdaptor (AppDelegate.self) var appDelegate
 
     var body: some Scene {
         WindowGroup {
           RootView()
             .environmentObject(settings)
+            .environmentObject(purchaseManager)
         }
         .modelContainer(for: NoteItem.self)
     }
