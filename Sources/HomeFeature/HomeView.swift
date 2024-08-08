@@ -52,7 +52,7 @@ public struct HomeView: View {
     NavigationStack(path: $navigationPath) {
       GeometryReader { geometry in
         VStack {
-          GravityView(animationViews: $blockViews, angle: $motionManager.yaw, viewSize: geometry.size)
+          GravityView(animationViews: $blockViews, angle: $motionManager.angle, viewSize: geometry.size)
           if !purchaseManager.isPurchasedProduct {
             // バナー広告
             BannerAdView()
