@@ -51,7 +51,7 @@ public struct HomeView: View {
         VStack {
           GravityView(animationViews: $blockViews, angle: $motionManager.yaw, viewSize: geometry.size)
           // バナー広告
-          BannerAdView(adUnitID: "ca-app-pub-3940256099942544/2934735716")
+          BannerAdView()
             .frame(width: geometry.size.width, height: 50, alignment: .center)
         }
       }

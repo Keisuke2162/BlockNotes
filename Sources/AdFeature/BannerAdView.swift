@@ -9,10 +9,25 @@ import SwiftUI
 import GoogleMobileAds
 
 public struct BannerAdView: UIViewRepresentable {
-  var adUnitID: String
+  var adUnitID: String {
+    #if DEBUG
+    return "ca-app-pub-3940256099942544/2934735716" // テスト用広告ユニットID
+    #else
+    return "ca-app-pub-6087556183712349/8521002432"
+    #endif
+  }
+  
+  /*
+   var adUnitID: String {
+           #if DEBUG
+           return "ca-app-pub-3940256099942544/2934735716" // テスト用広告ユニットID
+           #else
+           return "your-real-ad-unit-id" // 本番用広告ユニットID
+           #endif
+       }
+   */
 
-  public init(adUnitID: String) {
-    self.adUnitID = adUnitID
+  public init() {
   }
 
   public func makeUIView(context: Context) -> GADBannerView {
