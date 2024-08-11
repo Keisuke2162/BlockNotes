@@ -173,11 +173,10 @@ public struct ColorPickerView: View {
 //        .frame(height: sliderHeight)
 //        .clipShape(.rect(cornerRadius: sliderHeight / 2))
       // 白 or 黒
-      
-      // TODO: Brightnessのデータ管理をisBlackのフラグで行うように変更(UserDefaultsとEntity)
-      // FIXME: → White or Custom or Blackのようなenumにしたい。できれば
-      // FIXME: brightnessの値はisBlackがtrueなら0, そうじゃないなら1
-      // TODO: 白or黒のToggleかButton実装、
+      /// Brightnessのデータ管理をisBlackのフラグで行うように変更(UserDefaultsとEntity)
+      /// → White or Custom or Blackのようなenumにしたい。できれば
+      /// brightnessの値はisBlackがtrueなら0, そうじゃないなら1
+      /// 白or黒のToggleかButton実装
       
     }
     .padding()
