@@ -58,7 +58,7 @@ public struct NoteView: View {
             Image(systemName: noteItem.systemIconName)
               .resizable()
               .aspectRatio(contentMode: .fit)
-              .foregroundStyle(Color(uiColor: noteItem.uiColor.textColor()))
+              .foregroundStyle(noteItem.color.foregroundColor)
               .padding(12)
           }
           .frame(width: 48, height: 48)

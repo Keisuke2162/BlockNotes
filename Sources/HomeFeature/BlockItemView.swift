@@ -48,13 +48,15 @@ public struct BlockItemView: View {
   private func getForegroundColor(item: NoteItem) -> Color {
     switch item.blockType {
     case .note:
-      return Color(uiColor: item.uiColor.textColor())
+      return item.color.foregroundColor
     case .add:
-      let uiColor = UIColor(hue: settings.plusBlockHue, saturation: settings.plusBlockSaturation, brightness: 1, alpha: 1)
-      return Color(uiColor: uiColor.textColor())
+      return Color(hue: settings.plusBlockHue,
+                   saturation: settings.plusBlockSaturation,
+                   brightness: settings.plusBlockBrightness).foregroundColor
     case .setting:
-      let uiColor = UIColor(hue: settings.settingBlockHue, saturation: settings.settingBlockSaturation, brightness: 1, alpha: 1)
-      return Color(uiColor: uiColor.textColor())
+      return Color(hue: settings.settingBlockHue,
+                   saturation: settings.settingBlockSaturation,
+                   brightness: settings.settingBlockBrightness).foregroundColor
     case .other:
       return settings.isDarkMode ? .black : .white
     }
@@ -65,9 +67,9 @@ public struct BlockItemView: View {
     case .note:
       return item.color
     case .add:
-      return Color(hue: settings.plusBlockHue, saturation: settings.plusBlockSaturation, brightness: 1)
+      return Color(hue: settings.plusBlockHue, saturation: settings.plusBlockSaturation, brightness: settings.plusBlockBrightness)
     case .setting:
-      return Color(hue: settings.settingBlockHue, saturation: settings.settingBlockSaturation, brightness: 1)
+      return Color(hue: settings.settingBlockHue, saturation: settings.settingBlockSaturation, brightness: settings.settingBlockBrightness)
     case .other:
       return settings.isDarkMode ? .white : .black
     }

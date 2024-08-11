@@ -16,14 +16,12 @@ public struct EditIconView: View {
 
   @State private var hue: Double = 0
   @State private var saturation: Double = 1
+  @State private var brightness: Double = 1
   
   @State private var systemImageString: String = ""
 
   private var backGroundColor: Color {
-    Color(hue: hue, saturation: saturation, brightness: 1)
-  }
-  private var hexColorText: String {
-    UIColor(hue: hue, saturation: saturation, brightness: 1, alpha: 1).toHexString()
+    Color(hue: hue, saturation: saturation, brightness: brightness)
   }
 
   public init(noteItem: NoteItem) {
@@ -41,14 +39,14 @@ public struct EditIconView: View {
             .resizable()
             .aspectRatio(contentMode: .fit)
             .padding(20)
-            .foregroundStyle(Color(uiColor: UIColor(hue: hue, saturation: saturation, brightness: 1, alpha: 1).textColor()))
+            .foregroundStyle(backGroundColor.foregroundColor)
         }
         .frame(width: 80, height: 80)
         .background(backGroundColor)
         .clipShape(.rect(cornerRadius: 8))
         .padding(.trailing, 32)
         // カラーピッカー
-        ColorPickerView(hue: $hue, saturation: $saturation)
+        ColorPickerView(hue: $hue, saturation: $saturation, brightness: $brightness)
         // アイコン選択
         SymbolSelectView(selectedSymbol: $systemImageString)
       }

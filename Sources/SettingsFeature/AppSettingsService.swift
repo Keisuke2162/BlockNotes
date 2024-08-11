@@ -33,10 +33,14 @@ public class AppSettingsService: ObservableObject {
       userDefaults.set(plusBlockHue, forKey: "plusBlockHue")
     }
   }
-
   @Published public var plusBlockSaturation: Double {
     didSet {
       userDefaults.set(plusBlockSaturation, forKey: "plusBlockSaturation")
+    }
+  }
+  @Published public var plusBlockBrightness: Double {
+    didSet {
+      userDefaults.set(plusBlockBrightness, forKey: "plusBlockBrightness")
     }
   }
   
@@ -46,10 +50,14 @@ public class AppSettingsService: ObservableObject {
       userDefaults.set(settingBlockHue, forKey: "settingBlockHue")
     }
   }
-
   @Published public var settingBlockSaturation: Double {
     didSet {
       userDefaults.set(settingBlockSaturation, forKey: "settingBlockSaturation")
+    }
+  }
+  @Published public var settingBlockBrightness: Double {
+    didSet {
+      userDefaults.set(settingBlockBrightness, forKey: "settingBlockBrightness")
     }
   }
 
@@ -66,7 +74,9 @@ public class AppSettingsService: ObservableObject {
     // 初期値設定
     userDefaults.register(defaults: [
       "plusBlockSaturation" : 1.0,
-      "settingBlockSaturation" : 1.0
+      "plusBlockBrightness": 1.0,
+      "settingBlockSaturation" : 1.0,
+      "settingBlockBrightness": 1.0
     ])
     // 設定値取り出し
     self.userDefaults = userDefaults
@@ -76,9 +86,12 @@ public class AppSettingsService: ObservableObject {
     // PlusBlockColor
     self.plusBlockHue = userDefaults.double(forKey: "plusBlockHue")
     self.plusBlockSaturation = userDefaults.double(forKey: "plusBlockSaturation")
+    self.plusBlockBrightness = userDefaults.double(forKey: "plusBlockBrightness")
     // SettingBlockColor
     self.settingBlockHue = userDefaults.double(forKey: "settingBlockHue")
     self.settingBlockSaturation = userDefaults.double(forKey: "settingBlockSaturation")
+    self.settingBlockBrightness = userDefaults.double(forKey: "settingBlockBrightness")
+
     self.fontType = AppFontType(rawValue: userDefaults.string(forKey: "fontType") ?? "system") ?? .system
   }
 

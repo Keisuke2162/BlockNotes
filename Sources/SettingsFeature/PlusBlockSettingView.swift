@@ -13,12 +13,10 @@ public struct PlusBlockSettingView: View {
   @EnvironmentObject var settings: AppSettingsService
   @State private var hue: Double = 0
   @State private var saturation: Double = 1
+  @State private var brightness: Double = 1
 
-  private var backGroundColor: Color {
-    Color(hue: hue, saturation: saturation, brightness: 1)
-  }
-  private var hexColorText: String {
-    UIColor(hue: hue, saturation: saturation, brightness: 1, alpha: 1).toHexString()
+  private var selectedColor: Color {
+    Color(hue: hue, saturation: saturation, brightness: brightness)
   }
 
   public init() {
@@ -33,24 +31,26 @@ public struct PlusBlockSettingView: View {
           .resizable()
           .aspectRatio(contentMode: .fit)
           .padding(24)
-          .foregroundStyle(Color(uiColor: UIColor(hue: hue, saturation: saturation, brightness: 1, alpha: 1).textColor()))
+          .foregroundStyle(selectedColor.foregroundColor)
       }
       .frame(width: 80, height: 80)
-      .background(backGroundColor)
+      .background(selectedColor)
       .clipShape(.rect(cornerRadius: 8))
       .padding(.trailing, 32)
 
       // カラーピッカー
-      ColorPickerView(hue: $hue, saturation: $saturation)
+      ColorPickerView(hue: $hue, saturation: $saturation, brightness: $brightness)
     }
     .padding(.horizontal, 32)
     .onAppear {
       self.hue = settings.plusBlockHue
       self.saturation = settings.plusBlockSaturation
+      self.brightness = settings.plusBlockBrightness
     }
     .onDisappear {
       settings.plusBlockHue = hue
       settings.plusBlockSaturation = saturation
+      settings.plusBlockBrightness = brightness
     }
   }
 }
