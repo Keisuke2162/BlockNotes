@@ -13,6 +13,8 @@ public struct PlusBlockSettingView: View {
   @State private var redComponent: Double = 0
   @State private var greenComponent: Double = 0
   @State private var blueComponent: Double = 0
+  
+  @State private var color = Color.blue
 
   private var backGroundColor: Color {
     Color(uiColor: UIColor(red: redComponent, green: greenComponent, blue: blueComponent, alpha: 1))
@@ -69,6 +71,9 @@ public struct PlusBlockSettingView: View {
         Spacer()
         Text("#\(hexColorText)")
       }
+      
+      // カラーピッカー
+      ColorPickerView(selectedColor: $color)
     }
     .padding(.horizontal, 32)
     .onAppear {
