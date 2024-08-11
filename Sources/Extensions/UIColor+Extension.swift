@@ -8,18 +8,17 @@
 import UIKit
 
 extension UIColor {
-    public func toHexString() -> String {
-        var r: CGFloat = 0
-        var g: CGFloat = 0
-        var b: CGFloat = 0
-        var a: CGFloat = 0
-        
-        getRed(&r, green: &g, blue: &b, alpha: &a)
-        
-        let rgb: Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
-        
-        return String(format: "%06X", rgb)
-    }
+  // カラーコード作成メソッド。使ってないけど一応残しとく
+  public func toHexString() -> String {
+    var r: CGFloat = 0
+    var g: CGFloat = 0
+    var b: CGFloat = 0
+    var a: CGFloat = 0
+    
+    getRed(&r, green: &g, blue: &b, alpha: &a)
+    let rgb: Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
+    return String(format: "%06X", rgb)
+  }
 
   public func textColor() -> UIColor {
     var red: CGFloat = 0

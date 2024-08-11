@@ -18,9 +18,6 @@ public struct PlusBlockSettingView: View {
   private var backGroundColor: Color {
     Color(hue: hue, saturation: saturation, brightness: brightness)
   }
-  private var hexColorText: String {
-    UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1).toHexString()
-  }
 
   public init() {
   }
