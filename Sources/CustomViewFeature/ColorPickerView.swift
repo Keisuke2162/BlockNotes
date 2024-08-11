@@ -91,7 +91,6 @@ public struct SaturationSlider: View {
 }
 
 public struct ColorPickerView: View {
-  // @Binding var selectedColor: Color
   @Binding private var hue: Double
   @Binding private var saturation: Double
   private let sliderHeight: CGFloat = 32
@@ -117,38 +116,11 @@ public struct ColorPickerView: View {
         .frame(height: sliderHeight)
         .clipShape(.rect(cornerRadius: sliderHeight / 2))
         .accentColor(.gray)
-//        .onChange(of: hue) {
-//          updateColor()
-//        }
       // 彩度スライダー
       SaturationSlider(hue: $hue, saturation: $saturation, height: sliderHeight)
         .frame(height: sliderHeight)
         .clipShape(.rect(cornerRadius: sliderHeight / 2))
-//        .onChange(of: saturation) {
-//          updateColor()
-//        }
-        
     }
     .padding()
-    .onAppear {
-//      let (h, s, _) = UIColor(hue: hue, saturation: saturation, brightness: 1, alpha: 1).hsb
-//      hue = h
-//      saturation = s
-    }
-  }
-
-//  private func updateColor() {
-//    selectedColor = Color(hue: hue, saturation: saturation, brightness: 1)
-//  }
-}
-
-extension UIColor {
-  var hsb: (hue: Double, saturation: Double, brigntness: Double) {
-    var h: CGFloat = 0
-    var s: CGFloat = 0
-    var b: CGFloat = 0
-    var a: CGFloat = 0
-    self.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
-    return (Double(h), Double(s), Double(b))
   }
 }

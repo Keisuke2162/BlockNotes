@@ -63,6 +63,12 @@ public class AppSettingsService: ObservableObject {
   private var userDefaults: UserDefaults
 
   public init(userDefaults: UserDefaults = .standard) {
+    // 初期値設定
+    userDefaults.register(defaults: [
+      "plusBlockSaturation" : 1.0,
+      "settingBlockSaturation" : 1.0
+    ])
+    // 設定値取り出し
     self.userDefaults = userDefaults
     self.isDarkMode = userDefaults.bool(forKey: "isDarkMode")
     self.blockSizeType = BlockSizeType(rawValue: userDefaults.string(forKey: "blockSizeType") ?? "medium") ?? .medium
