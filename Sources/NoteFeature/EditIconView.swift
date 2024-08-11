@@ -15,7 +15,7 @@ public struct EditIconView: View {
   @Bindable public var noteItem: NoteItem
 
   @State private var hue: Double = 0
-  @State private var saturation: Double = 0
+  @State private var saturation: Double = 1
   
   @State private var systemImageString: String = ""
 

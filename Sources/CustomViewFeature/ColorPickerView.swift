@@ -104,14 +104,14 @@ public struct ColorPickerView: View {
   public var body: some View {
     VStack(spacing: 20) {
       // 選択された色の表示
-      RoundedRectangle(cornerRadius: 20)
-        .fill(Color(hue: hue, saturation: saturation, brightness: 1))
-        .frame(height: 100)
-        .overlay(
-          RoundedRectangle(cornerRadius: 20)
-            .stroke(Color.white, lineWidth: 4)
-        )
-        .shadow(radius: 5)
+//      RoundedRectangle(cornerRadius: 20)
+//        .fill(Color(hue: hue, saturation: saturation, brightness: 1))
+//        .frame(height: 100)
+//        .overlay(
+//          RoundedRectangle(cornerRadius: 20)
+//            .stroke(Color.white, lineWidth: 4)
+//        )
+//        .shadow(radius: 5)
       // 色相スライダー
       ColorSlider(hue: $hue, height: sliderHeight)
         .frame(height: sliderHeight)

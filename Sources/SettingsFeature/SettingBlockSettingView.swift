@@ -12,7 +12,7 @@ import SwiftUI
 public struct SettingBlockSettingView: View {
   @EnvironmentObject var settings: AppSettingsService
   @State private var hue: Double = 0
-  @State private var saturation: Double = 0
+  @State private var saturation: Double = 1
 
   private var backGroundColor: Color {
     Color(hue: hue, saturation: saturation, brightness: 1)
@@ -45,12 +45,12 @@ public struct SettingBlockSettingView: View {
     }
     .padding(.horizontal, 32)
     .onAppear {
-      self.hue = settings.plusBlockHue
-      self.saturation = settings.plusBlockSaturation
+      self.hue = settings.settingBlockHue
+      self.saturation = settings.settingBlockSaturation
     }
     .onDisappear {
-      settings.plusBlockHue = hue
-      settings.plusBlockSaturation = saturation
+      settings.settingBlockHue = hue
+      settings.settingBlockSaturation = saturation
     }
   }
 }

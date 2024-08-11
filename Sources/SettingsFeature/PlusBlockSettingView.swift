@@ -12,7 +12,7 @@ import SwiftUI
 public struct PlusBlockSettingView: View {
   @EnvironmentObject var settings: AppSettingsService
   @State private var hue: Double = 0
-  @State private var saturation: Double = 0
+  @State private var saturation: Double = 1
 
   private var backGroundColor: Color {
     Color(hue: hue, saturation: saturation, brightness: 1)

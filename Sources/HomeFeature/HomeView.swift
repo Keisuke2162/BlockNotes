@@ -79,8 +79,8 @@ public struct HomeView: View {
         }
       }
       .fullScreenCover(isPresented: $isAddingNote) {
-        let initialHue: Double = settings.isDarkMode ? 1 : 0
-        let initialSaturation: Double = settings.isDarkMode ? 1 : 0
+        let initialHue: Double = settings.isDarkMode ? 0 : 1
+        let initialSaturation: Double = 1
         let initialItem: NoteItem = .init(title: "",
                                           content: "",
                                           hue: initialHue,
@@ -129,7 +129,7 @@ extension HomeView {
     let addItem: NoteItem = .init(title: "",
                                   content: "",
                                   hue: 0,
-                                  saturation: 0,
+                                  saturation: 1,
                                   systemIconName: "plus",
                                   blockType: .add)
     let addItemView = BlockItemView(item: addItem) { _ in
@@ -145,7 +145,7 @@ extension HomeView {
     let settingItem: NoteItem = .init(title: "", 
                                       content: "",
                                       hue: 0,
-                                      saturation: 0,
+                                      saturation: 1,
                                       systemIconName: "gearshape",
                                       blockType: .setting)
     let settingItemView = BlockItemView(item: settingItem) { _ in
