@@ -9,8 +9,13 @@ import Foundation
 import SwiftUI
 
 struct ColorSlider: View {
-  @Binding var value: Double
-  let height: CGFloat = 32
+  @Binding var hue: Double
+  let height: CGFloat
+
+  init(hue: Binding<Double>, height: CGFloat) {
+    self._hue = hue
+    self.height = height
+  }
 
   var body: some View {
     GeometryReader { geometry in
@@ -18,7 +23,7 @@ struct ColorSlider: View {
         LinearGradient(gradient: Gradient(colors: (0..<100).map { Color(hue: Double($0) / 100.0, saturation: 1, brightness: 1)}), startPoint: .leading, endPoint: .trailing)
           .overlay(
             RoundedRectangle(cornerRadius: height / 2)
-              .stroke(Color(hue: value, saturation: 1, brightness: 1), lineWidth: 4)
+              .stroke(Color(hue: hue, saturation: 1, brightness: 1), lineWidth: 4)
           )
         
         ZStack(alignment: .center) {
@@ -26,16 +31,16 @@ struct ColorSlider: View {
             .fill(.white)
             .frame(width: height, height: height)
           Circle()
-            .fill(Color(hue: value, saturation: 1, brightness: 1))
+            .fill(Color(hue: hue, saturation: 1, brightness: 1))
             .frame(width: height - 8, height: height - 8)
         }
         .offset(x: height / 2)
-        .position(x: CGFloat(self.value) * (geometry.size.width - height), y: geometry.size.height / 2)
+        .position(x: CGFloat(self.hue) * (geometry.size.width - height), y: geometry.size.height / 2)
         .gesture(
           DragGesture()
             .onChanged { gesture in
               let newValue = gesture.location.x / geometry.size.width
-              self.value = min(max(Double(newValue), 0), 1)
+              self.hue = min(max(Double(newValue), 0), 1)
             }
         )
       }
@@ -43,12 +48,18 @@ struct ColorSlider: View {
   }
 }
 
-struct SaturationSlider: View {
+public struct SaturationSlider: View {
   @Binding var hue: Double
-  @Binding var value: Double
-  let height: CGFloat = 32
+  @Binding var saturation: Double
+  let height: CGFloat
 
-  var body: some View {
+  init(hue: Binding<Double>, saturation: Binding<Double>, height: CGFloat) {
+    self._hue = hue
+    self._saturation = saturation
+    self.height = height
+  }
+
+  public var body: some View {
     GeometryReader { geometry in
       ZStack(alignment: .leading) {
         LinearGradient(gradient: Gradient(colors: (0..<100).map { Color(hue: hue, saturation: Double($0) / 100.0, brightness: 1)}), startPoint: .leading, endPoint: .trailing)
@@ -62,16 +73,16 @@ struct SaturationSlider: View {
             .fill(.white)
             .frame(width: height, height: height)
           Circle()
-            .fill(Color(hue: hue, saturation: value, brightness: 1))
+            .fill(Color(hue: hue, saturation: saturation, brightness: 1))
             .frame(width: height - 8, height: height - 8)
         }
         .offset(x: height / 2)
-        .position(x: CGFloat(self.value) * (geometry.size.width - height), y: geometry.size.height / 2)
+        .position(x: CGFloat(self.saturation) * (geometry.size.width - height), y: geometry.size.height / 2)
         .gesture(
           DragGesture()
             .onChanged { gesture in
               let newValue = gesture.location.x / geometry.size.width
-              self.value = min(max(Double(newValue), 0), 1)
+              self.saturation = min(max(Double(newValue), 0), 1)
             }
         )
       }
@@ -83,7 +94,7 @@ struct ColorPickerView: View {
   @Binding var selectedColor: Color
   @State private var hue: Double = 0
   @State private var saturation: Double = 1
-  // @State private var brightness: Double = 1
+  private let sliderHeight: CGFloat = 32
 
   var body: some View {
     VStack(spacing: 20) {
@@ -96,27 +107,18 @@ struct ColorPickerView: View {
             .stroke(Color.white, lineWidth: 4)
         )
         .shadow(radius: 5)
-      
       // 色相スライダー
-      ColorSlider(value: $hue)
-        .frame(height: 32)
-        .clipShape(.rect(cornerRadius: 16))
+      ColorSlider(hue: $hue, height: sliderHeight)
+        .frame(height: sliderHeight)
+        .clipShape(.rect(cornerRadius: sliderHeight / 2))
         .accentColor(.gray)
         .onChange(of: hue) {
           updateColor()
         }
-      
-//      // 明度スライダー
-//      Slider(value: $brightness, in: 0...1)
-//        .accentColor(.gray)
-//        .onChange(of: brightness) {
-//          updateColor()
-//        }
-      
       // 彩度スライダー
-      SaturationSlider(hue: $hue, value: $saturation)
-        .frame(height: 32)
-        .clipShape(.rect(cornerRadius: 16))
+      SaturationSlider(hue: $hue, saturation: $saturation, height: sliderHeight)
+        .frame(height: sliderHeight)
+        .clipShape(.rect(cornerRadius: sliderHeight / 2))
         .onChange(of: saturation) {
           updateColor()
         }
