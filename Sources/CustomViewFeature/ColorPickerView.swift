@@ -175,6 +175,7 @@ public struct ColorPickerView: View {
       // 白 or 黒
       
       // TODO: Brightnessのデータ管理をisBlackのフラグで行うように変更(UserDefaultsとEntity)
+      // FIXME: → White or Custom or Blackのようなenumにしたい。できれば
       // FIXME: brightnessの値はisBlackがtrueなら0, そうじゃないなら1
       // TODO: 白or黒のToggleかButton実装、
       
