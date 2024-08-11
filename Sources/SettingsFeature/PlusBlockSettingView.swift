@@ -10,17 +10,14 @@ import SwiftUI
 
 public struct PlusBlockSettingView: View {
   @EnvironmentObject var settings: AppSettingsService
-  @State private var redComponent: Double = 0
-  @State private var greenComponent: Double = 0
-  @State private var blueComponent: Double = 0
-  
-  @State private var color = Color.blue
+  @State private var hue: Double = 0
+  @State private var saturation: Double = 0
 
   private var backGroundColor: Color {
-    Color(uiColor: UIColor(red: redComponent, green: greenComponent, blue: blueComponent, alpha: 1))
+    Color(hue: hue, saturation: saturation, brightness: 1)
   }
   private var hexColorText: String {
-    UIColor(red: redComponent, green: greenComponent, blue: blueComponent, alpha: 1).toHexString()
+    UIColor(hue: hue, saturation: saturation, brightness: 1, alpha: 1).toHexString()
   }
 
   public init() {
@@ -35,56 +32,24 @@ public struct PlusBlockSettingView: View {
           .resizable()
           .aspectRatio(contentMode: .fit)
           .padding(24)
-          .foregroundStyle(Color(uiColor: UIColor(red: redComponent, green: greenComponent, blue: blueComponent, alpha: 1).textColor()))
+          .foregroundStyle(Color(uiColor: UIColor(hue: hue, saturation: saturation, brightness: 1, alpha: 1).textColor()))
       }
       .frame(width: 80, height: 80)
       .background(backGroundColor)
       .clipShape(.rect(cornerRadius: 8))
       .padding(.trailing, 32)
-      
-      // Red
-      HStack {
-        Text("Red")
-          .frame(width: 48, alignment: .trailing)
-        Slider(value: $redComponent, in: 0...1) { _ in
-        }
-      }
-      
-      // Green
-      HStack {
-        Text("Green")
-          .frame(width: 48, alignment: .trailing)
-        Slider(value: $greenComponent, in: 0...1) { _ in
-        }
-      }
-      
-      // Blue
-      HStack {
-        Text("Blue")
-          .frame(width: 48, alignment: .trailing)
-        Slider(value: $blueComponent, in: 0...1) { _ in
-        }
-      }
-      
-      // Hex
-      HStack {
-        Spacer()
-        Text("#\(hexColorText)")
-      }
-      
+
       // カラーピッカー
-      ColorPickerView(selectedColor: $color)
+      ColorPickerView(hue: $hue, saturation: $saturation)
     }
     .padding(.horizontal, 32)
     .onAppear {
-        self.redComponent = settings.plusBlockRedComponent
-        self.greenComponent = settings.plusBlockGreenComponent
-        self.blueComponent = settings.plusBlockBlueComponent
+      self.hue = settings.plusBlockHue
+      self.saturation = settings.plusBlockSaturation
     }
     .onDisappear {
-      settings.plusBlockRedComponent = redComponent
-      settings.plusBlockGreenComponent = greenComponent
-      settings.plusBlockBlueComponent = blueComponent
+      settings.plusBlockHue = hue
+      settings.plusBlockSaturation = saturation
     }
   }
 }

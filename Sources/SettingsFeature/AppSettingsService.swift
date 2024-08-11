@@ -28,36 +28,28 @@ public class AppSettingsService: ObservableObject {
   }
 
   // PlusBlockColor
-  @Published public var plusBlockRedComponent: Double {
+  @Published public var plusBlockHue: Double {
     didSet {
-      userDefaults.set(plusBlockRedComponent, forKey: "plusBlockRedComponent")
+      userDefaults.set(plusBlockHue, forKey: "plusBlockHue")
     }
   }
-  @Published public var plusBlockGreenComponent: Double {
+
+  @Published public var plusBlockSaturation: Double {
     didSet {
-      userDefaults.set(plusBlockGreenComponent, forKey: "plusBlockGreenComponent")
-    }
-  }
-  @Published public var plusBlockBlueComponent: Double {
-    didSet {
-      userDefaults.set(plusBlockBlueComponent, forKey: "plusBlockBlueComponent")
+      userDefaults.set(plusBlockSaturation, forKey: "plusBlockSaturation")
     }
   }
   
   // SettingBlockColor
-  @Published public var settingBlockRedComponent: Double {
+  @Published public var settingBlockHue: Double {
     didSet {
-      userDefaults.set(settingBlockRedComponent, forKey: "settingBlockRedComponent")
+      userDefaults.set(settingBlockHue, forKey: "settingBlockHue")
     }
   }
-  @Published public var settingBlockGreenComponent: Double {
+
+  @Published public var settingBlockSaturation: Double {
     didSet {
-      userDefaults.set(settingBlockGreenComponent, forKey: "settingBlockGreenComponent")
-    }
-  }
-  @Published public var settingBlockBlueComponent: Double {
-    didSet {
-      userDefaults.set(settingBlockBlueComponent, forKey: "settingBlockBlueComponent")
+      userDefaults.set(settingBlockSaturation, forKey: "settingBlockSaturation")
     }
   }
 
@@ -76,13 +68,11 @@ public class AppSettingsService: ObservableObject {
     self.blockSizeType = BlockSizeType(rawValue: userDefaults.string(forKey: "blockSizeType") ?? "medium") ?? .medium
     self.isShowBlockBorder = userDefaults.bool(forKey: "isShowBlockBorder")
     // PlusBlockColor
-    self.plusBlockRedComponent = userDefaults.object(forKey: "plusBlockRedComponent") as? Double ?? 0
-    self.plusBlockGreenComponent = userDefaults.object(forKey: "plusBlockGreenComponent") as? Double ?? 0
-    self.plusBlockBlueComponent = userDefaults.object(forKey: "plusBlockBlueComponent") as? Double ?? 0
+    self.plusBlockHue = userDefaults.double(forKey: "plusBlockHue")
+    self.plusBlockSaturation = userDefaults.double(forKey: "plusBlockSaturation")
     // SettingBlockColor
-    self.settingBlockRedComponent = userDefaults.object(forKey: "settingBlockRedComponent") as? Double ?? 0
-    self.settingBlockGreenComponent = userDefaults.object(forKey: "settingBlockGreenComponent") as? Double ?? 0
-    self.settingBlockBlueComponent = userDefaults.object(forKey: "settingBlockBlueComponent") as? Double ?? 0
+    self.settingBlockHue = userDefaults.double(forKey: "settingBlockHue")
+    self.settingBlockSaturation = userDefaults.double(forKey: "settingBlockSaturation")
     self.fontType = AppFontType(rawValue: userDefaults.string(forKey: "fontType") ?? "system") ?? .system
   }
 

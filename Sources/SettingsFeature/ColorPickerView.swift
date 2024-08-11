@@ -91,16 +91,21 @@ public struct SaturationSlider: View {
 }
 
 struct ColorPickerView: View {
-  @Binding var selectedColor: Color
-  @State private var hue: Double = 0
-  @State private var saturation: Double = 1
+  // @Binding var selectedColor: Color
+  @Binding private var hue: Double
+  @Binding private var saturation: Double
   private let sliderHeight: CGFloat = 32
+
+  init(hue: Binding<Double>, saturation: Binding<Double>) {
+    self._hue = hue
+    self._saturation = saturation
+  }
 
   var body: some View {
     VStack(spacing: 20) {
       // 選択された色の表示
       RoundedRectangle(cornerRadius: 20)
-        .fill(selectedColor)
+        .fill(Color(hue: hue, saturation: saturation, brightness: 1))
         .frame(height: 100)
         .overlay(
           RoundedRectangle(cornerRadius: 20)
@@ -112,29 +117,29 @@ struct ColorPickerView: View {
         .frame(height: sliderHeight)
         .clipShape(.rect(cornerRadius: sliderHeight / 2))
         .accentColor(.gray)
-        .onChange(of: hue) {
-          updateColor()
-        }
+//        .onChange(of: hue) {
+//          updateColor()
+//        }
       // 彩度スライダー
       SaturationSlider(hue: $hue, saturation: $saturation, height: sliderHeight)
         .frame(height: sliderHeight)
         .clipShape(.rect(cornerRadius: sliderHeight / 2))
-        .onChange(of: saturation) {
-          updateColor()
-        }
+//        .onChange(of: saturation) {
+//          updateColor()
+//        }
         
     }
     .padding()
     .onAppear {
-      let (h, s, _) = UIColor(selectedColor).hsb
-      hue = h
-      saturation = s
+//      let (h, s, _) = UIColor(hue: hue, saturation: saturation, brightness: 1, alpha: 1).hsb
+//      hue = h
+//      saturation = s
     }
   }
 
-  private func updateColor() {
-    selectedColor = Color(hue: hue, saturation: saturation, brightness: 1)
-  }
+//  private func updateColor() {
+//    selectedColor = Color(hue: hue, saturation: saturation, brightness: 1)
+//  }
 }
 
 extension UIColor {

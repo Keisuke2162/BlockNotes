@@ -15,18 +15,19 @@ public class NoteItem: Identifiable {
   public let id = UUID()
   public var title: String
   public var content: String
-  public var redComponent: Double
-  public var greenComponent: Double
-  public var blueComponent: Double
+  
+  public var hue: Double
+  public var saturation: Double
+  
   public var systemIconName: String
   public var blockTypeValue: String
 
   public var uiColor: UIColor {
-    UIColor(red: CGFloat(redComponent), green: CGFloat(greenComponent), blue: CGFloat(blueComponent), alpha: 1)
+    UIColor(hue: CGFloat(hue), saturation: CGFloat(saturation), brightness: 1, alpha: 1)
   }
 
   public var color: Color {
-    Color(uiColor: uiColor)
+    Color(hue: hue, saturation: saturation, brightness: 1)
   }
 
   public var blockType: BlockType {
@@ -38,12 +39,11 @@ public class NoteItem: Identifiable {
     }
   }
 
-  public init(title: String, content: String, redComponent: Double, greenComponent: Double, blueComponent: Double, systemIconName: String, blockType: BlockType) {
+  public init(title: String, content: String, hue: Double, saturation: Double, systemIconName: String, blockType: BlockType) {
     self.title = title
     self.content = content
-    self.redComponent = redComponent
-    self.greenComponent = greenComponent
-    self.blueComponent = blueComponent
+    self.hue = hue
+    self.saturation = saturation
     self.systemIconName = systemIconName
     self.blockTypeValue = blockType.rawValue
   }
