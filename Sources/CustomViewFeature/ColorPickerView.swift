@@ -70,7 +70,7 @@ public struct SaturationSlider: View {
   public var body: some View {
     GeometryReader { geometry in
       ZStack(alignment: .leading) {
-        LinearGradient(gradient: Gradient(colors: (0..<100).map { Color(hue: hue, saturation: Double($0) / 100.0, brightness: 1)}),
+        LinearGradient(gradient: Gradient(colors: (0..<100).map { Color(hue: hue, saturation: (100 - Double($0)) / 100.0, brightness: 1)}),
                        startPoint: .leading,
                        endPoint: .trailing)
           .overlay(
@@ -87,11 +87,11 @@ public struct SaturationSlider: View {
             .frame(width: height - 8, height: height - 8)
         }
         .offset(x: height / 2)
-        .position(x: CGFloat(self.saturation) * (geometry.size.width - height), y: geometry.size.height / 2)
+        .position(x: CGFloat(1 - self.saturation) * (geometry.size.width - height), y: geometry.size.height / 2)
         .gesture(
           DragGesture()
             .onChanged { gesture in
-              let newValue = gesture.location.x / geometry.size.width
+              let newValue = (geometry.size.width - gesture.location.x) / geometry.size.width
               self.saturation = min(max(Double(newValue), 0), 1)
             }
         )
@@ -117,7 +117,7 @@ public struct BrightnessSlider: View {
   public var body: some View {
     GeometryReader { geometry in
       ZStack(alignment: .leading) {
-        LinearGradient(gradient: Gradient(colors: (0..<100).map { Color(hue: hue, saturation: 1, brightness: Double($0) / 100.0)}), startPoint: .leading, endPoint: .trailing)
+        LinearGradient(gradient: Gradient(colors: (0..<100).map { Color(hue: hue, saturation: 1, brightness: (100 - Double($0)) / 100.0)}), startPoint: .leading, endPoint: .trailing)
           .overlay(
             RoundedRectangle(cornerRadius: height / 2)
               .stroke(Color(hue: hue, saturation: 1, brightness: 1), lineWidth: 4)
@@ -132,11 +132,11 @@ public struct BrightnessSlider: View {
             .frame(width: height - 8, height: height - 8)
         }
         .offset(x: height / 2)
-        .position(x: CGFloat(self.brightness) * (geometry.size.width - height), y: geometry.size.height / 2)
+        .position(x: CGFloat(1 - self.brightness) * (geometry.size.width - height), y: geometry.size.height / 2)
         .gesture(
           DragGesture()
             .onChanged { gesture in
-              let newValue = gesture.location.x / geometry.size.width
+              let newValue = (geometry.size.width - gesture.location.x) / geometry.size.width
               self.brightness = min(max(Double(newValue), 0), 1)
             }
         )
@@ -159,15 +159,6 @@ public struct ColorPickerView: View {
 
   public var body: some View {
     VStack(spacing: 20) {
-      // 選択された色の表示
-//      RoundedRectangle(cornerRadius: 20)
-//        .fill(Color(hue: hue, saturation: saturation, brightness: 1))
-//        .frame(height: 100)
-//        .overlay(
-//          RoundedRectangle(cornerRadius: 20)
-//            .stroke(Color.white, lineWidth: 4)
-//        )
-//        .shadow(radius: 5)
       // 色相スライダー
       ColorSlider(hue: $hue, saturation: $saturation, brightness: $brightness, height: sliderHeight)
         .frame(height: sliderHeight)
@@ -178,9 +169,15 @@ public struct ColorPickerView: View {
         .frame(height: sliderHeight)
         .clipShape(.rect(cornerRadius: sliderHeight / 2))
       // 明度スライダー
-      BrightnessSlider(hue: $hue, saturation: $saturation, brightness: $brightness, height: sliderHeight)
-        .frame(height: sliderHeight)
-        .clipShape(.rect(cornerRadius: sliderHeight / 2))
+//      BrightnessSlider(hue: $hue, saturation: $saturation, brightness: $brightness, height: sliderHeight)
+//        .frame(height: sliderHeight)
+//        .clipShape(.rect(cornerRadius: sliderHeight / 2))
+      // 白 or 黒
+      
+      // TODO: Brightnessのデータ管理をisBlackのフラグで行うように変更(UserDefaultsとEntity)
+      // FIXME: brightnessの値はisBlackがtrueなら0, そうじゃないなら1
+      // TODO: 白or黒のToggleかButton実装、
+      
     }
     .padding()
   }
