@@ -5,6 +5,7 @@
 //  Created by Kei on 2024/07/16.
 //
 
+import CustomViewFeature
 import Entities
 import Extensions
 import SwiftUI
@@ -13,16 +14,16 @@ public struct EditIconView: View {
   @Environment(\.dismiss) var dismiss
   @Bindable public var noteItem: NoteItem
 
-  @State private var redComponent: Double = 0
-  @State private var greenComponent: Double = 0
-  @State private var blueComponent: Double = 0
+  @State private var hue: Double = 0
+  @State private var saturation: Double = 1
+  
   @State private var systemImageString: String = ""
 
   private var backGroundColor: Color {
-    Color(uiColor: UIColor(red: redComponent, green: greenComponent, blue: blueComponent, alpha: 1))
+    Color(hue: hue, saturation: saturation, brightness: 1)
   }
   private var hexColorText: String {
-    UIColor(red: redComponent, green: greenComponent, blue: blueComponent, alpha: 1).toHexString()
+    UIColor(hue: hue, saturation: saturation, brightness: 1, alpha: 1).toHexString()
   }
 
   public init(noteItem: NoteItem) {
@@ -40,43 +41,15 @@ public struct EditIconView: View {
             .resizable()
             .aspectRatio(contentMode: .fit)
             .padding(20)
-            .foregroundStyle(Color(uiColor: UIColor(red: redComponent, green: greenComponent, blue: blueComponent, alpha: 1).textColor()))
+            .foregroundStyle(Color(uiColor: UIColor(hue: hue, saturation: saturation, brightness: 1, alpha: 1).textColor()))
         }
         .frame(width: 80, height: 80)
         .background(backGroundColor)
         .clipShape(.rect(cornerRadius: 8))
         .padding(.trailing, 32)
-        
-        // Red
-        HStack {
-          Text("Red")
-            .frame(width: 48, alignment: .trailing)
-          Slider(value: $redComponent, in: 0...1) { _ in
-          }
-        }
-        
-        // Green
-        HStack {
-          Text("Green")
-            .frame(width: 48, alignment: .trailing)
-          Slider(value: $greenComponent, in: 0...1) { _ in
-          }
-        }
-        
-        // Blue
-        HStack {
-          Text("Blue")
-            .frame(width: 48, alignment: .trailing)
-          Slider(value: $blueComponent, in: 0...1) { _ in
-          }
-        }
-        
-        // Hex
-        HStack {
-          Spacer()
-          Text("#\(hexColorText)")
-        }
-
+        // カラーピッカー
+        ColorPickerView(hue: $hue, saturation: $saturation)
+        // アイコン選択
         SymbolSelectView(selectedSymbol: $systemImageString)
       }
       .padding(.horizontal, 32)
@@ -90,9 +63,8 @@ public struct EditIconView: View {
         }
         ToolbarItem(placement: .topBarTrailing) {
           Button {
-            noteItem.redComponent = redComponent
-            noteItem.greenComponent = greenComponent
-            noteItem.blueComponent = blueComponent
+            noteItem.hue = hue
+            noteItem.saturation = saturation
             noteItem.systemIconName = systemImageString
             dismiss()
           } label: {
@@ -102,9 +74,8 @@ public struct EditIconView: View {
       }
     }
     .onAppear {
-      redComponent = noteItem.redComponent
-      greenComponent = noteItem.greenComponent
-      blueComponent = noteItem.blueComponent
+      hue = noteItem.hue
+      saturation = noteItem.saturation
       systemImageString =  noteItem.systemIconName
     }
   }
