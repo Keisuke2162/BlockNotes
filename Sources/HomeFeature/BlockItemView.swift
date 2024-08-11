@@ -50,16 +50,10 @@ public struct BlockItemView: View {
     case .note:
       return Color(uiColor: item.uiColor.textColor())
     case .add:
-      let uiColor = UIColor(red: CGFloat(settings.plusBlockRedComponent),
-                            green: CGFloat(settings.plusBlockGreenComponent),
-                            blue: CGFloat(settings.plusBlockBlueComponent),
-                            alpha: 1)
+      let uiColor = UIColor(hue: settings.plusBlockHue, saturation: settings.plusBlockSaturation, brightness: 1, alpha: 1)
       return Color(uiColor: uiColor.textColor())
     case .setting:
-      let uiColor = UIColor(red: CGFloat(settings.settingBlockRedComponent),
-                            green: CGFloat(settings.settingBlockGreenComponent),
-                            blue: CGFloat(settings.settingBlockBlueComponent),
-                            alpha: 1)
+      let uiColor = UIColor(hue: settings.settingBlockHue, saturation: settings.settingBlockSaturation, brightness: 1, alpha: 1)
       return Color(uiColor: uiColor.textColor())
     case .other:
       return settings.isDarkMode ? .black : .white
@@ -71,17 +65,9 @@ public struct BlockItemView: View {
     case .note:
       return item.color
     case .add:
-      let uiColor = UIColor(red: CGFloat(settings.plusBlockRedComponent),
-                            green: CGFloat(settings.plusBlockGreenComponent),
-                            blue: CGFloat(settings.plusBlockBlueComponent),
-                            alpha: 1)
-      return Color.init(uiColor: uiColor)
+      return Color(hue: settings.plusBlockHue, saturation: settings.plusBlockSaturation, brightness: 1)
     case .setting:
-      let uiColor = UIColor(red: CGFloat(settings.settingBlockRedComponent),
-                            green: CGFloat(settings.settingBlockGreenComponent),
-                            blue: CGFloat(settings.settingBlockBlueComponent),
-                            alpha: 1)
-      return Color.init(uiColor: uiColor)
+      return Color(hue: settings.settingBlockHue, saturation: settings.settingBlockSaturation, brightness: 1)
     case .other:
       return settings.isDarkMode ? .white : .black
     }

@@ -90,18 +90,18 @@ public struct SaturationSlider: View {
   }
 }
 
-struct ColorPickerView: View {
+public struct ColorPickerView: View {
   // @Binding var selectedColor: Color
   @Binding private var hue: Double
   @Binding private var saturation: Double
   private let sliderHeight: CGFloat = 32
 
-  init(hue: Binding<Double>, saturation: Binding<Double>) {
+  public init(hue: Binding<Double>, saturation: Binding<Double>) {
     self._hue = hue
     self._saturation = saturation
   }
 
-  var body: some View {
+  public var body: some View {
     VStack(spacing: 20) {
       // 選択された色の表示
       RoundedRectangle(cornerRadius: 20)

@@ -6,7 +6,7 @@
 //
 
 import AdFeature
-import CustomView
+import CustomViewFeature
 import Entities
 import Foundation
 import InAppPurchaseFeature
@@ -79,12 +79,12 @@ public struct HomeView: View {
         }
       }
       .fullScreenCover(isPresented: $isAddingNote) {
-        let initialColorComponent: CGFloat = settings.isDarkMode ? 255 : 0
+        let initialHue: Double = settings.isDarkMode ? 1 : 0
+        let initialSaturation: Double = settings.isDarkMode ? 1 : 0
         let initialItem: NoteItem = .init(title: "",
                                           content: "",
-                                          redComponent: initialColorComponent,
-                                          greenComponent: initialColorComponent,
-                                          blueComponent: initialColorComponent,
+                                          hue: initialHue,
+                                          saturation: initialSaturation,
                                           systemIconName: "house",
                                           blockType: .note)
         NoteView(noteItem: initialItem, isEditNote: false) { item in
@@ -128,9 +128,8 @@ extension HomeView {
     // Item追加Block
     let addItem: NoteItem = .init(title: "",
                                   content: "",
-                                  redComponent: 0,
-                                  greenComponent: 0,
-                                  blueComponent: 0,
+                                  hue: 0,
+                                  saturation: 0,
                                   systemIconName: "plus",
                                   blockType: .add)
     let addItemView = BlockItemView(item: addItem) { _ in
@@ -145,9 +144,8 @@ extension HomeView {
     // Setting遷移Block
     let settingItem: NoteItem = .init(title: "", 
                                       content: "",
-                                      redComponent: 0,
-                                      greenComponent: 0,
-                                      blueComponent: 0,
+                                      hue: 0,
+                                      saturation: 0,
                                       systemIconName: "gearshape",
                                       blockType: .setting)
     let settingItemView = BlockItemView(item: settingItem) { _ in

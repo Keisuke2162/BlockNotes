@@ -18,14 +18,14 @@ let package = Package(
     ],
     targets: [
       .target(name: "AdFeature"),
-      .target(name: "CustomView", dependencies: [
+      .target(name: "CustomViewFeature", dependencies: [
         "Entities",
       ]),
       .target(name: "Entities"),
       .target(name: "Extensions"),
       .target(name: "HomeFeature", dependencies: [
         "AdFeature",
-        "CustomView",
+        "CustomViewFeature",
         "Entities",
         "InAppPurchaseFeature",
         "MotionFeature",
@@ -35,6 +35,7 @@ let package = Package(
       .target(name: "InAppPurchaseFeature"),
       .target(name: "MotionFeature"),
       .target(name: "NoteFeature", dependencies: [
+        "CustomViewFeature",
         "Entities",
         "Extensions",
         "SettingsFeature",
@@ -45,6 +46,7 @@ let package = Package(
         "SettingsFeature",
       ]),
       .target(name: "SettingsFeature", dependencies: [
+        "CustomViewFeature",
         "Extensions",
         "InAppPurchaseFeature",
       ]),
