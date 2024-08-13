@@ -120,5 +120,10 @@ public struct NoteView: View {
     .sheet(isPresented: $isShowIconEditView) {
       EditIconView(noteItem: noteItem)
     }
+    .onAppear {
+      if !isEditNote {
+        focusedField = .title
+      }
+    }
   }
 }
