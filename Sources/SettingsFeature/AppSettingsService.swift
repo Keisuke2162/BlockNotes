@@ -73,8 +73,10 @@ public class AppSettingsService: ObservableObject {
   public init(userDefaults: UserDefaults = .standard) {
     // 初期値設定
     userDefaults.register(defaults: [
+      "plusBlockHue" : 0.5,
       "plusBlockSaturation" : 1.0,
-      "plusBlockBrightness": 1.0,
+      "plusBlockBrightness" : 1.0,
+      "settingBlockHue" : 0.5,
       "settingBlockSaturation" : 1.0,
       "settingBlockBrightness": 1.0
     ])

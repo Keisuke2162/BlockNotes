@@ -76,7 +76,7 @@ public struct HomeView: View {
         }
       }
       .fullScreenCover(isPresented: $isAddingNote) {
-        let initialHue: Double = settings.isDarkMode ? 0 : 1
+        let initialHue: Double = 0.5
         let initialSaturation: Double = 1
         let initialBrightness: Double = 1
         let initialItem: NoteItem = .init(title: "",
@@ -84,7 +84,7 @@ public struct HomeView: View {
                                           hue: initialHue,
                                           saturation: initialSaturation,
                                           brightness: initialBrightness,
-                                          systemIconName: "house",
+                                          systemIconName: "pencil",
                                           blockType: .note)
         NoteView(noteItem: initialItem, isEditNote: false) { newItem in
           addNote(newItem)
