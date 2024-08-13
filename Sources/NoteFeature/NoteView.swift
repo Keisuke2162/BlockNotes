@@ -112,7 +112,7 @@ public struct NoteView: View {
           } label: {
             Text("Save")
           }
-          .disabled(noteItem.title.isEmpty && noteItem.content.isEmpty)
+//          .disabled(noteItem.title.isEmpty && noteItem.content.isEmpty)
         }
       }
     }
