@@ -11,7 +11,8 @@ import SwiftUI
 
 public struct NoteView: View {
   @EnvironmentObject var settings: AppSettingsService
-  @Bindable public var noteItem: NoteItem
+  @State public var noteItem: NoteItem
+  // @State private var temporaryNoteItem: NoteItem
   @FocusState private var focusedField: Field?
   @State private var isShowIconEditView = false
   let isEditNote: Bool
@@ -112,7 +113,6 @@ public struct NoteView: View {
           } label: {
             Text("Save")
           }
-//          .disabled(noteItem.title.isEmpty && noteItem.content.isEmpty)
         }
       }
     }

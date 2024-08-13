@@ -26,7 +26,8 @@ public struct HomeView: View {
   @State private var navigationPath = NavigationPath()
   @State private var isFirstAppear = true
 
-  @Query private var notes: [NoteItem]
+  @Query(sort: \NoteItem.title) private var notes: [NoteItem]
+ //  @Query private var notes: [NoteItem]
   @State private var isAddingNote = false {
     didSet {
       isAddingNote ? motionManager.finishDeviceMotionUpdates() : motionManager.startDeviceMotionUpdates()
@@ -85,9 +86,9 @@ public struct HomeView: View {
                                           brightness: initialBrightness,
                                           systemIconName: "house",
                                           blockType: .note)
-        NoteView(noteItem: initialItem, isEditNote: false) { item in
-          addNote(item)
-          addBlockViews(item: item)
+        NoteView(noteItem: initialItem, isEditNote: false) { newItem in
+          addNote(newItem)
+          addBlockViews(item: newItem)
           isAddingNote = false
         } onCancel: {
           isAddingNote = false
@@ -111,10 +112,20 @@ public struct HomeView: View {
 extension HomeView {
   func addNote(_ item: NoteItem) {
     modelContext.insert(item)
+    do {
+      try modelContext.save()
+    } catch {
+      print("Failed to save data: \(error)")
+    }
   }
 
   func deleteNote(_ item: NoteItem) {
     modelContext.delete(item)
+    do {
+      try modelContext.save()
+    } catch {
+      print("Failed to save data: \(error)")
+    }
   }
 }
 
