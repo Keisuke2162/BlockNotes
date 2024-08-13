@@ -38,7 +38,7 @@ public struct SettingView: View, Hashable {
             BlockSettingView()
           } label: {
             HStack {
-              Text("Blockのカスタム")
+              Text("ボタンのカスタム")
                 .foregroundStyle(settings.isDarkMode ? .white : .black)
             }
           }
@@ -47,7 +47,7 @@ public struct SettingView: View, Hashable {
             PlusBlockSettingView()
           } label: {
             HStack {
-              Text("+Blockをカスタム")
+              Text("\(Image(systemName: "plus"))ボタンをカスタム")
                 .foregroundStyle(settings.isDarkMode ? .white : .black)
             }
           }
@@ -56,7 +56,7 @@ public struct SettingView: View, Hashable {
             SettingBlockSettingView()
           } label: {
             HStack {
-              Text("SettingBlockをカスタム")
+              Text("\(Image(systemName: "gearshape"))ボタンをカスタム")
                 .foregroundStyle(settings.isDarkMode ? .white : .black)
             }
           }
@@ -73,6 +73,7 @@ public struct SettingView: View, Hashable {
         
         // 課金
         Button {
+          // TODO: プレミアム訴求シートを表示
           Task {
             isLoading = true
             await purchaseManager.fetchProducts()
@@ -91,7 +92,7 @@ public struct SettingView: View, Hashable {
             isLoading = false
           }
         } label: {
-          Text("プレミアムモードの購入を復元する")
+          Text("購入を復元する")
         }
         .disabled(purchaseManager.isPurchasedProduct)
 
