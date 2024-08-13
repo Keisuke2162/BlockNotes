@@ -34,11 +34,7 @@ public struct HomeView: View {
   }
   @State private var editNoteItem: NoteItem? {
     didSet {
-      if editNoteItem != nil {
-        motionManager.finishDeviceMotionUpdates()
-      } else {
-        motionManager.startDeviceMotionUpdates()
-      }
+      editNoteItem != nil ? motionManager.finishDeviceMotionUpdates() : motionManager.startDeviceMotionUpdates()
     }
   }
   @State private var blockViews: [UIView] = []
