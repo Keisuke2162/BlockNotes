@@ -12,7 +12,7 @@ import UIKit
 
 @Model
 public class NoteItem: Identifiable {
-  public let id = UUID()
+  @Attribute(.unique) public let id = UUID()
   public var title: String
   public var content: String
   

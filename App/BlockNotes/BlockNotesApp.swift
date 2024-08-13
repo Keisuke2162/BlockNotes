@@ -18,15 +18,29 @@ struct BlockNotesApp: App {
   @StateObject private var settings = AppSettingsService()
   @StateObject private var purchaseManager = InAppPurchaseManager()
   @UIApplicationDelegateAdaptor (AppDelegate.self) var appDelegate
+  let container: ModelContainer
 
-    var body: some Scene {
-        WindowGroup {
-          RootView()
-            .environmentObject(settings)
-            .environmentObject(purchaseManager)
-        }
-        .modelContainer(for: NoteItem.self)
+  init() {
+    do {
+      let scheme = Schema([
+        NoteItem.self
+      ])
+      let modelConfiguration = ModelConfiguration(schema: scheme, isStoredInMemoryOnly: false)
+      container = try ModelContainer(for: scheme, configurations: [modelConfiguration])
+    } catch {
+      fatalError("Could not create ModelContainer: \(error)")
     }
+  }
+
+  var body: some Scene {
+    WindowGroup {
+      RootView()
+        .environmentObject(settings)
+        .environmentObject(purchaseManager)
+    }
+    .modelContainer(container)
+//    .modelContainer(for: container)
+  }
 }
 
 final class AppDelegate: UIResponder, UIApplicationDelegate {

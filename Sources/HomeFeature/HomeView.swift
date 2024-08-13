@@ -26,7 +26,8 @@ public struct HomeView: View {
   @State private var navigationPath = NavigationPath()
   @State private var isFirstAppear = true
 
-  @Query private var notes: [NoteItem]
+  @Query(sort: \NoteItem.title) private var notes: [NoteItem]
+ //  @Query private var notes: [NoteItem]
   @State private var isAddingNote = false {
     didSet {
       isAddingNote ? motionManager.finishDeviceMotionUpdates() : motionManager.startDeviceMotionUpdates()
@@ -34,11 +35,7 @@ public struct HomeView: View {
   }
   @State private var editNoteItem: NoteItem? {
     didSet {
-      if editNoteItem != nil {
-        motionManager.finishDeviceMotionUpdates()
-      } else {
-        motionManager.startDeviceMotionUpdates()
-      }
+      editNoteItem != nil ? motionManager.finishDeviceMotionUpdates() : motionManager.startDeviceMotionUpdates()
     }
   }
   @State private var blockViews: [UIView] = []
@@ -66,6 +63,7 @@ public struct HomeView: View {
           isFirstAppear = false
         }
         motionManager.startDeviceMotionUpdates()
+        // TODO: 初回起動時はtutorial用のブロックを追加する（SwiftDataにも追加）
       }
       .fullScreenCover(item: $editNoteItem) { item in
         NoteView(noteItem: item, isEditNote: true) { _ in
@@ -79,7 +77,7 @@ public struct HomeView: View {
         }
       }
       .fullScreenCover(isPresented: $isAddingNote) {
-        let initialHue: Double = settings.isDarkMode ? 0 : 1
+        let initialHue: Double = 0.5
         let initialSaturation: Double = 1
         let initialBrightness: Double = 1
         let initialItem: NoteItem = .init(title: "",
@@ -87,11 +85,11 @@ public struct HomeView: View {
                                           hue: initialHue,
                                           saturation: initialSaturation,
                                           brightness: initialBrightness,
-                                          systemIconName: "house",
+                                          systemIconName: "pencil",
                                           blockType: .note)
-        NoteView(noteItem: initialItem, isEditNote: false) { item in
-          addNote(item)
-          addBlockViews(item: item)
+        NoteView(noteItem: initialItem, isEditNote: false) { newItem in
+          addNote(newItem)
+          addBlockViews(item: newItem)
           isAddingNote = false
         } onCancel: {
           isAddingNote = false
@@ -115,10 +113,20 @@ public struct HomeView: View {
 extension HomeView {
   func addNote(_ item: NoteItem) {
     modelContext.insert(item)
+    do {
+      try modelContext.save()
+    } catch {
+      print("Failed to save data: \(error)")
+    }
   }
 
   func deleteNote(_ item: NoteItem) {
     modelContext.delete(item)
+    do {
+      try modelContext.save()
+    } catch {
+      print("Failed to save data: \(error)")
+    }
   }
 }
 
@@ -139,7 +147,7 @@ extension HomeView {
       self.isAddingNote = true
     }
     if let blockView = UIHostingController(rootView: addItemView).view {
-      blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 100, width: blockFrame, height: blockFrame)
+      blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y:200, width: blockFrame, height: blockFrame)
       blockView.backgroundColor = .clear
       blockViews.append(blockView)
     }
@@ -156,7 +164,7 @@ extension HomeView {
       navigationPath.append(SettingView())
     }
     if let blockView = UIHostingController(rootView: settingItemView).view {
-      blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 100, width: blockFrame, height: blockFrame)
+      blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 200, width: blockFrame, height: blockFrame)
       blockView.backgroundColor = .clear
       blockViews.append(blockView)
     }
@@ -166,7 +174,7 @@ extension HomeView {
         self.editNoteItem = noteItem
       }
       if let blockView = UIHostingController(rootView: blockItemView).view {
-        blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 10, width: blockFrame, height: blockFrame)
+        blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 100, width: blockFrame, height: blockFrame)
         blockView.backgroundColor = .clear
         blockViews.append(blockView)
       }
@@ -180,7 +188,7 @@ extension HomeView {
       self.editNoteItem = noteItem
     }
     if let blockView = UIHostingController(rootView: blockItemView).view {
-      blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 10, width: blockFrame, height: blockFrame)
+      blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 0, width: blockFrame, height: blockFrame)
       blockView.backgroundColor = .clear
       blockViews.append(blockView)
     }
@@ -198,4 +206,6 @@ extension HomeView {
   public func removeAllBlock() {
     blockViews.removeAll()
   }
+  
+  // TODO: チュートリアル用Blockの追加
 }

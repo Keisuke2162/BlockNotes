@@ -14,6 +14,13 @@ public struct SettingView: View, Hashable {
   
   @State var isLoading: Bool = false
   
+  var appVersion: String {
+    if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+      return "version \(version)"
+    }
+    return ""
+  }
+  
   let id = UUID()
   
   public func hash(into hasher: inout Hasher) {
@@ -38,7 +45,7 @@ public struct SettingView: View, Hashable {
             BlockSettingView()
           } label: {
             HStack {
-              Text("Blockのカスタム")
+              Text("ボタンのカスタム")
                 .foregroundStyle(settings.isDarkMode ? .white : .black)
             }
           }
@@ -47,7 +54,7 @@ public struct SettingView: View, Hashable {
             PlusBlockSettingView()
           } label: {
             HStack {
-              Text("+Blockをカスタム")
+              Text("\(Image(systemName: "plus"))ボタンをカスタム")
                 .foregroundStyle(settings.isDarkMode ? .white : .black)
             }
           }
@@ -56,7 +63,7 @@ public struct SettingView: View, Hashable {
             SettingBlockSettingView()
           } label: {
             HStack {
-              Text("SettingBlockをカスタム")
+              Text("\(Image(systemName: "gearshape"))ボタンをカスタム")
                 .foregroundStyle(settings.isDarkMode ? .white : .black)
             }
           }
@@ -73,6 +80,7 @@ public struct SettingView: View, Hashable {
         
         // 課金
         Button {
+          // TODO: プレミアム訴求シートを表示
           Task {
             isLoading = true
             await purchaseManager.fetchProducts()
@@ -91,15 +99,21 @@ public struct SettingView: View, Hashable {
             isLoading = false
           }
         } label: {
-          Text("プレミアムモードの購入を復元する")
+          Text("購入を復元する")
         }
         .disabled(purchaseManager.isPurchasedProduct)
 
         // TODO: チュートリアル
         // TODO: 利用規約
-        // TODO: バージョン
       }
-      .preferredColorScheme(settings.isDarkMode ? .dark : .light)
+      
+        VStack {
+          Spacer()
+          Text(appVersion)
+            .foregroundStyle(.gray)
+            .frame(height: 48)
+        }
     }
+    .preferredColorScheme(settings.isDarkMode ? .dark : .light)
   }
 }

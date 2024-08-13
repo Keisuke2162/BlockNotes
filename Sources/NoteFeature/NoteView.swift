@@ -11,7 +11,8 @@ import SwiftUI
 
 public struct NoteView: View {
   @EnvironmentObject var settings: AppSettingsService
-  @Bindable public var noteItem: NoteItem
+  @State public var noteItem: NoteItem
+  // @State private var temporaryNoteItem: NoteItem
   @FocusState private var focusedField: Field?
   @State private var isShowIconEditView = false
   let isEditNote: Bool
@@ -52,7 +53,6 @@ public struct NoteView: View {
 
           // アイコン
           Button {
-            // TODO: アイコン設定ページに飛ばす
             isShowIconEditView = true
           } label: {
             Image(systemName: noteItem.systemIconName)
@@ -76,9 +76,10 @@ public struct NoteView: View {
             .focused($focusedField, equals: .content)
           if noteItem.content.isEmpty {
             Text("Content")
-              .font(.custom(settings.fontType.rawValue, size: 16))
-              .foregroundStyle(Color.gray.opacity(0.8))
+              .font(.custom(settings.fontType.rawValue, size: 16).italic())
+              .foregroundStyle(Color.gray.opacity(0.6))
               .padding(24)
+              .padding(.leading, -2)
           }
         }
 
@@ -86,6 +87,7 @@ public struct NoteView: View {
           HStack {
             Spacer()
             Button {
+              // TODO: 削除確認アラートを表示
               onDelete(noteItem)
             } label: {
               Image(systemName: "trash")
@@ -100,6 +102,7 @@ public struct NoteView: View {
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
           Button {
+            // TODO: 保存されませんアラートを表示（表示しないオプション付き）
             onCancel()
           } label: {
             Text("Cancel")
@@ -111,12 +114,16 @@ public struct NoteView: View {
           } label: {
             Text("Save")
           }
-          .disabled(noteItem.title.isEmpty && noteItem.content.isEmpty)
         }
       }
     }
     .sheet(isPresented: $isShowIconEditView) {
       EditIconView(noteItem: noteItem)
+    }
+    .onAppear {
+      if !isEditNote {
+        focusedField = .title
+      }
     }
   }
 }

@@ -76,6 +76,7 @@ public struct BlockSettingView: View {
       }
     }
   
+    // TODO: Largeを選択した際にBlockが画面に表示されなくなるアラートを表示する
     Button {
       self.blockSizeType = type
     } label: {

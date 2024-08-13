@@ -50,6 +50,23 @@
             ReferencedContainer = "container:BlockNotes.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "com.apple.CoreData.SQLDebug"
+            value = "1"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "com.apple.CoreData.Logging.stderr"
+            value = "1"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "CD_DEBUG_IO"
+            value = "1"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <StoreKitConfigurationFileReference
          identifier = "../../BlockNotePremiumConfiguration.storekit">
       </StoreKitConfigurationFileReference>
