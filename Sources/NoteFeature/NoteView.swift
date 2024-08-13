@@ -76,9 +76,10 @@ public struct NoteView: View {
             .focused($focusedField, equals: .content)
           if noteItem.content.isEmpty {
             Text("Content")
-              .font(.custom(settings.fontType.rawValue, size: 16))
-              .foregroundStyle(Color.gray.opacity(0.8))
+              .font(.custom(settings.fontType.rawValue, size: 16).italic())
+              .foregroundStyle(Color.gray.opacity(0.6))
               .padding(24)
+              .padding(.leading, -2)
           }
         }
 
