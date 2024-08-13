@@ -88,6 +88,7 @@ public struct NoteView: View {
           HStack {
             Spacer()
             Button {
+              // TODO: 削除確認アラートを表示
               onDelete(noteItem)
             } label: {
               Image(systemName: "trash")
