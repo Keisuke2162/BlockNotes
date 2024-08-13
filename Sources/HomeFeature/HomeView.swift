@@ -63,6 +63,7 @@ public struct HomeView: View {
           isFirstAppear = false
         }
         motionManager.startDeviceMotionUpdates()
+        // TODO: 初回起動時はtutorial用のブロックを追加する（SwiftDataにも追加）
       }
       .fullScreenCover(item: $editNoteItem) { item in
         NoteView(noteItem: item, isEditNote: true) { _ in
@@ -205,4 +206,6 @@ extension HomeView {
   public func removeAllBlock() {
     blockViews.removeAll()
   }
+  
+  // TODO: チュートリアル用Blockの追加
 }

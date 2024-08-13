@@ -103,6 +103,7 @@ public struct NoteView: View {
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
           Button {
+            // TODO: 保存されませんアラートを表示（表示しないオプション付き）
             onCancel()
           } label: {
             Text("Cancel")
