@@ -14,6 +14,13 @@ public struct SettingView: View, Hashable {
   
   @State var isLoading: Bool = false
   
+  var appVersion: String {
+    if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+      return "version \(version)"
+    }
+    return ""
+  }
+  
   let id = UUID()
   
   public func hash(into hasher: inout Hasher) {
@@ -100,7 +107,14 @@ public struct SettingView: View, Hashable {
         // TODO: 利用規約
         // TODO: バージョン
       }
-      .preferredColorScheme(settings.isDarkMode ? .dark : .light)
+      
+        VStack {
+          Spacer()
+          Text(appVersion)
+            .foregroundStyle(.gray)
+            .frame(height: 48)
+        }
     }
+    .preferredColorScheme(settings.isDarkMode ? .dark : .light)
   }
 }
