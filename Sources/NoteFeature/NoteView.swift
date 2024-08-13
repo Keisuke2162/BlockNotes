@@ -53,7 +53,6 @@ public struct NoteView: View {
 
           // アイコン
           Button {
-            // TODO: アイコン設定ページに飛ばす
             isShowIconEditView = true
           } label: {
             Image(systemName: noteItem.systemIconName)

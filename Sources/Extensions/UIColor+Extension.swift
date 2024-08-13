@@ -20,20 +20,6 @@ extension UIColor {
     return String(format: "%06X", rgb)
   }
 
-  // TODO: Color+Extensionの方で代用できているからそのうち消す
-//  public func textColor() -> UIColor {
-//    var red: CGFloat = 0
-//    var green: CGFloat = 0
-//    var blue: CGFloat = 0
-//    var alpha: CGFloat = 0
-//
-//    self.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-//
-//    let luminance = 0.2126 * red + 0.7152 * green + 0.0722 * blue
-//
-//    return luminance > 0.5 ? .black : .white
-//  }
-
   var hsb: (hue: Double, saturation: Double, brightness: Double) {
     var h: CGFloat = 0, s: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
     self.getHue(&h, saturation: &s, brightness: &b, alpha: &a)

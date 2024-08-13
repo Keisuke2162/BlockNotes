@@ -105,7 +105,6 @@ public struct SettingView: View, Hashable {
 
         // TODO: チュートリアル
         // TODO: 利用規約
-        // TODO: バージョン
       }
       
         VStack {
