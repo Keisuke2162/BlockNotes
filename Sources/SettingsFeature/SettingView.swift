@@ -39,7 +39,7 @@ public struct SettingView: View, Hashable {
       Form {
         Section("設定") {
           // DarkMode
-          Toggle("ダークモード", isOn: $settings.isDarkMode)
+          Toggle(String(localized: "dark_mode"), isOn: $settings.isDarkMode)
           // BlockSize
           NavigationLink {
             BlockSettingView()
