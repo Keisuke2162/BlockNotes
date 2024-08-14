@@ -37,7 +37,7 @@ public struct SettingView: View, Hashable {
   public var body: some View {
     ZStack {
       Form {
-        Section("設定") {
+        Section(String(localized: "settings")) {
           // DarkMode
           Toggle(String(localized: "dark_mode"), isOn: $settings.isDarkMode)
           // BlockSize
@@ -45,7 +45,7 @@ public struct SettingView: View, Hashable {
             BlockSettingView()
           } label: {
             HStack {
-              Text("ボタンのカスタム")
+              Text(String(localized: "setting_block"))
                 .foregroundStyle(settings.isDarkMode ? .white : .black)
             }
           }
@@ -54,7 +54,7 @@ public struct SettingView: View, Hashable {
             PlusBlockSettingView()
           } label: {
             HStack {
-              Text("\(Image(systemName: "plus"))ボタンをカスタム")
+              Text("\(Image(systemName: "plus"))\(String(localized: "setting_block"))")
                 .foregroundStyle(settings.isDarkMode ? .white : .black)
             }
           }
@@ -63,7 +63,7 @@ public struct SettingView: View, Hashable {
             SettingBlockSettingView()
           } label: {
             HStack {
-              Text("\(Image(systemName: "gearshape"))ボタンをカスタム")
+              Text("\(Image(systemName: "gearshape"))\(String(localized: "setting_block"))")
                 .foregroundStyle(settings.isDarkMode ? .white : .black)
             }
           }
@@ -72,7 +72,7 @@ public struct SettingView: View, Hashable {
             FontSettingView()
           } label: {
             HStack {
-              Text("フォント設定")
+              Text(String(localized: "setting_font"))
                 .foregroundStyle(settings.isDarkMode ? .white : .black)
             }
           }
@@ -88,7 +88,7 @@ public struct SettingView: View, Hashable {
             isLoading = false
           }
         } label: {
-          Text("プレミアムモード")
+          Text(String(localized: "premium_mode"))
         }
         .disabled(purchaseManager.isPurchasedProduct)
 
@@ -99,7 +99,7 @@ public struct SettingView: View, Hashable {
             isLoading = false
           }
         } label: {
-          Text("購入を復元する")
+          Text(String(localized: "restore_premium"))
         }
         .disabled(purchaseManager.isPurchasedProduct)
 
