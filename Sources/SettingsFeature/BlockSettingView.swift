@@ -28,7 +28,7 @@ public struct BlockSettingView: View {
       }
       .padding(.horizontal, 16)
       // 枠線
-      Toggle("枠線の表示", isOn: $settings.isShowBlockBorder)
+      Toggle(String(localized: "show_border"), isOn: $settings.isShowBlockBorder)
         .padding(.horizontal, 32)
     }
     .onAppear {
