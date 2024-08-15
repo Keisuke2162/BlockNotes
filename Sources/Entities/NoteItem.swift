@@ -23,10 +23,6 @@ public class NoteItem: Identifiable {
   public var systemIconName: String
   public var blockTypeValue: String
 
-//  public var uiColor: UIColor {
-//    UIColor(hue: CGFloat(hue), saturation: CGFloat(saturation), brightness: CGFloat(brightness), alpha: 1)
-//  }
-
   public var color: Color {
     Color(hue: hue, saturation: saturation, brightness: brightness)
   }
@@ -55,5 +51,6 @@ public enum BlockType: String, CaseIterable {
   case note
   case add
   case setting
+  case tutorial
   case other
 }

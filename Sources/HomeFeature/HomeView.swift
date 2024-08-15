@@ -26,8 +26,7 @@ public struct HomeView: View {
   @State private var navigationPath = NavigationPath()
   @State private var isFirstAppear = true
 
-  @Query(sort: \NoteItem.title) private var notes: [NoteItem]
- //  @Query private var notes: [NoteItem]
+  @Query private var notes: [NoteItem]
   @State private var isAddingNote = false {
     didSet {
       isAddingNote ? motionManager.finishDeviceMotionUpdates() : motionManager.startDeviceMotionUpdates()
@@ -64,6 +63,10 @@ public struct HomeView: View {
         }
         motionManager.startDeviceMotionUpdates()
         // TODO: 初回起動時はtutorial用のブロックを追加する（SwiftDataにも追加）
+        if settings.isFirstLaunch {
+          addTutorialBlock()
+          settings.isFirstLaunch = false
+        }
       }
       .fullScreenCover(item: $editNoteItem) { item in
         NoteView(noteItem: item, isEditNote: true) { _ in
@@ -206,6 +209,17 @@ extension HomeView {
   public func removeAllBlock() {
     blockViews.removeAll()
   }
-  
-  // TODO: チュートリアル用Blockの追加
+
+  // チュートリアル用
+  public func addTutorialBlock() {
+    let tutorialItem: NoteItem = .init(title: String(localized: "tutorial_title"),
+                                       content: "",
+                                       hue: 0.5,
+                                       saturation: 1,
+                                       brightness: 1,
+                                       systemIconName: "book",
+                                       blockType: .tutorial)
+    addNote(tutorialItem)
+    addBlockViews(item: tutorialItem)
+  }
 }
