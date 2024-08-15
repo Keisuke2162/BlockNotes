@@ -26,8 +26,7 @@ public struct HomeView: View {
   @State private var navigationPath = NavigationPath()
   @State private var isFirstAppear = true
 
-  @Query(sort: \NoteItem.title) private var notes: [NoteItem]
- //  @Query private var notes: [NoteItem]
+  @Query private var notes: [NoteItem]
   @State private var isAddingNote = false {
     didSet {
       isAddingNote ? motionManager.finishDeviceMotionUpdates() : motionManager.startDeviceMotionUpdates()
@@ -210,8 +209,8 @@ extension HomeView {
   public func removeAllBlock() {
     blockViews.removeAll()
   }
-  
-  // TODO: チュートリアル用Blockの追加
+
+  // チュートリアル用
   public func addTutorialBlock() {
     let tutorialItem: NoteItem = .init(title: String(localized: "tutorial_title"),
                                        content: "",
@@ -219,7 +218,7 @@ extension HomeView {
                                        saturation: 1,
                                        brightness: 1,
                                        systemIconName: "book",
-                                       blockType: .note)
+                                       blockType: .tutorial)
     addNote(tutorialItem)
     addBlockViews(item: tutorialItem)
   }

@@ -13,6 +13,7 @@ import SwiftUI
 public struct BlockItemView: View {
   @EnvironmentObject var settings: AppSettingsService
 
+  @State private var isBlinking = false
   let item: NoteItem
   let buttonTapAction: (NoteItem) -> Void
 
@@ -32,6 +33,13 @@ public struct BlockItemView: View {
         .aspectRatio(contentMode: .fill)
         .foregroundColor(getForegroundColor(item: item))
         .padding(padding)
+        .opacity(item.blockType == .tutorial && isBlinking ? 0 : 1)
+        .animation(item.blockType == .tutorial ? Animation.easeInOut(duration: 0.5).repeatForever(autoreverses: true) : .bouncy, value: isBlinking)
+        .onAppear {
+          if item.blockType == .tutorial {
+            isBlinking = true
+          }
+        }
     })
     .frame(width: blockFrame, height: blockFrame)
     .background(getBackgroundColor(item: item))
@@ -47,7 +55,7 @@ public struct BlockItemView: View {
 
   private func getForegroundColor(item: NoteItem) -> Color {
     switch item.blockType {
-    case .note:
+    case .note, .tutorial:
       return item.color.foregroundColor
     case .add:
       return Color(hue: settings.plusBlockHue,
@@ -64,7 +72,7 @@ public struct BlockItemView: View {
 
   private func getBackgroundColor(item: NoteItem) -> Color {
     switch item.blockType {
-    case .note:
+    case .note, .tutorial:
       return item.color
     case .add:
       return Color(hue: settings.plusBlockHue, saturation: settings.plusBlockSaturation, brightness: settings.plusBlockBrightness)

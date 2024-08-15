@@ -51,5 +51,6 @@ public enum BlockType: String, CaseIterable {
   case note
   case add
   case setting
+  case tutorial
   case other
 }
