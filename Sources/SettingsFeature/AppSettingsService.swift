@@ -8,6 +8,12 @@
 import SwiftUI
 
 public class AppSettingsService: ObservableObject {
+  // FirstLaunch
+  @Published public var isFirstLaunch: Bool {
+    didSet {
+      userDefaults.set(isFirstLaunch, forKey: "isFirstLaunch")
+    }
+  }
   // HomeView
   @Published public var isDarkMode: Bool {
     didSet {
@@ -71,8 +77,10 @@ public class AppSettingsService: ObservableObject {
   private var userDefaults: UserDefaults
 
   public init(userDefaults: UserDefaults = .standard) {
+    self.userDefaults = userDefaults
     // 初期値設定
     userDefaults.register(defaults: [
+      "isFirstLaunch" : true,
       "plusBlockHue" : 0.5,
       "plusBlockSaturation" : 1.0,
       "plusBlockBrightness" : 1.0,
@@ -81,7 +89,7 @@ public class AppSettingsService: ObservableObject {
       "settingBlockBrightness": 1.0
     ])
     // 設定値取り出し
-    self.userDefaults = userDefaults
+    self.isFirstLaunch = userDefaults.bool(forKey: "isFirstLaunch")
     self.isDarkMode = userDefaults.bool(forKey: "isDarkMode")
     self.blockSizeType = BlockSizeType(rawValue: userDefaults.string(forKey: "blockSizeType") ?? "medium") ?? .medium
     self.isShowBlockBorder = userDefaults.bool(forKey: "isShowBlockBorder")

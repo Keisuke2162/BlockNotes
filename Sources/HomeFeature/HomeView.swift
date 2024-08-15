@@ -64,6 +64,10 @@ public struct HomeView: View {
         }
         motionManager.startDeviceMotionUpdates()
         // TODO: 初回起動時はtutorial用のブロックを追加する（SwiftDataにも追加）
+        if settings.isFirstLaunch {
+          addTutorialBlock()
+          settings.isFirstLaunch = false
+        }
       }
       .fullScreenCover(item: $editNoteItem) { item in
         NoteView(noteItem: item, isEditNote: true) { _ in
@@ -208,4 +212,15 @@ extension HomeView {
   }
   
   // TODO: チュートリアル用Blockの追加
+  public func addTutorialBlock() {
+    let tutorialItem: NoteItem = .init(title: String(localized: "tutorial_title"),
+                                       content: "",
+                                       hue: 0.5,
+                                       saturation: 1,
+                                       brightness: 1,
+                                       systemIconName: "book",
+                                       blockType: .note)
+    addNote(tutorialItem)
+    addBlockViews(item: tutorialItem)
+  }
 }
