@@ -12,12 +12,10 @@ public struct GravityView: UIViewRepresentable {
   // TODO: 要検討：Bindingじゃなくて良いかも
   @Binding var animationViews: [UIView]
   @Binding var angle: CGFloat
-  let viewSize: CGSize
 
-  public init(animationViews: Binding<[UIView]>, angle: Binding<CGFloat>, viewSize: CGSize) {
+  public init(animationViews: Binding<[UIView]>, angle: Binding<CGFloat>) {
     self._animationViews = animationViews
     self._angle = angle
-    self.viewSize = viewSize
   }
 
   public func makeUIView(context: Context) -> UIView {
