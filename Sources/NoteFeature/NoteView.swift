@@ -11,8 +11,11 @@ import SwiftUI
 
 public struct NoteView: View {
   @EnvironmentObject var settings: AppSettingsService
-  @State public var noteItem: NoteItem
-  // @State private var temporaryNoteItem: NoteItem
+  // @State public var noteItem: NoteItem
+  
+  @State private var editedItem: NoteItem
+  
+  
   @FocusState private var focusedField: Field?
   @State private var isShowIconEditView = false
   let isEditNote: Bool
@@ -30,7 +33,8 @@ public struct NoteView: View {
               onSave: @escaping (NoteItem) -> Void,
               onCancel: @escaping () -> Void,
               onDelete: @escaping (NoteItem) -> Void) {
-    self.noteItem = noteItem
+    // self.noteItem = noteItem
+    self._editedItem = State(initialValue: noteItem)
     self.isEditNote = isEditNote
     self.onSave = onSave
     self.onCancel = onCancel
@@ -42,7 +46,7 @@ public struct NoteView: View {
       VStack {
         HStack {
           // タイトル入力
-          TextField("Title", text: $noteItem.title)
+          TextField("Title", text: $editedItem.title)
             .font(.custom(settings.fontType.rawValue, size: 24).bold())
             .padding()
             .focused($focusedField, equals: .title)
@@ -55,14 +59,14 @@ public struct NoteView: View {
           Button {
             isShowIconEditView = true
           } label: {
-            Image(systemName: noteItem.systemIconName)
+            Image(systemName: editedItem.systemIconName)
               .resizable()
               .aspectRatio(contentMode: .fit)
-              .foregroundStyle(noteItem.color.foregroundColor)
+              .foregroundStyle(editedItem.color.foregroundColor)
               .padding(12)
           }
           .frame(width: 48, height: 48)
-          .background(noteItem.color)
+          .background(editedItem.color)
           .clipShape(.rect(cornerRadius: 8))
           .padding(.horizontal, 32)
         }
@@ -70,11 +74,11 @@ public struct NoteView: View {
 
         // 本文入力
         ZStack(alignment: .topLeading) {
-          TextEditor(text:$noteItem.content)
+          TextEditor(text:$editedItem.content)
             .padding()
             .font(.custom(settings.fontType.rawValue, size: 16))
             .focused($focusedField, equals: .content)
-          if noteItem.content.isEmpty {
+          if editedItem.content.isEmpty {
             Text("Content")
               .font(.custom(settings.fontType.rawValue, size: 16).italic())
               .foregroundStyle(Color.gray.opacity(0.6))
@@ -88,7 +92,7 @@ public struct NoteView: View {
             Spacer()
             Button {
               // TODO: 削除確認アラートを表示
-              onDelete(noteItem)
+              onDelete(editedItem)
             } label: {
               Image(systemName: "trash")
             }
@@ -110,7 +114,7 @@ public struct NoteView: View {
         }
         ToolbarItem(placement: .topBarTrailing) {
           Button {
-            onSave(noteItem)
+            onSave(editedItem)
           } label: {
             Text("Save")
           }
@@ -118,7 +122,7 @@ public struct NoteView: View {
       }
     }
     .sheet(isPresented: $isShowIconEditView) {
-      EditIconView(noteItem: noteItem)
+      EditIconView(noteItem: editedItem)
     }
     .onAppear {
       if !isEditNote {
