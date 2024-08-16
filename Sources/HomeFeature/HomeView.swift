@@ -32,11 +32,7 @@ public struct HomeView: View {
       isAddingNote ? motionManager.finishDeviceMotionUpdates() : motionManager.startDeviceMotionUpdates()
     }
   }
-  @State private var editNoteItem: NoteItem? {
-    didSet {
-      editNoteItem != nil ? motionManager.finishDeviceMotionUpdates() : motionManager.startDeviceMotionUpdates()
-    }
-  }
+  @State private var editingNoteItem: NoteItem?
   @State private var blockViews: [UIView] = []
 
   @StateObject private var motionManager = MotionManager()
@@ -46,14 +42,12 @@ public struct HomeView: View {
 
   public var body: some View {
     NavigationStack(path: $navigationPath) {
-      GeometryReader { geometry in
-        VStack {
-          GravityView(animationViews: $blockViews, angle: $motionManager.angle, viewSize: geometry.size)
-          if !purchaseManager.isPurchasedProduct {
-            // バナー広告
-            BannerAdView()
-              .frame(width: geometry.size.width, height: 50, alignment: .center)
-          }
+      VStack {
+        GravityView(animationViews: $blockViews, angle: $motionManager.angle)
+        if !purchaseManager.isPurchasedProduct {
+          // バナー広告
+          BannerAdView()
+            .frame(height: 50, alignment: .center)
         }
       }
       .onAppear {
@@ -68,36 +62,35 @@ public struct HomeView: View {
           settings.isFirstLaunch = false
         }
       }
-      .fullScreenCover(item: $editNoteItem) { item in
-        NoteView(noteItem: item, isEditNote: true) { _ in
-          editNoteItem = nil
-        } onCancel: {
-          editNoteItem = nil
-        } onDelete: { _ in
-          removeBlockView(item: item)
-          deleteNote(item)
-          editNoteItem = nil
-        }
-      }
       .fullScreenCover(isPresented: $isAddingNote) {
-        let initialHue: Double = 0.5
-        let initialSaturation: Double = 1
-        let initialBrightness: Double = 1
-        let initialItem: NoteItem = .init(title: "",
-                                          content: "",
-                                          hue: initialHue,
-                                          saturation: initialSaturation,
-                                          brightness: initialBrightness,
-                                          systemIconName: "pencil",
-                                          blockType: .note)
-        NoteView(noteItem: initialItem, isEditNote: false) { newItem in
-          addNote(newItem)
-          addBlockViews(item: newItem)
-          isAddingNote = false
-        } onCancel: {
-          isAddingNote = false
-        } onDelete: { item in
-          isAddingNote = false
+        if let item = editingNoteItem {
+          // 既存Itemの編集
+          NoteView(noteItem: item, isEditNote: true) { newItem in
+            saveItem(newItem)
+            addBlockViews(item: newItem)
+            isAddingNote = false
+            editingNoteItem = nil
+          } onCancel: {
+            isAddingNote = false
+            editingNoteItem = nil
+          } onDelete: { item in
+            deleteNote(item)
+            removeBlockView(item: item)
+            isAddingNote = false
+            editingNoteItem = nil
+          }
+        } else {
+          // 新規Itemの追加
+          let initialItem: NoteItem = .init(title: "", content: "", hue: 0.5, saturation: 1, brightness: 1, systemIconName: "pencil", blockType: .note)
+          NoteView(noteItem: initialItem, isEditNote: false) { newItem in
+            saveItem(newItem)
+            addBlockViews(item: newItem)
+            isAddingNote = false
+          } onCancel: {
+            isAddingNote = false
+          } onDelete: { item in
+            isAddingNote = false
+          }
         }
       }
       .navigationDestination(for: SettingView.self) { view in
@@ -108,14 +101,29 @@ public struct HomeView: View {
       removeAllBlock()
       initBlockViews()
     })
+    .onChange(of: blockViews, { oldValue, newValue in
+      print("テスト \(newValue.count)")
+      print("テスト２ \(newValue)")
+    })
     .preferredColorScheme(settings.isDarkMode ? .dark : .light)
   }
 }
 
 // MARK: NoteItemの管理
 extension HomeView {
-  func addNote(_ item: NoteItem) {
-    modelContext.insert(item)
+  func saveItem(_ item: NoteItem) {
+    if let noteItem = notes.first(where: { $0.id == item.id }) {
+      noteItem.title = item.title
+      noteItem.content = item.content
+      noteItem.hue = item.hue
+      noteItem.saturation = item.saturation
+      noteItem.brightness = item.brightness
+      noteItem.systemIconName = item.systemIconName
+      noteItem.blockTypeValue = item.blockTypeValue
+    } else {
+      modelContext.insert(item)
+    }
+
     do {
       try modelContext.save()
     } catch {
@@ -139,14 +147,9 @@ extension HomeView {
   public func initBlockViews() {
     let blockFrame = settings.getBlockFrame()
     // Item追加Block
-    let addItem: NoteItem = .init(title: "",
-                                  content: "",
-                                  hue: 0,
-                                  saturation: 1,
-                                  brightness: 1,
-                                  systemIconName: "plus",
-                                  blockType: .add)
+    let addItem: NoteItem = .init(title: "", content: "", hue: 0, saturation: 1, brightness: 1, systemIconName: "plus", blockType: .add)
     let addItemView = BlockItemView(item: addItem) { _ in
+      self.editingNoteItem = nil
       self.isAddingNote = true
     }
     if let blockView = UIHostingController(rootView: addItemView).view {
@@ -156,13 +159,7 @@ extension HomeView {
     }
 
     // Setting遷移Block
-    let settingItem: NoteItem = .init(title: "", 
-                                      content: "",
-                                      hue: 0,
-                                      saturation: 1,
-                                      brightness: 1,
-                                      systemIconName: "gearshape",
-                                      blockType: .setting)
+    let settingItem: NoteItem = .init(title: "",  content: "", hue: 0, saturation: 1, brightness: 1, systemIconName: "gearshape", blockType: .setting)
     let settingItemView = BlockItemView(item: settingItem) { _ in
       navigationPath.append(SettingView())
     }
@@ -172,9 +169,13 @@ extension HomeView {
       blockViews.append(blockView)
     }
 
+    // 保存ずみのItem
     for item in notes {
       let blockItemView = BlockItemView(item: item) { noteItem in
-        self.editNoteItem = noteItem
+        self.editingNoteItem = noteItem
+        self.isAddingNote = true
+        
+         print("テスト3 \(blockViews)")
       }
       if let blockView = UIHostingController(rootView: blockItemView).view {
         blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 100, width: blockFrame, height: blockFrame)
@@ -188,7 +189,8 @@ extension HomeView {
   public func addBlockViews(item: NoteItem) {
     let blockFrame = settings.getBlockFrame()
     let blockItemView = BlockItemView(item: item) { noteItem in
-      self.editNoteItem = noteItem
+      self.editingNoteItem = noteItem
+      self.isAddingNote = true
     }
     if let blockView = UIHostingController(rootView: blockItemView).view {
       blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 0, width: blockFrame, height: blockFrame)
@@ -212,14 +214,8 @@ extension HomeView {
 
   // チュートリアル用
   public func addTutorialBlock() {
-    let tutorialItem: NoteItem = .init(title: String(localized: "tutorial_title"),
-                                       content: "",
-                                       hue: 0.5,
-                                       saturation: 1,
-                                       brightness: 1,
-                                       systemIconName: "book",
-                                       blockType: .tutorial)
-    addNote(tutorialItem)
+    let tutorialItem: NoteItem = .init(title: String(localized: "tutorial_title"), content: "", hue: 0.5, saturation: 1, brightness: 1, systemIconName: "book", blockType: .tutorial)
+    saveItem(tutorialItem)
     addBlockViews(item: tutorialItem)
   }
 }
