@@ -54,15 +54,20 @@
          <EnvironmentVariable
             key = "com.apple.CoreData.SQLDebug"
             value = "1"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "com.apple.CoreData.Logging.stderr"
             value = "1"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "CD_DEBUG_IO"
+            value = "1"
+            isEnabled = "NO">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "CG_NUMERICS_SHOW_BACKTRACE"
             value = "1"
             isEnabled = "YES">
          </EnvironmentVariable>
