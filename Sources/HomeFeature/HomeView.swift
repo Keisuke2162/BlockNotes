@@ -67,7 +67,6 @@ public struct HomeView: View {
           // 既存Itemの編集
           NoteView(noteItem: item, isEditNote: true) { newItem in
             saveItem(newItem)
-            addBlockViews(item: newItem)
             isAddingNote = false
             editingNoteItem = nil
           } onCancel: {
