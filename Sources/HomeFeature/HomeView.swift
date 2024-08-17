@@ -102,8 +102,6 @@ public struct HomeView: View {
       initBlockViews()
     })
     .onChange(of: blockViews, { oldValue, newValue in
-      print("テスト \(newValue.count)")
-      print("テスト２ \(newValue)")
     })
     .preferredColorScheme(settings.isDarkMode ? .dark : .light)
   }
@@ -174,8 +172,6 @@ extension HomeView {
       let blockItemView = BlockItemView(item: item) { noteItem in
         self.editingNoteItem = noteItem
         self.isAddingNote = true
-        
-         print("テスト3 \(blockViews)")
       }
       if let blockView = UIHostingController(rootView: blockItemView).view {
         blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 100, width: blockFrame, height: blockFrame)
