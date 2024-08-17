@@ -41,66 +41,71 @@ public struct HomeView: View {
   }
 
   public var body: some View {
-    NavigationStack(path: $navigationPath) {
-      VStack {
-        GravityView(animationViews: $blockViews, angle: $motionManager.angle)
-        if !purchaseManager.isPurchasedProduct {
-          // バナー広告
-          BannerAdView()
-            .frame(height: 50, alignment: .center)
-        }
-      }
-      .onAppear {
-        if isFirstAppear {
-          initBlockViews()
-          isFirstAppear = false
-        }
-        motionManager.startDeviceMotionUpdates()
-        // TODO: 初回起動時はtutorial用のブロックを追加する（SwiftDataにも追加）
-        if settings.isFirstLaunch {
-          addTutorialBlock()
-          settings.isFirstLaunch = false
-        }
-      }
-      .fullScreenCover(isPresented: $isAddingNote) {
-        if let item = editingNoteItem {
-          // 既存Itemの編集
-          NoteView(noteItem: item, isEditNote: true) { newItem in
-            saveItem(newItem)
-            isAddingNote = false
-            editingNoteItem = nil
-          } onCancel: {
-            isAddingNote = false
-            editingNoteItem = nil
-          } onDelete: { item in
-            deleteNote(item)
-            removeBlockView(item: item)
-            isAddingNote = false
-            editingNoteItem = nil
-          }
-        } else {
-          // 新規Itemの追加
-          let initialItem: NoteItem = .init(title: "", content: "", hue: 0.5, saturation: 1, brightness: 1, systemIconName: "pencil", blockType: .note)
-          NoteView(noteItem: initialItem, isEditNote: false) { newItem in
-            saveItem(newItem)
-            addBlockViews(item: newItem)
-            isAddingNote = false
-          } onCancel: {
-            isAddingNote = false
-          } onDelete: { item in
-            isAddingNote = false
+    GeometryReader { geometry in
+      NavigationStack(path: $navigationPath) {
+        VStack {
+          GravityView(animationViews: $blockViews,
+                      angle: $motionManager.angle,
+                      viewWidth: geometry.size.width,
+                      viewHeight: geometry.size.height,
+                      isPurchaseProduct: purchaseManager.isPurchasedProduct)
+          
+          if !purchaseManager.isPurchasedProduct {
+            // バナー広告
+            BannerAdView()
+              .frame(height: 50, alignment: .center)
           }
         }
-      }
-      .navigationDestination(for: SettingView.self) { view in
-        view
+        .onAppear {
+          if isFirstAppear {
+            initBlockViews()
+            isFirstAppear = false
+          }
+          motionManager.startDeviceMotionUpdates()
+          // TODO: 初回起動時はtutorial用のブロックを追加する（SwiftDataにも追加）
+          if settings.isFirstLaunch {
+            addTutorialBlock()
+            settings.isFirstLaunch = false
+          }
+        }
+        .fullScreenCover(isPresented: $isAddingNote) {
+          if let item = editingNoteItem {
+            // 既存Itemの編集
+            NoteView(noteItem: item, isEditNote: true) { newItem in
+              saveItem(newItem)
+              isAddingNote = false
+              editingNoteItem = nil
+            } onCancel: {
+              isAddingNote = false
+              editingNoteItem = nil
+            } onDelete: { item in
+              deleteNote(item)
+              removeBlockView(item: item)
+              isAddingNote = false
+              editingNoteItem = nil
+            }
+          } else {
+            // 新規Itemの追加
+            let initialItem: NoteItem = .init(title: "", content: "", hue: 0.5, saturation: 1, brightness: 1, systemIconName: "pencil", blockType: .note)
+            NoteView(noteItem: initialItem, isEditNote: false) { newItem in
+              saveItem(newItem)
+              addBlockViews(item: newItem)
+              isAddingNote = false
+            } onCancel: {
+              isAddingNote = false
+            } onDelete: { item in
+              isAddingNote = false
+            }
+          }
+        }
+        .navigationDestination(for: SettingView.self) { view in
+          view
+        }
       }
     }
     .onChange(of: settings.blockSizeType, { _, _ in
       removeAllBlock()
       initBlockViews()
-    })
-    .onChange(of: blockViews, { oldValue, newValue in
     })
     .preferredColorScheme(settings.isDarkMode ? .dark : .light)
   }
