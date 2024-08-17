@@ -79,8 +79,8 @@ public struct HomeView: View {
               isAddingNote = false
               editingNoteItem = nil
             } onDelete: { item in
-              deleteNote(item)
               removeBlockView(item: item)
+              deleteNote(item)
               isAddingNote = false
               editingNoteItem = nil
             }
