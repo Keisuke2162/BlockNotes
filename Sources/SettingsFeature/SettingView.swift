@@ -76,6 +76,9 @@ public struct SettingView: View, Hashable {
                 .foregroundStyle(settings.isDarkMode ? .white : .black)
             }
           }
+          // Shake
+          // TODO: Localize
+          Toggle("スマホを振って画面をリセット", isOn: $settings.isEnableShake)
         }
         
         // 課金

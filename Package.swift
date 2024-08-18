@@ -27,6 +27,7 @@ let package = Package(
         "AdFeature",
         "CustomViewFeature",
         "Entities",
+        "Extensions",
         "InAppPurchaseFeature",
         "MotionFeature",
         "NoteFeature",
