@@ -127,12 +127,12 @@ public struct NoteView: View {
       }
     }
     .alert("", isPresented: $isShowDeleteAlert) {
-      Button("戻る", role: .cancel) {}
-      Button("削除する", role: .destructive) {
+      Button(String(localized: "back"), role: .cancel) {}
+      Button(String(localized: "delete"), role: .destructive) {
         onDelete(editedItem)
       }
     } message: {
-      Text("データを削除しますか？")
+      Text(String(localized: "delete_alert_title"))
     }
   }
 }
