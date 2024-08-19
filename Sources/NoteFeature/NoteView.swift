@@ -11,10 +11,9 @@ import SwiftUI
 
 public struct NoteView: View {
   @EnvironmentObject var settings: AppSettingsService
-  // @State public var noteItem: NoteItem
-  
+
   @State private var editedItem: NoteItem
-  
+  @State private var isShowDeleteAlert: Bool = false
   
   @FocusState private var focusedField: Field?
   @State private var isShowIconEditView = false
@@ -22,12 +21,11 @@ public struct NoteView: View {
   let onSave: (NoteItem) -> Void
   let onCancel: () -> Void
   let onDelete: (NoteItem) -> Void
-  
-  
+
   public enum Field: Hashable {
     case title, content
   }
-  
+
   public init(noteItem: NoteItem,
               isEditNote: Bool,
               onSave: @escaping (NoteItem) -> Void,
@@ -91,8 +89,7 @@ public struct NoteView: View {
           HStack {
             Spacer()
             Button {
-              // TODO: 削除確認アラートを表示
-              onDelete(editedItem)
+              isShowDeleteAlert = true
             } label: {
               Image(systemName: "trash")
             }
@@ -128,6 +125,14 @@ public struct NoteView: View {
       if !isEditNote {
         focusedField = .title
       }
+    }
+    .alert("", isPresented: $isShowDeleteAlert) {
+      Button("戻る", role: .cancel) {}
+      Button("削除する", role: .destructive) {
+        onDelete(editedItem)
+      }
+    } message: {
+      Text("データを削除しますか？")
     }
   }
 }
