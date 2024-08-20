@@ -8,9 +8,11 @@
 import CustomViewFeature
 import Entities
 import Extensions
+import SettingsFeature
 import SwiftUI
 
 public struct EditIconView: View {
+  @EnvironmentObject var settings: AppSettingsService
   @Environment(\.dismiss) var dismiss
   @Bindable public var noteItem: NoteItem
 
@@ -38,12 +40,19 @@ public struct EditIconView: View {
           Image(systemName: systemImageString)
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .padding(20)
+            .padding(settings.getBlockImagePadding())
             .foregroundStyle(backGroundColor.foregroundColor)
         }
-        .frame(width: 80, height: 80)
+        .frame(width: settings.getBlockFrame(), height: settings.getBlockFrame())
         .background(backGroundColor)
         .clipShape(.rect(cornerRadius: 8))
+        .overlay {
+          RoundedRectangle(cornerRadius: 8)
+            .stroke(lineWidth: 2)
+            .fill(
+              settings.isShowBlockBorder ? (settings.isDarkMode ? .white : .black) : .clear
+            )
+        }
         .padding(.trailing, 32)
         // カラーピッカー
         ColorPickerView(hue: $hue, saturation: $saturation, brightness: $brightness)
