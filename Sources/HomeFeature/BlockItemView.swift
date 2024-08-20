@@ -30,7 +30,7 @@ public struct BlockItemView: View {
     }, label: {
       Image(systemName: item.systemIconName)
         .resizable()
-        .aspectRatio(contentMode: .fill)
+        .aspectRatio(contentMode: .fit)
         .foregroundColor(getForegroundColor(item: item))
         .padding(padding)
         .opacity(item.blockType == .tutorial && isBlinking ? 0 : 1)

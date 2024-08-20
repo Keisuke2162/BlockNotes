@@ -84,7 +84,7 @@ public struct BlockSettingView: View {
         Image(systemName: "checkmark")
           .resizable()
           .frame(width: 24, height: 24)
-          .aspectRatio(contentMode: .fill)
+          .aspectRatio(contentMode: .fit)
           .foregroundStyle(
             self.blockSizeType == type ? (settings.isDarkMode ? .white : .black) : .clear
           )
@@ -92,7 +92,7 @@ public struct BlockSettingView: View {
         Group {
           Image(systemName: "house")
             .resizable()
-            .aspectRatio(contentMode: .fill)
+            .aspectRatio(contentMode: .fit)
             .foregroundStyle(.black)
             .padding(blockPadding)
         }

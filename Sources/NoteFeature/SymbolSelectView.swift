@@ -33,7 +33,10 @@ struct SymbolSelectView: View {
               self.selectedSymbol = symbol
             } label: {
               Image(systemName: symbol)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
                 .foregroundColor(settings.isDarkMode ? .white : .black)
+                .padding(16)
             }
             .frame(width: itemSize, height: itemSize)
             .overlay {
