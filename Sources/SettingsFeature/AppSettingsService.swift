@@ -74,6 +74,13 @@ public class AppSettingsService: ObservableObject {
     }
   }
 
+  // Shake Phone
+  @Published public var isEnableShake: Bool {
+    didSet {
+      userDefaults.set(isEnableShake, forKey: "isEnableShake")
+    }
+  }
+
   private var userDefaults: UserDefaults
 
   public init(userDefaults: UserDefaults = .standard) {
@@ -103,6 +110,7 @@ public class AppSettingsService: ObservableObject {
     self.settingBlockBrightness = userDefaults.double(forKey: "settingBlockBrightness")
 
     self.fontType = AppFontType(rawValue: userDefaults.string(forKey: "fontType") ?? "system") ?? .system
+    self.isEnableShake = userDefaults.bool(forKey: "isEnableShake")
   }
 
   public enum BlockSizeType: String {

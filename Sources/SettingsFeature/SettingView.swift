@@ -76,6 +76,8 @@ public struct SettingView: View, Hashable {
                 .foregroundStyle(settings.isDarkMode ? .white : .black)
             }
           }
+          // Shake
+          Toggle(String(localized: "shake_phone"), isOn: $settings.isEnableShake)
         }
         
         // 課金

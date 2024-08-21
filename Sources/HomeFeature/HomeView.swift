@@ -8,6 +8,7 @@
 import AdFeature
 import CustomViewFeature
 import Entities
+import Extensions
 import Foundation
 import InAppPurchaseFeature
 import MotionFeature
@@ -106,6 +107,12 @@ public struct HomeView: View {
     .onChange(of: settings.blockSizeType, { _, _ in
       removeAllBlock()
       initBlockViews()
+    })
+    .onReceive(NotificationCenter.default.publisher(for: .deviceDidShakeNotification), perform: { _ in
+      if settings.isEnableShake {
+        removeAllBlock()
+        initBlockViews()
+      }
     })
     .preferredColorScheme(settings.isDarkMode ? .dark : .light)
   }
