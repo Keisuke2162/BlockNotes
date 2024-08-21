@@ -77,8 +77,7 @@ public struct SettingView: View, Hashable {
             }
           }
           // Shake
-          // TODO: Localize
-          Toggle("スマホを振って画面をリセット", isOn: $settings.isEnableShake)
+          Toggle(String(localized: "shake_phone"), isOn: $settings.isEnableShake)
         }
         
         // 課金
