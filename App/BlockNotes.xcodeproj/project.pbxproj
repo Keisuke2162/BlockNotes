@@ -141,7 +141,7 @@
 				};
 			};
 			buildConfigurationList = 67E4F4AA2C4299C30012530F /* Build configuration list for PBXProject "BlockNotes" */;
-			compatibilityVersion = "Xcode 14.0";
+			compatibilityVersion = "Xcode 15.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
