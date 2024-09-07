@@ -80,30 +80,30 @@ public struct SettingView: View, Hashable {
           Toggle(String(localized: "shake_phone"), isOn: $settings.isEnableShake)
         }
         
-        // 課金
-        Button {
-          // TODO: プレミアム訴求シートを表示
-          Task {
-            isLoading = true
-            await purchaseManager.fetchProducts()
-            await purchaseManager.buyProduct()
-            isLoading = false
-          }
-        } label: {
-          Text(String(localized: "premium_mode"))
-        }
-        .disabled(purchaseManager.isPurchasedProduct)
-
-        Button {
-          Task {
-            isLoading = true
-            await purchaseManager.restorePurchases()
-            isLoading = false
-          }
-        } label: {
-          Text(String(localized: "restore_premium"))
-        }
-        .disabled(purchaseManager.isPurchasedProduct)
+//        // 課金
+//        Button {
+//          // TODO: プレミアム訴求シートを表示
+//          Task {
+//            isLoading = true
+//            await purchaseManager.fetchProducts()
+//            await purchaseManager.buyProduct()
+//            isLoading = false
+//          }
+//        } label: {
+//          Text(String(localized: "premium_mode"))
+//        }
+//        .disabled(purchaseManager.isPurchasedProduct)
+//
+//        Button {
+//          Task {
+//            isLoading = true
+//            await purchaseManager.restorePurchases()
+//            isLoading = false
+//          }
+//        } label: {
+//          Text(String(localized: "restore_premium"))
+//        }
+//        .disabled(purchaseManager.isPurchasedProduct)
 
         // TODO: チュートリアル
         // TODO: 利用規約
