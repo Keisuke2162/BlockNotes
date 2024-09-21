@@ -32,7 +32,7 @@ struct SymbolSelectView: View {
             Button {
               self.selectedSymbol = symbol
             } label: {
-              Image(systemName: symbol)
+              Image(symbol)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(settings.isDarkMode ? .white : .black)

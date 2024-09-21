@@ -28,7 +28,7 @@ public struct BlockItemView: View {
     Button(action: {
       buttonTapAction(item)
     }, label: {
-      Image(systemName: item.systemIconName)
+      Image(item.systemIconName)
         .resizable()
         .aspectRatio(contentMode: .fit)
         .foregroundColor(getForegroundColor(item: item))
