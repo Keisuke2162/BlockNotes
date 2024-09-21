@@ -33,7 +33,13 @@ public struct HomeView: View {
       isAddingNote ? motionManager.finishDeviceMotionUpdates() : motionManager.startDeviceMotionUpdates()
     }
   }
-  @State private var editingNoteItem: NoteItem?
+  @State private var editingNoteItem: NoteItem? {
+    didSet {
+      editingNoteItem != nil ? motionManager.finishDeviceMotionUpdates() : motionManager.startDeviceMotionUpdates()
+      beforeChangeItem = editingNoteItem
+    }
+  }
+  @State private var beforeChangeItem: NoteItem?
   @State private var blockViews: [UIView] = []
 
   @StateObject private var motionManager = MotionManager()
@@ -69,34 +75,36 @@ public struct HomeView: View {
             settings.isFirstLaunch = false
           }
         }
+        .fullScreenCover(item: $editingNoteItem) { item in
+          // 既存Itemの編集
+          NoteView(noteItem: item, isEditNote: true) { newItem in
+            saveItem(newItem)
+            editingNoteItem = nil
+          } onCancel: {
+            saveItem(beforeChangeItem)
+            editingNoteItem = nil
+          } onDelete: { item in
+            removeBlockView(item: item)
+            deleteNote(item)
+            editingNoteItem = nil
+          }
+        }
         .fullScreenCover(isPresented: $isAddingNote) {
-          if let item = editingNoteItem {
-            // 既存Itemの編集
-            NoteView(noteItem: item, isEditNote: true) { newItem in
-              saveItem(newItem)
-              isAddingNote = false
-              editingNoteItem = nil
-            } onCancel: {
-              isAddingNote = false
-              editingNoteItem = nil
-            } onDelete: { item in
-              removeBlockView(item: item)
-              deleteNote(item)
-              isAddingNote = false
-              editingNoteItem = nil
-            }
-          } else {
-            // 新規Itemの追加
-            let initialItem: NoteItem = .init(title: "", content: "", hue: 0.5, saturation: 1, brightness: 1, systemIconName: "pencil", blockType: .note)
-            NoteView(noteItem: initialItem, isEditNote: false) { newItem in
-              saveItem(newItem)
-              addBlockViews(item: newItem)
-              isAddingNote = false
-            } onCancel: {
-              isAddingNote = false
-            } onDelete: { item in
-              isAddingNote = false
-            }
+          // 新規Itemの追加
+          let initialItem: NoteItem = .init(
+            title: "",
+            content: "",
+            hue: 0.5,
+            saturation: 1,
+            brightness: 1, systemIconName: "pencil", blockType: .note)
+          NoteView(noteItem: initialItem, isEditNote: false) { newItem in
+            saveItem(newItem)
+            addBlockViews(item: newItem)
+            isAddingNote = false
+          } onCancel: {
+            isAddingNote = false
+          } onDelete: { item in
+            isAddingNote = false
           }
         }
         .navigationDestination(for: SettingView.self) { view in
@@ -120,7 +128,8 @@ public struct HomeView: View {
 
 // MARK: NoteItemの管理
 extension HomeView {
-  func saveItem(_ item: NoteItem) {
+  func saveItem(_ item: NoteItem?) {
+    guard let item else { return }
     if let noteItem = notes.first(where: { $0.id == item.id }) {
       noteItem.title = item.title
       noteItem.content = item.content
@@ -182,7 +191,6 @@ extension HomeView {
     for item in notes {
       let blockItemView = BlockItemView(item: item) { noteItem in
         self.editingNoteItem = noteItem
-        self.isAddingNote = true
       }
       if let blockView = UIHostingController(rootView: blockItemView).view {
         blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 100, width: blockFrame, height: blockFrame)
@@ -197,7 +205,6 @@ extension HomeView {
     let blockFrame = settings.getBlockFrame()
     let blockItemView = BlockItemView(item: item) { noteItem in
       self.editingNoteItem = noteItem
-      self.isAddingNote = true
     }
     if let blockView = UIHostingController(rootView: blockItemView).view {
       blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 0, width: blockFrame, height: blockFrame)
