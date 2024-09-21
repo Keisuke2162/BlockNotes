@@ -35,6 +35,7 @@ public struct HomeView: View {
   }
   @State private var editingNoteItem: NoteItem? {
     didSet {
+      editingNoteItem != nil ? motionManager.finishDeviceMotionUpdates() : motionManager.startDeviceMotionUpdates()
       beforeChangeItem = editingNoteItem
     }
   }
