@@ -96,7 +96,7 @@ public struct HomeView: View {
             content: "",
             hue: 0.5,
             saturation: 1,
-            brightness: 1, systemIconName: "ic-pencil", blockType: .note)
+            brightness: 1, systemIconName: "pencil", blockType: .note)
           NoteView(noteItem: initialItem, isEditNote: false) { newItem in
             saveItem(newItem)
             addBlockViews(item: newItem)
