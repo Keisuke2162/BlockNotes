@@ -37,7 +37,7 @@ public struct EditIconView: View {
         // アイコン
         Button {
         } label: {
-          Image(systemName: systemImageString)
+          Image(systemImageString)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .padding(settings.getBlockImagePadding())

@@ -57,7 +57,7 @@ public struct NoteView: View {
           Button {
             isShowIconEditView = true
           } label: {
-            Image(systemName: editedItem.systemIconName)
+            Image(editedItem.systemIconName)
               .resizable()
               .aspectRatio(contentMode: .fit)
               .foregroundStyle(editedItem.color.foregroundColor)
@@ -91,7 +91,7 @@ public struct NoteView: View {
             Button {
               isShowDeleteAlert = true
             } label: {
-              Image(systemName: "trash")
+              Image("trash")
             }
             .frame(width: 40, height: 40)
             .foregroundStyle(Color.red)

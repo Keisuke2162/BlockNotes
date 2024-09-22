@@ -165,7 +165,7 @@ extension HomeView {
   public func initBlockViews() {
     let blockFrame = settings.getBlockFrame()
     // Item追加Block
-    let addItem: NoteItem = .init(title: "", content: "", hue: 0, saturation: 1, brightness: 1, systemIconName: "plus", blockType: .add)
+    let addItem: NoteItem = .init(title: "", content: "", hue: 0, saturation: 1, brightness: 1, systemIconName: "ic-plus", blockType: .add)
     let addItemView = BlockItemView(item: addItem) { _ in
       self.editingNoteItem = nil
       self.isAddingNote = true
@@ -177,7 +177,7 @@ extension HomeView {
     }
 
     // Setting遷移Block
-    let settingItem: NoteItem = .init(title: "",  content: "", hue: 0, saturation: 1, brightness: 1, systemIconName: "gearshape", blockType: .setting)
+    let settingItem: NoteItem = .init(title: "",  content: "", hue: 0, saturation: 1, brightness: 1, systemIconName: "ic-gearshape", blockType: .setting)
     let settingItemView = BlockItemView(item: settingItem) { _ in
       navigationPath.append(SettingView())
     }
