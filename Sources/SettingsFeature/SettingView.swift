@@ -108,13 +108,18 @@ public struct SettingView: View, Hashable {
         // TODO: チュートリアル
         // TODO: 利用規約
       }
-      
-        VStack {
-          Spacer()
-          Text(appVersion)
-            .foregroundStyle(.gray)
-            .frame(height: 48)
-        }
+
+      VStack {
+        Spacer()
+        Text(appVersion)
+          .foregroundStyle(.gray)
+          .frame(height: 48)
+      }
+
+      if isLoading {
+        Color.black.opacity(0.5)
+        ProgressView()
+      }
     }
     .preferredColorScheme(settings.isDarkMode ? .dark : .light)
   }
