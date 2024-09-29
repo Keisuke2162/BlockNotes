@@ -26,6 +26,7 @@ public struct HomeView: View {
 
   @State private var navigationPath = NavigationPath()
   @State private var isFirstAppear = true
+  @State var isSettingView = false
 
   @Query private var notes: [NoteItem]
   @State private var isAddingNote = false {
@@ -64,15 +65,10 @@ public struct HomeView: View {
           }
         }
         .onAppear {
+          motionManager.startDeviceMotionUpdates()
           if isFirstAppear {
             initBlockViews()
             isFirstAppear = false
-          }
-          motionManager.startDeviceMotionUpdates()
-          // TODO: 初回起動時はtutorial用のブロックを追加する（SwiftDataにも追加）
-          if settings.isFirstLaunch {
-            addTutorialBlock()
-            settings.isFirstLaunch = false
           }
         }
         .fullScreenCover(item: $editingNoteItem) { item in
@@ -107,8 +103,10 @@ public struct HomeView: View {
             isAddingNote = false
           }
         }
-        .navigationDestination(for: SettingView.self) { view in
-          view
+        .navigationDestination(for: String.self) { routeString in
+          if routeString == "settings" {
+            SettingView(isSettingView: $isSettingView)
+          }
         }
       }
     }
@@ -120,6 +118,13 @@ public struct HomeView: View {
       if settings.isEnableShake {
         removeAllBlock()
         initBlockViews()
+      }
+    })
+    .onChange(of: isSettingView, { oldValue, newValue in
+      if newValue {
+        motionManager.finishDeviceMotionUpdates()
+      } else {
+        motionManager.startDeviceMotionUpdates()
       }
     })
     .preferredColorScheme(settings.isDarkMode ? .dark : .light)
@@ -179,7 +184,7 @@ extension HomeView {
     // Setting遷移Block
     let settingItem: NoteItem = .init(title: "",  content: "", hue: 0, saturation: 1, brightness: 1, systemIconName: "ic-gearshape", blockType: .setting)
     let settingItemView = BlockItemView(item: settingItem) { _ in
-      navigationPath.append(SettingView())
+      navigationPath.append("settings")
     }
     if let blockView = UIHostingController(rootView: settingItemView).view {
       blockView.frame = CGRect(x: CGFloat.random(in: 0...300), y: 200, width: blockFrame, height: blockFrame)

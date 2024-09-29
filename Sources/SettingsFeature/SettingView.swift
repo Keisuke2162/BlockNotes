@@ -13,6 +13,7 @@ public struct SettingView: View, Hashable {
   @EnvironmentObject var settings: AppSettingsService
   
   @State var isLoading: Bool = false
+  @Binding var isSettingView: Bool
   
   var appVersion: String {
     if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
@@ -31,7 +32,8 @@ public struct SettingView: View, Hashable {
     lhs.id == rhs.id
   }
 
-  public init() {
+  public init(isSettingView: Binding<Bool>) {
+    self._isSettingView = isSettingView
   }
 
   public var body: some View {
@@ -122,5 +124,11 @@ public struct SettingView: View, Hashable {
       }
     }
     .preferredColorScheme(settings.isDarkMode ? .dark : .light)
+    .onAppear {
+      isSettingView = true
+    }
+    .onDisappear{
+      isSettingView = false
+    }
   }
 }

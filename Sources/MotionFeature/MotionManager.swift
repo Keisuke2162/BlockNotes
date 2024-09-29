@@ -21,6 +21,7 @@ public class MotionManager: ObservableObject {
   }
 
   public func startDeviceMotionUpdates() {
+    print("テスト1 startDeviceMotionUpdates")
     if motionManager.isDeviceMotionAvailable {
       motionManager.deviceMotionUpdateInterval = 0.01
       motionManager.startDeviceMotionUpdates(to: .main) { (motion, error) in
@@ -40,7 +41,12 @@ public class MotionManager: ObservableObject {
     }
   }
 
+  public func updateDeviceMotion() {
+    motionManager.startDeviceMotionUpdates()
+  }
+
   public func finishDeviceMotionUpdates() {
+    print("テスト2 finishDeviceMotionUpdates")
     motionManager.stopDeviceMotionUpdates()
   }
 

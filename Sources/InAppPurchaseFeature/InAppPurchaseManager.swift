@@ -40,6 +40,7 @@ public class InAppPurchaseManager: ObservableObject {
           print("Transaction verification failed: \(verificationError)")
           
         case .verified(let transaction):
+          print("テスト3")
           UserDefaults.standard.set(true, forKey: "isPurchasedProduct")
           isPurchasedProduct = true
           await transaction.finish()
