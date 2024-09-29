@@ -70,10 +70,10 @@ public struct HomeView: View {
           }
           motionManager.startDeviceMotionUpdates()
           // TODO: 初回起動時はtutorial用のブロックを追加する（SwiftDataにも追加）
-          if settings.isFirstLaunch {
-            addTutorialBlock()
-            settings.isFirstLaunch = false
-          }
+//          if settings.isFirstLaunch {
+//            addTutorialBlock()
+//            settings.isFirstLaunch = false
+//          }
         }
         .fullScreenCover(item: $editingNoteItem) { item in
           // 既存Itemの編集
