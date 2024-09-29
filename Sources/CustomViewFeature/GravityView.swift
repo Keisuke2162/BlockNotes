@@ -53,7 +53,7 @@ public struct GravityView: UIViewRepresentable {
   public func updateUIView(_ uiView: UIView, context: Context) {
     // ボタンが追加または削除された場合の更新処理
     if context.coordinator.currentAnimationViews != animationViews || context.coordinator.isPurchaseProduct != isPurchaseProduct {
-      context.coordinator.updateAnimator(animationViews, angle, isPurchasePremium: isPurchaseProduct, in: uiView)
+      context.coordinator.updateAnimator(animationViews, angle, isPurchaseProduct: isPurchaseProduct, in: uiView)
     }
     // 端末の角度に変更があった場合の処理
     if context.coordinator.currentAngle != angle {
