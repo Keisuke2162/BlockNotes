@@ -10,68 +10,123 @@ import StoreKit
 
 @MainActor
 public class InAppPurchaseManager: ObservableObject {
-  @Published public var isPurchasedProduct: Bool = UserDefaults.standard.bool(forKey: "isPurchasedProduct")
-
+  @Published public var isPurchasedProduct: Bool = false
+  private var updateListenerTask: Task<Void, Error>?
   private var product: Product?
-
+  private let productID: String = "premium_mode"
+  
   public init() {
+    updateListenerTask = listenForTransactions()
+    isPurchasedProduct = UserDefaults.standard.bool(forKey: "isPurchasedProduct")
+  }
+  
+  deinit {
+    updateListenerTask?.cancel()
   }
 
-  // 商品を取得
-  public func fetchProducts() async {
+  // アプリ起動時に呼び出して実行
+  public func initialize() async {
+//    await fetchProduct()
+//    await updatePurchaseStatus()
+  }
+
+  // 商品情報を取得する
+  private func fetchProduct() async {
     do {
-      let products = try await Product.products(for: ["premium_mode"])
-      self.product = products.first
+      let products = try await Product.products(for: [productID])
+      if let product = products.first {
+        self.product = product
+      }
     } catch {
-      print("Failed to fetch products: \(error)")
+      print("Failed to fetch product: \(error)")
+    }
+  }
+  
+  // 購入の状態を更新する
+  private func updatePurchaseStatus() async {
+    for await result in Transaction.currentEntitlements {
+      do {
+        let transaction = try await checkVerified(result)
+        if transaction.productID == productID {
+            await processPurchase(transaction)
+        }
+      } catch {
+        print("Failed to verify transaction: \(error)")
+      }
+    }
+  }
+  
+  // トランザクションのリスニング
+  private func listenForTransactions() -> Task<Void, Error> {
+    return Task.detached {
+      for await result in Transaction.updates {
+        do {
+          let transaction = try await self.checkVerified(result)
+          await self.processPurchase(transaction)
+          await transaction.finish()
+        } catch {
+          print("Transaction failed verification: \(error)")
+        }
+      }
+    }
+  }
+  
+  // 購入処理
+  private func processPurchase(_ transaction: Transaction) async {
+    if transaction.productID == productID {
+      isPurchasedProduct = (transaction.revocationDate == nil)
+      updateUserDefaults()
     }
   }
 
-  // 商品を購入
-  public func buyProduct() async {
-    guard let product else { return }
-    do {
-      // TODO: Transaction.updatesのリッスン
-      let result = try await product.purchase()
+  // UserDefaultsの更新
+  private func updateUserDefaults() {
+      UserDefaults.standard.set(isPurchasedProduct, forKey: "isPurchasedProduct")
+  }
+
+  // トランザクションの検証
+  private func checkVerified<T>(_ result: VerificationResult<T>) async throws -> T {
       switch result {
-      case .success(let verificationResult):
-        switch verificationResult {
-        case .unverified(let signedType, let verificationError):
-          print("Transaction verification failed: \(verificationError)")
-          
-        case .verified(let transaction):
-          UserDefaults.standard.set(true, forKey: "isPurchasedProduct")
-          isPurchasedProduct = true
-          await transaction.finish()
-        }
-      case .userCancelled:
-        print("User cancelled the purchase.")
-      case .pending:
-        print("Purchase is pending.")
-      @unknown default:
-        print("Unknown result.")
+      case .unverified(_, let error):
+          throw error
+      case .verified(let safe):
+          return safe
       }
-    } catch {
-      print("Purchase failed: \(error)")
+  }
+
+  // 商品の購入
+  public func purchase() async throws {
+    guard let product = product else {
+      throw StoreKitError.productNotFound
+    }
+    
+    let result = try await product.purchase()
+    
+    switch result {
+    case .success(let verificationResult):
+      let transaction = try await checkVerified(verificationResult)
+      await processPurchase(transaction)
+      await transaction.finish()
+    case .userCancelled:
+      throw StoreKitError.userCancelled
+    case .pending:
+      throw StoreKitError.purchasePending
+    @unknown default:
+      throw StoreKitError.unknown
     }
   }
 
-  // 商品の購入を復元
-  public func restorePurchases() async {
-    do {
-      for await result in Transaction.currentEntitlements {
-        switch result {
-        case .verified(let transaction):
-          UserDefaults.standard.set(true, forKey: "isPurchasedProduct")
-          isPurchasedProduct = true
-          await transaction.finish()
-        case .unverified:
-          // Handle unverified transactions if needed
-          break
-        }
-      }
-    } catch {
-      print("Failed to restore purchases: \(error)")
-    }
+  // 購入の復元
+  public func restorePurchases() async throws {
+    try await AppStore.sync()
+    await updatePurchaseStatus()
   }
+}
+
+enum StoreKitError: Error {
+  case failedVerification
+  case productNotFound
+  case userCancelled
+  case purchasePending
+  case unknown
 }
