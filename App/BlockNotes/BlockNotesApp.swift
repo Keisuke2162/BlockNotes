@@ -17,7 +17,7 @@ import SwiftUI
 struct BlockNotesApp: App {
   @StateObject private var settings = AppSettingsService()
   @StateObject private var purchaseManager = InAppPurchaseManager()
-  @UIApplicationDelegateAdaptor (AppDelegate.self) var appDelegate
+  @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
   let container: ModelContainer
 
   init() {
@@ -39,7 +39,6 @@ struct BlockNotesApp: App {
         .environmentObject(purchaseManager)
     }
     .modelContainer(container)
-//    .modelContainer(for: container)
   }
 }
 
