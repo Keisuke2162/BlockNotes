@@ -85,8 +85,7 @@ public struct SettingView: View, Hashable {
           // TODO: プレミアム訴求シートを表示
           Task {
             isLoading = true
-            await purchaseManager.fetchProducts()
-            await purchaseManager.buyProduct()
+            try await purchaseManager.purchase()
             isLoading = false
           }
         } label: {
@@ -97,16 +96,13 @@ public struct SettingView: View, Hashable {
         Button {
           Task {
             isLoading = true
-            await purchaseManager.restorePurchases()
+            try await purchaseManager.restorePurchases()
             isLoading = false
           }
         } label: {
           Text(String(localized: "restore_premium"))
         }
         .disabled(purchaseManager.isPurchasedProduct)
-
-        // TODO: チュートリアル
-        // TODO: 利用規約
       }
 
       VStack {

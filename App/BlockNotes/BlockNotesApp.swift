@@ -37,6 +37,9 @@ struct BlockNotesApp: App {
       RootView()
         .environmentObject(settings)
         .environmentObject(purchaseManager)
+        .task {
+          await purchaseManager.initialize()
+        }
     }
     .modelContainer(container)
   }

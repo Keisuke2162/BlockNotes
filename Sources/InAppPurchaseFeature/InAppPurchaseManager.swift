@@ -26,8 +26,8 @@ public class InAppPurchaseManager: ObservableObject {
 
   // アプリ起動時に呼び出して実行
   public func initialize() async {
-//    await fetchProduct()
-//    await updatePurchaseStatus()
+    await fetchProduct()
+    await updatePurchaseStatus()
   }
 
   // 商品情報を取得する
