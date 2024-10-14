@@ -89,7 +89,7 @@ public struct SettingView: View, Hashable {
             isLoading = false
           }
         } label: {
-          Text(String(localized: "premium_mode"))
+          Text(String(localized: "remove_ads"))
         }
         .disabled(purchaseManager.isPurchasedProduct)
 
