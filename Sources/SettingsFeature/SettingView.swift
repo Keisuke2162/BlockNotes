@@ -38,6 +38,17 @@ public struct SettingView: View, Hashable {
     ZStack {
       Form {
         Section(String(localized: "settings")) {
+          // ChangeAppIcon
+          NavigationLink {
+            SetAppIconView()
+          } label: {
+            HStack {
+              // TODO: Localize
+              Text("Change App Icon")
+                .foregroundStyle(settings.isDarkMode ? .white : .black)
+            }
+          }
+
           // DarkMode
           Toggle(String(localized: "dark_mode"), isOn: $settings.isDarkMode)
           // BlockSize

@@ -74,6 +74,23 @@ public class AppSettingsService: ObservableObject {
       userDefaults.set(isEnableShake, forKey: "isEnableShake")
     }
   }
+  
+  // App Icon Settings
+  @Published public var largeIconColor: AppIconColor {
+    didSet {
+      userDefaults.set(largeIconColor.rawValue, forKey: "largeIconColor")
+    }
+  }
+  @Published public var mediumIconColor: AppIconColor {
+    didSet {
+      userDefaults.set(mediumIconColor.rawValue, forKey: "mediumIconColor")
+    }
+  }
+  @Published public var smallIconColor: AppIconColor {
+    didSet {
+      userDefaults.set(smallIconColor.rawValue, forKey: "smallIconColor")
+    }
+  }
 
   private var userDefaults: UserDefaults
 
@@ -86,7 +103,10 @@ public class AppSettingsService: ObservableObject {
       "plusBlockBrightness" : 1.0,
       "settingBlockHue" : 0.5,
       "settingBlockSaturation" : 1.0,
-      "settingBlockBrightness": 1.0
+      "settingBlockBrightness": 1.0,
+      "largeIconColor": "blue",
+      "mediumIconColor": "red",
+      "smallIconColor": "green",
     ])
     // 設定値取り出し
     self.isDarkMode = userDefaults.bool(forKey: "isDarkMode")
@@ -103,6 +123,10 @@ public class AppSettingsService: ObservableObject {
 
     self.fontType = AppFontType(rawValue: userDefaults.string(forKey: "fontType") ?? "system") ?? .system
     self.isEnableShake = userDefaults.bool(forKey: "isEnableShake")
+    // アプリアイコン設定
+    self.largeIconColor = AppIconColor(rawValue: userDefaults.string(forKey: "largeIconColor") ?? "blue") ?? .blue
+    self.mediumIconColor = AppIconColor(rawValue: userDefaults.string(forKey: "mediumIconColor") ?? "red") ?? .red
+    self.smallIconColor = AppIconColor(rawValue: userDefaults.string(forKey: "smallIconColor") ?? "green") ?? .green
   }
 
   public enum BlockSizeType: String {
@@ -159,6 +183,34 @@ public enum AppFontType: String, CaseIterable {
       "Verdana"
     case .system:
       "System"
+    }
+  }
+}
+
+public enum AppIconColor: String, CaseIterable {
+  case red
+  case green
+  case blue
+
+  var colorSymbol: String {
+    switch self {
+    case .red:
+      "R"
+    case .green:
+      "G"
+    case .blue:
+      "B"
+    }
+  }
+
+  var appIconColor: Color {
+    switch self {
+    case .red:
+      Color.red
+    case .green:
+      Color.yellow
+    case .blue:
+      Color.blue
     }
   }
 }
