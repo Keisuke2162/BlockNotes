@@ -20,6 +20,10 @@ public struct SettingView: View, Hashable {
     }
     return ""
   }
+
+  private var appIconImageName: String {
+    "AppIconImage\(settings.largeIconColor.colorSymbol)\(settings.mediumIconColor.colorSymbol)\(settings.smallIconColor.colorSymbol)"
+  }
   
   let id = UUID()
   
@@ -38,8 +42,6 @@ public struct SettingView: View, Hashable {
     ZStack {
       Form {
         Section(String(localized: "settings")) {
-          // DarkMode
-          Toggle(String(localized: "dark_mode"), isOn: $settings.isDarkMode)
           // BlockSize
           NavigationLink {
             BlockSettingView()
@@ -76,10 +78,20 @@ public struct SettingView: View, Hashable {
                 .foregroundStyle(settings.isDarkMode ? .white : .black)
             }
           }
+          // ChangeAppIcon
+          NavigationLink {
+            SetAppIconView()
+          } label: {
+            HStack {
+              Text(String(localized: "change_app_icon"))
+                .foregroundStyle(settings.isDarkMode ? .white : .black)
+            }
+          }
+          // DarkMode
+          Toggle(String(localized: "dark_mode"), isOn: $settings.isDarkMode)
           // Shake
           Toggle(String(localized: "shake_phone"), isOn: $settings.isEnableShake)
         }
-        
         // 課金
         Button {
           // TODO: プレミアム訴求シートを表示
@@ -105,11 +117,18 @@ public struct SettingView: View, Hashable {
         .disabled(purchaseManager.isPurchasedProduct)
       }
 
-      VStack {
+      VStack() {
         Spacer()
-        Text(appVersion)
-          .foregroundStyle(.gray)
-          .frame(height: 48)
+        VStack(spacing: 4) {
+          Image(appIconImageName)
+            .resizable()
+            .aspectRatio(1, contentMode: .fit)
+            .frame(width: 48, height: 48)
+            .clipShape(.rect(cornerRadius: 8))
+          Text(appVersion)
+            .foregroundStyle(.gray)
+        }
+        .padding(.bottom, 8)
       }
 
       if isLoading {
