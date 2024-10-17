@@ -40,6 +40,7 @@ public struct SetAppIconView: View {
         // MARK: Large Icon
         HStack(spacing: 16) {
           Text(String(localized: "icon_large"))
+            .frame(maxWidth: .infinity)
           Button {
             largeColorItem = .red
           } label: {
@@ -78,11 +79,14 @@ public struct SetAppIconView: View {
           .frame(width: buttonWidth, height: buttonWidth)
           .background(AppIconColor.blue.appIconColor)
           .clipShape(.rect(cornerRadius: buttonRadius))
+          Spacer()
         }
+        .padding(.trailing, 16)
         
         // MARK: Medium Icon
         HStack(spacing: 16) {
           Text(String(localized: "icon_medium"))
+            .frame(maxWidth: .infinity)
           Button {
             mediumColorItem = .red
           } label: {
@@ -121,11 +125,14 @@ public struct SetAppIconView: View {
           .frame(width: buttonWidth, height: buttonWidth)
           .background(AppIconColor.blue.appIconColor)
           .clipShape(.rect(cornerRadius: buttonRadius))
+          Spacer()
         }
+        .padding(.trailing, 16)
         
         // MARK: Small Icon
         HStack(spacing: 16) {
           Text(String(localized: "icon_small"))
+            .frame(maxWidth: .infinity)
           Button {
             smallColorItem = .red
           } label: {
@@ -164,7 +171,9 @@ public struct SetAppIconView: View {
           .frame(width: buttonWidth, height: buttonWidth)
           .background(AppIconColor.blue.appIconColor)
           .clipShape(.rect(cornerRadius: buttonRadius))
+          Spacer()
         }
+        .padding(.trailing, 16)
       }
       
       Spacer()
