@@ -42,19 +42,10 @@ public struct SettingView: View, Hashable {
     ZStack {
       Form {
         Section(String(localized: "settings")) {
-          // ChangeAppIcon
-          NavigationLink {
-            SetAppIconView()
-          } label: {
-            HStack {
-              // TODO: Localize
-              Text("Change App Icon")
-                .foregroundStyle(settings.isDarkMode ? .white : .black)
-            }
-          }
-
           // DarkMode
           Toggle(String(localized: "dark_mode"), isOn: $settings.isDarkMode)
+          // Shake
+          Toggle(String(localized: "shake_phone"), isOn: $settings.isEnableShake)
           // BlockSize
           NavigationLink {
             BlockSettingView()
@@ -91,10 +82,17 @@ public struct SettingView: View, Hashable {
                 .foregroundStyle(settings.isDarkMode ? .white : .black)
             }
           }
-          // Shake
-          Toggle(String(localized: "shake_phone"), isOn: $settings.isEnableShake)
+          // ChangeAppIcon
+          NavigationLink {
+            SetAppIconView()
+          } label: {
+            HStack {
+              // TODO: Localize
+              Text("Change App Icon")
+                .foregroundStyle(settings.isDarkMode ? .white : .black)
+            }
+          }
         }
-        
         // 課金
         Button {
           // TODO: プレミアム訴求シートを表示
