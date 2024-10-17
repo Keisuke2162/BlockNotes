@@ -120,11 +120,11 @@ public struct SettingView: View, Hashable {
 
       VStack() {
         Spacer()
-        VStack(spacing: 8) {
+        VStack(spacing: 4) {
           Image(appIconImageName)
             .resizable()
             .aspectRatio(1, contentMode: .fit)
-            .frame(width: 40, height: 40)
+            .frame(width: 48, height: 48)
             .clipShape(.rect(cornerRadius: 8))
           Text(appVersion)
             .foregroundStyle(.gray)
