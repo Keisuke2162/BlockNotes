@@ -42,10 +42,6 @@ public struct SettingView: View, Hashable {
     ZStack {
       Form {
         Section(String(localized: "settings")) {
-          // DarkMode
-          Toggle(String(localized: "dark_mode"), isOn: $settings.isDarkMode)
-          // Shake
-          Toggle(String(localized: "shake_phone"), isOn: $settings.isEnableShake)
           // BlockSize
           NavigationLink {
             BlockSettingView()
@@ -91,6 +87,10 @@ public struct SettingView: View, Hashable {
                 .foregroundStyle(settings.isDarkMode ? .white : .black)
             }
           }
+          // DarkMode
+          Toggle(String(localized: "dark_mode"), isOn: $settings.isDarkMode)
+          // Shake
+          Toggle(String(localized: "shake_phone"), isOn: $settings.isEnableShake)
         }
         // 課金
         Button {
