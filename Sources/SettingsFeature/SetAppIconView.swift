@@ -39,7 +39,7 @@ public struct SetAppIconView: View {
       VStack(spacing: 16) {
         // MARK: Large Icon
         HStack(spacing: 16) {
-          Text("大アイコン")
+          Text(String(localized: "icon_large"))
           Button {
             largeColorItem = .red
           } label: {
@@ -82,7 +82,7 @@ public struct SetAppIconView: View {
         
         // MARK: Medium Icon
         HStack(spacing: 16) {
-          Text("中アイコン")
+          Text(String(localized: "icon_medium"))
           Button {
             mediumColorItem = .red
           } label: {
@@ -125,7 +125,7 @@ public struct SetAppIconView: View {
         
         // MARK: Small Icon
         HStack(spacing: 16) {
-          Text("小アイコン")
+          Text(String(localized: "icon_small"))
           Button {
             smallColorItem = .red
           } label: {
@@ -182,7 +182,7 @@ public struct SetAppIconView: View {
         }
 
       } label: {
-        Text("アイコンを変更する")
+        Text(String(localized: "icon_change_save"))
           .tint(settings.isDarkMode ? .white : .black)
           .padding(.vertical, 16)
           .padding(.horizontal, 32)

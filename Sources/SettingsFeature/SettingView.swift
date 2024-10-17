@@ -87,8 +87,7 @@ public struct SettingView: View, Hashable {
             SetAppIconView()
           } label: {
             HStack {
-              // TODO: Localize
-              Text("Change App Icon")
+              Text(String(localized: "change_app_icon"))
                 .foregroundStyle(settings.isDarkMode ? .white : .black)
             }
           }
