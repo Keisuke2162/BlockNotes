@@ -9,6 +9,7 @@ import SwiftUI
 
 public struct SetAppIconView: View {
   @EnvironmentObject var settings: AppSettingsService
+  @Environment(\.dismiss) var dismiss
   let buttonWidth: CGFloat = 48
   let checkMarkIconPadding: CGFloat = 8
   let buttonRadius: CGFloat = 8
@@ -29,6 +30,7 @@ public struct SetAppIconView: View {
 
   public var body: some View {
     VStack(spacing: 64) {
+      Spacer()
       Image(appIconImageName)
         .resizable()
         .aspectRatio(1, contentMode: .fit)
@@ -165,21 +167,35 @@ public struct SetAppIconView: View {
         }
       }
       
+      Spacer()
       // TODO: Save Button
       Button {
         UIApplication.shared.setAlternateIconName(homeIconName) { error in
-          if error == nil {
+          if let error {
+            print(error.localizedDescription)
+          } else {
             settings.largeIconColor = largeColorItem
             settings.mediumIconColor = mediumColorItem
             settings.smallIconColor = smallColorItem
-          } else {
-            print("テスト エラー \(error?.localizedDescription): \(homeIconName)")
+            dismiss()
           }
         }
 
       } label: {
-        Text("Save")
+        Text("アイコンを変更する")
+          .tint(settings.isDarkMode ? .white : .black)
+          .padding(.vertical, 16)
+          .padding(.horizontal, 32)
       }
+      .clipShape(.rect(cornerRadius: 32))
+      .overlay {
+        RoundedRectangle(cornerRadius: 32)
+          .stroke(lineWidth: 2)
+          .fill(
+            settings.isDarkMode ? .white : .black
+          )
+      }
+      Spacer()
     }
     .onAppear {
       self.largeColorItem = settings.largeIconColor
@@ -188,8 +204,3 @@ public struct SetAppIconView: View {
     }
   }
 }
-
-//#Preview {
-//    SwiftUIView()
-//}
-

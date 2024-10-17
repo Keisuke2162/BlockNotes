@@ -20,6 +20,10 @@ public struct SettingView: View, Hashable {
     }
     return ""
   }
+
+  private var appIconImageName: String {
+    "AppIconImage\(settings.largeIconColor.colorSymbol)\(settings.mediumIconColor.colorSymbol)\(settings.smallIconColor.colorSymbol)"
+  }
   
   let id = UUID()
   
@@ -116,11 +120,18 @@ public struct SettingView: View, Hashable {
         .disabled(purchaseManager.isPurchasedProduct)
       }
 
-      VStack {
+      VStack() {
         Spacer()
-        Text(appVersion)
-          .foregroundStyle(.gray)
-          .frame(height: 48)
+        VStack(spacing: 8) {
+          Image(appIconImageName)
+            .resizable()
+            .aspectRatio(1, contentMode: .fit)
+            .frame(width: 40, height: 40)
+            .clipShape(.rect(cornerRadius: 8))
+          Text(appVersion)
+            .foregroundStyle(.gray)
+        }
+        .padding(.bottom, 8)
       }
 
       if isLoading {
