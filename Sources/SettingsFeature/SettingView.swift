@@ -130,11 +130,6 @@ public struct SettingView: View, Hashable {
         }
         .padding(.bottom, 8)
       }
-
-      if isLoading {
-        Color.black.opacity(0.5)
-        ProgressView()
-      }
     }
     .preferredColorScheme(settings.isDarkMode ? .dark : .light)
   }
