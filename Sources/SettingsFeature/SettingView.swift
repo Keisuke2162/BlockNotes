@@ -11,9 +11,7 @@ import SwiftUI
 public struct SettingView: View, Hashable {
   @EnvironmentObject var purchaseManager: InAppPurchaseManager
   @EnvironmentObject var settings: AppSettingsService
-  
-  @State var isLoading: Bool = false
-  
+
   var appVersion: String {
     if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
       return "version \(version)"
@@ -92,29 +90,31 @@ public struct SettingView: View, Hashable {
           // Shake
           Toggle(String(localized: "shake_phone"), isOn: $settings.isEnableShake)
         }
-        // 課金
-        Button {
-          // TODO: プレミアム訴求シートを表示
-          Task {
-            isLoading = true
-            try await purchaseManager.purchase()
-            isLoading = false
+        
+        if !purchaseManager.isPurchasedProduct {
+          // 課金
+          Button {
+            Task {
+              try await purchaseManager.purchase()
+            }
+          } label: {
+            HStack {
+              Text(String(localized: "remove_ads"))
+              Spacer()
+              Text(purchaseManager.productPrice.localizedLowercase)
+            }
           }
-        } label: {
-          Text(String(localized: "remove_ads"))
-        }
-        .disabled(purchaseManager.isPurchasedProduct)
+          .disabled(purchaseManager.isPurchasedProduct)
 
-        Button {
-          Task {
-            isLoading = true
-            try await purchaseManager.restorePurchases()
-            isLoading = false
+          Button {
+            Task {
+              try await purchaseManager.restorePurchases()
+            }
+          } label: {
+            Text(String(localized: "restore_premium"))
           }
-        } label: {
-          Text(String(localized: "restore_premium"))
+          .disabled(purchaseManager.isPurchasedProduct)
         }
-        .disabled(purchaseManager.isPurchasedProduct)
       }
 
       VStack() {
@@ -129,11 +129,6 @@ public struct SettingView: View, Hashable {
             .foregroundStyle(.gray)
         }
         .padding(.bottom, 8)
-      }
-
-      if isLoading {
-        Color.black.opacity(0.5)
-        ProgressView()
       }
     }
     .preferredColorScheme(settings.isDarkMode ? .dark : .light)
