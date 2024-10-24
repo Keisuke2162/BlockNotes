@@ -15,6 +15,11 @@ public class InAppPurchaseManager: ObservableObject {
   private var product: Product?
   private let productID: String = "premium_mode"
   
+  public var productPrice: String {
+    guard let product else { return "" }
+    return product.displayPrice
+  }
+  
   public init() {
     updateListenerTask = listenForTransactions()
     isPurchasedProduct = UserDefaults.standard.bool(forKey: "isPurchasedProduct")
